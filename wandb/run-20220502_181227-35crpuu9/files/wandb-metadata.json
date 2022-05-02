@@ -1,0 +1,34 @@
+{
+    "os": "Windows-10-10.0.22000-SP0",
+    "python": "3.9.12",
+    "heartbeatAt": "2022-05-02T16:12:33.405347",
+    "startedAt": "2022-05-02T16:12:27.861959",
+    "docker": null,
+    "gpu": "Quadro T1000 with Max-Q Design",
+    "gpu_count": 1,
+    "cpu_count": 12,
+    "cuda": null,
+    "args": [
+        "--ip=127.0.0.1",
+        "--stdin=9029",
+        "--control=9027",
+        "--hb=9026",
+        "--Session.signature_scheme=\"hmac-sha256\"",
+        "--Session.key=b\"03e7ad29-8628-4fd4-a6dc-b0a0b95fbf5e\"",
+        "--shell=9028",
+        "--transport=\"tcp\"",
+        "--iopub=9030",
+        "--f=C:\\Users\\gijst\\AppData\\Local\\Temp\\tmp-13380e9sLZz16holL.json"
+    ],
+    "state": "running",
+    "program": "<python with no main file>",
+    "git": {
+        "remote": "https://github.com/TH3RMOMETER/Transfer-Learning.git",
+        "commit": "a6fd618892d65dde2074c211aa8282c4e1d898ab"
+    },
+    "email": "gijs.timmerij@gmail.com",
+    "root": "C:/Users/gijst/Documents/Uni/scriptie/Transfer Learning",
+    "host": "THERMOMETER",
+    "username": "gijst",
+    "executable": "C:\\Users\\gijst\\anaconda3\\envs\\tf-gpu\\python.exe"
+}

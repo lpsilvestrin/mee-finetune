@@ -1,0 +1,978 @@
+2022-05-02 17:34:19,459 INFO    MainThread:2304 [internal.py:wandb_internal():90] W&B internal server running at pid: 2304, started at: 2022-05-02 17:34:19.458731
+2022-05-02 17:34:19,461 INFO    WriterThread:2304 [datastore.py:open_for_write():75] open: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\run-ek0ctgnb.wandb
+2022-05-02 17:34:19,475 DEBUG   SenderThread:2304 [sender.py:send():232] send: header
+2022-05-02 17:34:19,476 DEBUG   SenderThread:2304 [sender.py:send():232] send: run
+2022-05-02 17:34:19,777 INFO    SenderThread:2304 [dir_watcher.py:__init__():166] watching files in: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files
+2022-05-02 17:34:19,778 INFO    SenderThread:2304 [sender.py:_start_run_threads():811] run started: ek0ctgnb with start time 1651505656
+2022-05-02 17:34:19,778 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:19,779 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: check_version
+2022-05-02 17:34:19,780 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:19,780 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: check_version
+2022-05-02 17:34:19,876 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: run_start
+2022-05-02 17:34:20,782 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_created():213] file/dir created: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:34:23,011 DEBUG   HandlerThread:2304 [meta.py:__init__():35] meta init
+2022-05-02 17:34:23,012 DEBUG   HandlerThread:2304 [meta.py:__init__():49] meta init done
+2022-05-02 17:34:23,012 DEBUG   HandlerThread:2304 [meta.py:probe():209] probe
+2022-05-02 17:34:23,065 DEBUG   HandlerThread:2304 [meta.py:_setup_git():199] setup git
+2022-05-02 17:34:23,137 DEBUG   HandlerThread:2304 [meta.py:_setup_git():206] setup git done
+2022-05-02 17:34:23,137 DEBUG   HandlerThread:2304 [meta.py:_save_pip():53] save pip
+2022-05-02 17:34:23,138 DEBUG   HandlerThread:2304 [meta.py:_save_pip():67] save pip done
+2022-05-02 17:34:23,138 DEBUG   HandlerThread:2304 [meta.py:_save_conda():74] save conda
+2022-05-02 17:34:23,148 ERROR   HandlerThread:2304 [meta.py:_save_conda():83] Error saving conda packages
+Traceback (most recent call last):
+  File "C:\Users\gijst\anaconda3\envs\tf-gpu\lib\site-packages\wandb\sdk\internal\meta.py", line 79, in _save_conda
+    subprocess.call(
+  File "C:\Users\gijst\anaconda3\envs\tf-gpu\lib\subprocess.py", line 349, in call
+    with Popen(*popenargs, **kwargs) as p:
+  File "C:\Users\gijst\anaconda3\envs\tf-gpu\lib\subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Users\gijst\anaconda3\envs\tf-gpu\lib\subprocess.py", line 1420, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+FileNotFoundError: [WinError 2] Het systeem kan het opgegeven bestand niet vinden
+2022-05-02 17:34:23,149 DEBUG   HandlerThread:2304 [meta.py:_save_conda():84] save conda done
+2022-05-02 17:34:23,150 DEBUG   HandlerThread:2304 [meta.py:probe():247] probe done
+2022-05-02 17:34:23,154 DEBUG   SenderThread:2304 [sender.py:send():232] send: files
+2022-05-02 17:34:23,154 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-metadata.json with policy now
+2022-05-02 17:34:23,168 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:34:23,168 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:34:23,365 DEBUG   SenderThread:2304 [sender.py:send():232] send: telemetry
+2022-05-02 17:34:23,800 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_created():213] file/dir created: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-metadata.json
+2022-05-02 17:34:23,801 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_created():213] file/dir created: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:23,801 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_created():213] file/dir created: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\requirements.txt
+2022-05-02 17:34:23,802 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_created():213] file/dir created: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\conda-environment.yaml
+2022-05-02 17:34:23,820 INFO    Thread-17 :2304 [upload_job.py:push():137] Uploaded file C:\Users\gijst\AppData\Local\Temp\tmphvihai_wwandb\9omajjpg-wandb-metadata.json
+2022-05-02 17:34:24,000 DEBUG   SenderThread:2304 [sender.py:send():232] send: telemetry
+2022-05-02 17:34:24,001 DEBUG   SenderThread:2304 [sender.py:send():232] send: telemetry
+2022-05-02 17:34:24,002 DEBUG   SenderThread:2304 [sender.py:send():232] send: files
+2022-05-02 17:34:24,002 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file model-best.h5 with policy live
+2022-05-02 17:34:24,002 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: get_summary
+2022-05-02 17:34:25,811 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:35,967 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:35,968 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:35,971 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:34:35,971 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:35,977 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:35,977 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:35,979 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:35,979 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:35,980 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:36,904 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:34:36,904 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_created():213] file/dir created: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:34:37,897 INFO    Thread-18 :2304 [upload_job.py:push():137] Uploaded file C:\Users\gijst\AppData\Local\Temp\tmphvihai_wwandb\104aam7r-model-best.h5
+2022-05-02 17:34:37,909 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:38,366 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:38,366 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:38,368 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:34:38,369 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:38,373 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:38,373 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:38,374 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:34:38,374 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:38,374 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:38,375 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:38,375 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:34:38,916 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:34:38,917 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:34:39,921 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:40,746 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:40,747 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:40,748 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:34:40,748 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:40,754 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:40,924 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:34:41,934 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:43,320 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:43,326 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:43,327 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:34:43,328 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:43,329 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:43,329 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:43,330 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:43,330 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:43,330 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:43,950 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:34:43,951 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:34:45,637 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:45,642 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:45,643 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:34:45,644 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:45,647 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:45,648 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:45,649 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:45,650 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:45,651 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:45,963 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:45,964 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:34:45,964 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:34:47,978 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:48,133 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:48,134 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:48,135 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:34:48,135 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:48,137 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:48,984 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:34:49,998 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:50,240 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:50,240 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:50,241 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:34:50,603 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:50,604 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:51,004 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:34:51,005 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\config.yaml
+2022-05-02 17:34:52,016 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:52,354 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:52,359 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:52,361 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:34:52,361 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:52,364 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:52,364 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:52,365 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:52,365 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:52,366 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:53,025 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:34:53,026 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:34:53,563 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:34:53,563 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:34:53,936 DEBUG   SenderThread:2304 [sender.py:send():232] send: stats
+2022-05-02 17:34:54,028 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:54,622 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:54,629 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:54,630 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:34:54,630 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:54,633 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:54,634 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:54,635 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:54,635 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:54,635 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:55,040 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:34:55,040 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:34:56,050 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:56,994 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:57,004 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:57,004 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:34:57,006 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:57,009 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:57,010 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:57,011 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:57,011 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:57,011 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:34:57,059 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:34:57,060 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:34:58,066 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:34:58,067 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:34:59,165 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:59,166 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:34:59,167 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:34:59,167 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:34:59,169 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:00,085 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:00,086 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:01,151 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:01,157 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:01,158 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:01,159 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:01,161 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:01,161 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:01,162 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:01,162 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:01,162 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:02,100 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:02,101 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:35:02,101 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:03,271 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:03,280 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:03,281 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:03,282 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:03,283 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:03,283 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:03,284 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:03,284 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:03,285 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:04,122 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:04,122 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:35:04,122 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:05,313 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:05,313 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:05,314 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:05,315 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:05,316 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:06,138 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:06,139 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:07,421 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:07,429 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:07,430 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:07,430 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:07,431 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:07,431 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:07,432 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:07,432 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:07,432 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:08,152 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:08,152 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:35:08,152 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:08,759 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:35:08,760 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:35:09,671 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:09,677 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:09,678 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:09,678 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:09,680 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:09,680 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:09,681 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:09,681 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:09,681 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:10,174 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:10,175 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:35:10,175 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:11,659 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:11,660 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:11,660 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:11,661 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:11,661 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:12,197 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:12,197 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:13,871 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:13,872 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:13,873 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:13,874 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:13,874 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:14,215 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:14,215 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:16,224 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:16,227 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:16,234 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:16,236 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:16,237 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:16,240 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:16,240 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:16,241 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:16,242 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:16,243 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:17,233 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:35:17,234 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:18,247 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:18,450 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:18,450 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:18,451 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:18,451 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:18,452 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:19,261 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:20,266 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:20,329 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:20,329 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:20,330 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:20,331 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:20,331 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:21,268 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:22,275 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:22,361 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:22,362 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:22,363 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:22,363 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:22,364 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:22,364 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:22,364 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:22,365 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:22,365 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:23,285 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:35:23,286 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:23,968 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:35:23,968 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:35:24,293 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:24,508 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:24,509 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:24,637 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:24,638 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:24,639 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:25,308 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:26,317 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:26,626 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:26,627 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:26,628 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:26,628 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:26,629 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:26,629 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:26,629 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:26,630 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:26,630 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:27,204 DEBUG   SenderThread:2304 [sender.py:send():232] send: stats
+2022-05-02 17:35:27,329 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:35:27,329 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:28,331 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:28,886 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:28,895 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:28,896 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:28,897 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:28,897 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:28,897 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:28,898 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:28,898 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:28,899 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:29,339 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:35:29,339 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:30,342 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:31,278 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:31,285 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:31,287 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:31,287 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:31,289 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:31,289 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:31,290 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:31,290 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:31,291 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:31,346 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:35:31,346 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:32,360 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:32,361 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5
+2022-05-02 17:35:33,364 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:33,365 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:33,365 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:33,366 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:33,367 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:33,367 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:34,371 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:34,875 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:34,875 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:34,876 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:34,876 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:34,877 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:35,377 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:36,386 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:36,512 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:36,514 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:36,515 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:36,515 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:36,516 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:37,395 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:38,226 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:38,227 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:38,228 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:38,228 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:38,229 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:38,407 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:38,408 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:39,638 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:35:39,639 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:35:40,074 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:40,075 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:40,075 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:40,076 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:40,076 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:40,430 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:40,430 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:41,847 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:41,848 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:41,848 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:41,849 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:41,849 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:42,448 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:42,448 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:43,603 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:43,603 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:43,603 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:43,604 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:43,604 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:44,454 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:44,455 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:45,306 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:45,306 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:45,307 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:45,308 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:45,308 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:45,467 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:46,477 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:46,901 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:46,901 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:46,902 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:46,903 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:46,903 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:47,485 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:47,485 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:48,613 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:48,614 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:48,615 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:48,616 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:48,616 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:49,497 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:49,497 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:50,297 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:50,297 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:50,298 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:50,299 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:50,299 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:50,511 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:51,523 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:51,894 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:51,894 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:51,894 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:51,895 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:51,895 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:52,535 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:53,398 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:53,399 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:53,400 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:53,400 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:53,401 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:53,546 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:53,547 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:54,838 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:35:54,838 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:35:54,967 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:54,968 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:55,032 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:55,033 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:55,034 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:55,576 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:55,577 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:56,533 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:56,533 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:56,534 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:56,534 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:56,535 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:56,588 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:57,596 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:35:58,214 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:58,214 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:35:58,215 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:35:58,216 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:35:58,216 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:35:58,609 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:35:59,617 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:00,075 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:00,076 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:00,077 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:00,077 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:00,078 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:00,282 DEBUG   SenderThread:2304 [sender.py:send():232] send: stats
+2022-05-02 17:36:00,625 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:01,632 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:01,899 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:01,899 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:01,900 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:01,901 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:01,901 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:02,639 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:03,618 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:03,619 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:03,620 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:03,621 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:03,621 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:03,641 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:03,641 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:05,198 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:05,199 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:05,199 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:05,200 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:05,200 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:05,664 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:05,665 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:06,959 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:06,959 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:06,960 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:06,961 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:06,961 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:07,686 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:07,686 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:08,506 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:08,507 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:08,508 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:08,508 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:08,509 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:08,688 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:09,696 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:10,040 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:36:10,040 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:36:10,170 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:10,170 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:10,821 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:10,821 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:10,822 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:11,714 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:11,714 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:11,887 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:11,887 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:11,888 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:11,889 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:11,889 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:12,728 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:13,601 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:13,602 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:13,602 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:13,603 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:13,603 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:13,739 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:13,739 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:15,217 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:15,217 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:15,218 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:15,219 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:15,219 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:15,756 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:15,757 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:16,758 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:16,759 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:16,760 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:16,761 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:16,761 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:16,767 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:17,777 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:18,428 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:18,429 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:18,429 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:18,430 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:18,430 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:18,791 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:19,801 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:20,068 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:20,068 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:20,069 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:20,069 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:20,070 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:20,816 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:21,587 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:21,587 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:21,588 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:21,588 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:21,589 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:21,829 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:21,829 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:23,047 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:23,047 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:23,048 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:23,048 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:23,049 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:23,854 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:23,855 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:24,700 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:24,700 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:24,701 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:24,702 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:24,702 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:24,861 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:25,825 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:36:25,825 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:36:25,870 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:26,263 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:26,264 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:26,264 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:26,265 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:26,265 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:26,872 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:27,859 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:27,859 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:27,860 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:27,860 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:27,861 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:27,883 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:27,884 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:29,437 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:29,438 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:29,438 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:29,439 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:29,439 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:29,902 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:29,903 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:30,984 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:30,984 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:30,985 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:30,985 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:30,986 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:31,916 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:31,916 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:32,621 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:32,622 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:32,623 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:32,624 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:32,624 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:32,924 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:33,408 DEBUG   SenderThread:2304 [sender.py:send():232] send: stats
+2022-05-02 17:36:33,935 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:34,234 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:34,234 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:34,235 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:34,235 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:34,236 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:34,943 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:35,952 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:36,206 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:36,206 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:36,207 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:36,208 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:36,209 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:36,960 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:37,965 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:38,218 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:38,218 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:38,219 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:38,220 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:38,220 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:38,978 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:39,934 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:39,934 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:39,935 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:39,936 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:39,936 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:39,987 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:39,988 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:41,028 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:36:41,029 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:36:41,628 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:41,629 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:41,630 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:41,630 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:41,631 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:41,999 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:42,000 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:43,306 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:43,306 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:43,307 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:43,308 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:43,309 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:44,016 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:44,016 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:44,859 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:44,860 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:44,861 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:44,862 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:44,862 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:45,025 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:46,033 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:46,407 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:46,408 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:46,409 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:46,409 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:46,410 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:47,040 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:48,047 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:48,247 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:48,247 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:48,248 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:48,248 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:48,249 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:49,054 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:49,885 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:49,885 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:49,886 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:49,886 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:49,887 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:50,061 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:50,062 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:51,513 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:51,514 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:51,514 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:51,515 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:51,515 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:52,078 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:52,079 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:53,215 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:53,215 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:53,216 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:53,217 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:53,217 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:54,097 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:54,097 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:54,793 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:54,795 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:54,795 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:54,795 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:54,796 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:55,103 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:36:56,104 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:56,244 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:36:56,244 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:36:56,673 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:56,674 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:58,120 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:36:58,234 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:58,235 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:58,236 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:58,627 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:58,628 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:36:58,629 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:36:58,630 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:36:58,631 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:36:59,135 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:00,137 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:00,659 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:00,660 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:00,661 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:00,661 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:00,662 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:01,149 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:02,156 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:02,518 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:02,518 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:02,519 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:02,519 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:02,520 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:03,169 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:04,172 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:04,208 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:04,208 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:04,209 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:04,209 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:04,210 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:05,185 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:05,918 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:05,918 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:05,919 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:05,919 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:05,919 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:06,195 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:06,196 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:06,511 DEBUG   SenderThread:2304 [sender.py:send():232] send: stats
+2022-05-02 17:37:07,595 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:07,596 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:07,596 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:07,597 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:07,597 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:08,213 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:08,213 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:09,242 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:09,242 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:09,244 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:09,244 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:09,245 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:10,228 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:10,229 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:11,046 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:11,046 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:11,047 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:11,048 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:11,048 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:11,233 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:12,242 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:12,763 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:12,763 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:12,764 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:12,765 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:12,765 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:13,250 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:37:13,250 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:37:13,252 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:14,247 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:14,247 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:14,248 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:14,248 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:14,249 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:14,261 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:14,261 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:15,895 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:15,895 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:15,896 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:15,896 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:15,897 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:16,287 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:16,287 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:17,448 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:17,449 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:17,450 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:17,450 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:17,450 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:18,306 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:18,306 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:19,147 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:19,147 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:19,148 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:19,149 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:19,150 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:19,314 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:20,315 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:20,832 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:20,833 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:20,834 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:20,834 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:20,835 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:21,328 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:22,337 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:22,465 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:22,465 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:22,466 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:22,466 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:22,467 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:23,346 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:23,887 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:23,887 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:23,888 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:23,888 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:23,889 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:24,359 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:24,359 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:25,380 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:25,381 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:25,381 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:25,382 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:25,382 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:26,379 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:26,380 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:26,920 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:26,920 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:26,921 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:26,921 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:26,922 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:27,391 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:28,404 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:28,461 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:28,462 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:28,462 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:28,463 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:28,463 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:28,482 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: stop_status
+2022-05-02 17:37:28,482 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: stop_status
+2022-05-02 17:37:29,413 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:30,076 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:30,076 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:30,077 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:30,077 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:30,078 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:30,428 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:30,429 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:31,752 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:31,752 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:31,753 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:31,753 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:31,754 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:32,439 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:32,440 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:33,540 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:33,541 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:33,542 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:33,542 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:33,543 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:34,456 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:34,457 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:35,252 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:35,252 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: partial_history
+2022-05-02 17:37:35,253 DEBUG   SenderThread:2304 [sender.py:send():232] send: history
+2022-05-02 17:37:35,253 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:35,254 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:35,254 DEBUG   SenderThread:2304 [sender.py:send():232] send: telemetry
+2022-05-02 17:37:35,257 DEBUG   SenderThread:2304 [sender.py:send():232] send: telemetry
+2022-05-02 17:37:35,463 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:35,463 INFO    Thread-11 :2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:35,741 DEBUG   SenderThread:2304 [sender.py:send():232] send: exit
+2022-05-02 17:37:35,741 INFO    SenderThread:2304 [sender.py:send_exit():368] handling exit code: 0
+2022-05-02 17:37:35,742 INFO    SenderThread:2304 [sender.py:send_exit():370] handling runtime: 195
+2022-05-02 17:37:35,742 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:35,742 INFO    SenderThread:2304 [sender.py:send_exit():376] send defer
+2022-05-02 17:37:35,743 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:35,743 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: defer
+2022-05-02 17:37:35,744 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:35,744 INFO    HandlerThread:2304 [handler.py:handle_request_defer():164] handle defer: 0
+2022-05-02 17:37:35,744 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: defer
+2022-05-02 17:37:35,744 INFO    SenderThread:2304 [sender.py:send_request_defer():385] handle sender defer: 0
+2022-05-02 17:37:35,744 INFO    SenderThread:2304 [sender.py:transition_state():389] send defer: 1
+2022-05-02 17:37:35,745 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: defer
+2022-05-02 17:37:35,745 INFO    HandlerThread:2304 [handler.py:handle_request_defer():164] handle defer: 1
+2022-05-02 17:37:35,844 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: defer
+2022-05-02 17:37:35,844 INFO    SenderThread:2304 [sender.py:send_request_defer():385] handle sender defer: 1
+2022-05-02 17:37:35,844 INFO    SenderThread:2304 [sender.py:transition_state():389] send defer: 2
+2022-05-02 17:37:35,845 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: defer
+2022-05-02 17:37:35,845 INFO    HandlerThread:2304 [handler.py:handle_request_defer():164] handle defer: 2
+2022-05-02 17:37:35,845 DEBUG   SenderThread:2304 [sender.py:send():232] send: stats
+2022-05-02 17:37:35,846 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: defer
+2022-05-02 17:37:35,846 INFO    SenderThread:2304 [sender.py:send_request_defer():385] handle sender defer: 2
+2022-05-02 17:37:35,846 INFO    SenderThread:2304 [sender.py:transition_state():389] send defer: 3
+2022-05-02 17:37:35,847 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: defer
+2022-05-02 17:37:35,847 INFO    HandlerThread:2304 [handler.py:handle_request_defer():164] handle defer: 3
+2022-05-02 17:37:35,847 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: defer
+2022-05-02 17:37:35,847 INFO    SenderThread:2304 [sender.py:send_request_defer():385] handle sender defer: 3
+2022-05-02 17:37:35,847 INFO    SenderThread:2304 [sender.py:transition_state():389] send defer: 4
+2022-05-02 17:37:35,848 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: defer
+2022-05-02 17:37:35,848 INFO    HandlerThread:2304 [handler.py:handle_request_defer():164] handle defer: 4
+2022-05-02 17:37:35,848 DEBUG   SenderThread:2304 [sender.py:send():232] send: summary
+2022-05-02 17:37:35,849 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:35,849 INFO    SenderThread:2304 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-05-02 17:37:35,850 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: defer
+2022-05-02 17:37:35,850 INFO    SenderThread:2304 [sender.py:send_request_defer():385] handle sender defer: 4
+2022-05-02 17:37:35,850 INFO    SenderThread:2304 [sender.py:transition_state():389] send defer: 5
+2022-05-02 17:37:35,850 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:35,850 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: defer
+2022-05-02 17:37:35,851 INFO    HandlerThread:2304 [handler.py:handle_request_defer():164] handle defer: 5
+2022-05-02 17:37:35,851 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: defer
+2022-05-02 17:37:35,851 INFO    SenderThread:2304 [sender.py:send_request_defer():385] handle sender defer: 5
+2022-05-02 17:37:35,956 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:36,319 INFO    SenderThread:2304 [sender.py:transition_state():389] send defer: 6
+2022-05-02 17:37:36,319 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:36,320 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: defer
+2022-05-02 17:37:36,320 INFO    HandlerThread:2304 [handler.py:handle_request_defer():164] handle defer: 6
+2022-05-02 17:37:36,320 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: defer
+2022-05-02 17:37:36,320 INFO    SenderThread:2304 [sender.py:send_request_defer():385] handle sender defer: 6
+2022-05-02 17:37:36,320 INFO    SenderThread:2304 [dir_watcher.py:finish():279] shutting down directory watcher
+2022-05-02 17:37:36,436 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:36,466 INFO    SenderThread:2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:36,467 INFO    SenderThread:2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:36,467 INFO    SenderThread:2304 [dir_watcher.py:_on_file_modified():226] file/dir modified: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\config.yaml
+2022-05-02 17:37:36,468 INFO    SenderThread:2304 [dir_watcher.py:finish():309] scan: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files
+2022-05-02 17:37:36,468 INFO    SenderThread:2304 [dir_watcher.py:finish():323] scan save: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\conda-environment.yaml conda-environment.yaml
+2022-05-02 17:37:36,468 INFO    SenderThread:2304 [dir_watcher.py:finish():323] scan save: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\config.yaml config.yaml
+2022-05-02 17:37:36,468 INFO    SenderThread:2304 [dir_watcher.py:finish():323] scan save: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\model-best.h5 model-best.h5
+2022-05-02 17:37:36,471 INFO    SenderThread:2304 [dir_watcher.py:finish():323] scan save: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log output.log
+2022-05-02 17:37:36,472 INFO    SenderThread:2304 [dir_watcher.py:finish():323] scan save: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\requirements.txt requirements.txt
+2022-05-02 17:37:36,472 INFO    SenderThread:2304 [dir_watcher.py:finish():323] scan save: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-metadata.json wandb-metadata.json
+2022-05-02 17:37:36,472 INFO    SenderThread:2304 [dir_watcher.py:finish():323] scan save: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json wandb-summary.json
+2022-05-02 17:37:36,473 INFO    SenderThread:2304 [sender.py:transition_state():389] send defer: 7
+2022-05-02 17:37:36,474 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:36,474 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: defer
+2022-05-02 17:37:36,474 INFO    HandlerThread:2304 [handler.py:handle_request_defer():164] handle defer: 7
+2022-05-02 17:37:36,474 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: defer
+2022-05-02 17:37:36,474 INFO    SenderThread:2304 [sender.py:send_request_defer():385] handle sender defer: 7
+2022-05-02 17:37:36,474 INFO    SenderThread:2304 [file_pusher.py:finish():145] shutting down file pusher
+2022-05-02 17:37:36,574 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:36,575 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:36,684 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:36,684 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:36,793 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:36,793 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:36,902 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:36,902 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:37,009 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:37,009 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:37,087 INFO    Thread-23 :2304 [upload_job.py:push():137] Uploaded file c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\wandb-summary.json
+2022-05-02 17:37:37,120 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:37,121 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:37,140 INFO    Thread-21 :2304 [upload_job.py:push():137] Uploaded file c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\output.log
+2022-05-02 17:37:37,143 INFO    Thread-19 :2304 [upload_job.py:push():137] Uploaded file c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\config.yaml
+2022-05-02 17:37:37,228 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:37,229 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:37,335 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:37,335 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:37,445 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:37,445 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:37,462 INFO    Thread-20 :2304 [upload_job.py:push():137] Uploaded file C:\Users\gijst\AppData\Local\Temp\tmphvihai_wwandb\vycwgi6j-model-best.h5
+2022-05-02 17:37:37,557 INFO    Thread-22 :2304 [upload_job.py:push():137] Uploaded file c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\files\requirements.txt
+2022-05-02 17:37:37,557 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:37,557 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:37,664 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:37,664 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:37,759 INFO    Thread-10 :2304 [sender.py:transition_state():389] send defer: 8
+2022-05-02 17:37:37,759 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: defer
+2022-05-02 17:37:37,759 INFO    HandlerThread:2304 [handler.py:handle_request_defer():164] handle defer: 8
+2022-05-02 17:37:37,759 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: defer
+2022-05-02 17:37:37,759 INFO    SenderThread:2304 [sender.py:send_request_defer():385] handle sender defer: 8
+2022-05-02 17:37:37,774 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:37,910 INFO    SenderThread:2304 [sender.py:transition_state():389] send defer: 9
+2022-05-02 17:37:37,910 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:37,910 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: defer
+2022-05-02 17:37:37,910 INFO    HandlerThread:2304 [handler.py:handle_request_defer():164] handle defer: 9
+2022-05-02 17:37:37,911 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: defer
+2022-05-02 17:37:37,911 INFO    SenderThread:2304 [sender.py:send_request_defer():385] handle sender defer: 9
+2022-05-02 17:37:37,911 INFO    SenderThread:2304 [sender.py:transition_state():389] send defer: 10
+2022-05-02 17:37:37,912 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: defer
+2022-05-02 17:37:37,912 INFO    HandlerThread:2304 [handler.py:handle_request_defer():164] handle defer: 10
+2022-05-02 17:37:37,912 DEBUG   SenderThread:2304 [sender.py:send():232] send: final
+2022-05-02 17:37:37,912 DEBUG   SenderThread:2304 [sender.py:send():232] send: footer
+2022-05-02 17:37:37,912 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: defer
+2022-05-02 17:37:37,912 INFO    SenderThread:2304 [sender.py:send_request_defer():385] handle sender defer: 10
+2022-05-02 17:37:38,024 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: poll_exit
+2022-05-02 17:37:38,024 DEBUG   SenderThread:2304 [sender.py:send_request():246] send_request: poll_exit
+2022-05-02 17:37:38,025 INFO    SenderThread:2304 [file_pusher.py:join():150] waiting for file pusher
+2022-05-02 17:37:38,504 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: sampled_history
+2022-05-02 17:37:38,512 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: get_summary
+2022-05-02 17:37:38,513 DEBUG   HandlerThread:2304 [handler.py:handle_request():141] handle_request: shutdown
+2022-05-02 17:37:38,513 INFO    HandlerThread:2304 [handler.py:finish():806] shutting down handler
+2022-05-02 17:37:38,924 INFO    WriterThread:2304 [datastore.py:close():279] close: c:\Users\gijst\Documents\Uni\scriptie\Transfer Learning\wandb\run-20220502_173416-ek0ctgnb\run-ek0ctgnb.wandb
+2022-05-02 17:37:39,406 INFO    SenderThread:2304 [sender.py:finish():1106] shutting down sender
+2022-05-02 17:37:39,407 INFO    SenderThread:2304 [file_pusher.py:finish():145] shutting down file pusher
+2022-05-02 17:37:39,407 INFO    SenderThread:2304 [file_pusher.py:join():150] waiting for file pusher
+2022-05-02 17:37:39,413 INFO    MainThread:2304 [internal.py:handle_exit():80] Internal process exited

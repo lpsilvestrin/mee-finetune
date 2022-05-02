@@ -1,0 +1,35 @@
+C:\Users\gijst\anaconda3\envs\tf-gpu\lib\site-packages\tqdm\auto.py:22: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+x shape :  (20631, 16)
+y shape :  (20631,)
+processing data...
+...data processed
+concatenating X...
+...X concatenated
+concatenating y...
+...y concatenated
+processing data...
+...data processed
+concatenating X...
+...X concatenated
+concatenating y...
+...y concatenated
+X      - shape: [10096 samples x 16 features x 30 timesteps]  type: ndarray  dtype:float64  isnan: 0
+y      - shape: (10096,)  type: ndarray  dtype:int64  isnan: 0
+Model: "model"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+input_1 (InputLayer)         [(None, 16, 30)]          0
+_________________________________________________________________
+tcn (TCN)                    (None, 16, 32)            31232
+_________________________________________________________________
+tcn_1 (TCN)                  (None, 16)                8224
+_________________________________________________________________
+dense (Dense)                (None, 1)                 17
+=================================================================
+Total params: 39,473
+Trainable params: 39,473
+Non-trainable params: 0
+_________________________________________________________________
+[34m[1mwandb[39m[22m: [32m[41mERROR[39m[49m Unable to patch Tensorflow/Keras
