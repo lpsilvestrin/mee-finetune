@@ -115,7 +115,11 @@ def extract_manual_features(window_dataset):
     Returns:
 
     """
-    pass
+    mean_feat = np.mean(window_dataset, axis=2)
+    std_feat = np.std(window_dataset, axis=2)
+    min_feat = np.min(window_dataset, axis=2)
+    max_feat = np.max(window_dataset, axis=2)
+    return np.concatenate([mean_feat, std_feat, max_feat, min_feat], axis=1)
 
 
 def save_tl_datasets():
@@ -124,7 +128,14 @@ def save_tl_datasets():
     # tar2_df, _ = load(3)
     # tar3_df, _ = load(4)
     src_tr_x, src_tr_y, src_tst_x, src_tst_y = preprocess_data(src_df, nb_train_engines=80)
-    np.savez("../Data/df1/win.npz", x_train=src_tr_x, y_train=src_tr_y, x_test=src_tst_x, y_test=src_tst_y)
+    np.savez("../Data/df1/win_x.npz",
+             win_x_train=src_tr_x,
+             man_x_train=extract_manual_features(src_tr_x),
+             y_train=src_tr_y,
+             win_x_test=src_tst_x,
+             man_x_test=extract_manual_features(src_tst_x),
+             y_test=src_tst_y)
+
 
 
 
