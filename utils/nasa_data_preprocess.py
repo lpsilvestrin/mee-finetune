@@ -6,7 +6,7 @@ from sklearn.preprocessing import MinMaxScaler, PowerTransformer
 
 from tsai.data.preparation import SlidingWindowPanel
 
-def load(dataset_id, data_path="/home/luis/Documents/datasets/nasa_turbofan/"):
+def load_train(dataset_id, data_path="/home/luis/Documents/datasets/nasa_turbofan/"):
     """
     for a given id, load the corresponding train and test datasets;
     compute the RUL at each cycle for each engine and append it as a column in the final dataframes
@@ -26,8 +26,15 @@ def load(dataset_id, data_path="/home/luis/Documents/datasets/nasa_turbofan/"):
     # compute RUL at each cycle of each engine in the train dataset
     max_cycles = train.groupby("id")['cycle'].transform('max')
     train["RUL"] = max_cycles - train['cycle']
-    test = pd.read_csv(os.path.join(data_path, f"test_FD00{dataset_id}.txt"), sep=" ", usecols=list(range(len(columns))), names=columns)
 
+    return train
+
+
+def load_test(dataset_id, data_path="/home/luis/Documents/datasets/nasa_turbofan/"):
+    op_set = ["op" + str(i) for i in range(1, 4)]
+    sensor = ["sensor" + str(i) for i in range(1, 22)]
+    columns = ["id", "cycle"] + op_set + sensor
+    test = pd.read_csv(os.path.join(data_path, f"test_FD00{dataset_id}.txt"), sep=" ", usecols=list(range(len(columns))), names=columns)
     # compute RUL at each cycle of each engine in the test dataset
     max_cycles = test.groupby("id")['cycle'].transform('max')
     test["RUL"] = max_cycles - test['cycle']
@@ -38,8 +45,7 @@ def load(dataset_id, data_path="/home/luis/Documents/datasets/nasa_turbofan/"):
     true_rul = true_rul[0].repeat(np.array(test_cycles)).reset_index(drop=True)
     # shift the RUL at each cycle by the ground truth RUL
     test["RUL"] = test["RUL"] + true_rul
-
-    return train, test
+    return test
 
 
 def preprocess_data(df, nb_train_engines=80):
@@ -123,22 +129,26 @@ def extract_manual_features(window_dataset):
 
 
 def save_tl_datasets():
-    src_df, _ = load(1)
-    # tar1_df, _ = load(2)
-    # tar2_df, _ = load(3)
-    # tar3_df, _ = load(4)
-    src_tr_x, src_tr_y, src_tst_x, src_tst_y = preprocess_data(src_df, nb_train_engines=80)
-    np.savez("../Data/df1/win_x.npz",
-             win_x_train=src_tr_x,
-             man_x_train=extract_manual_features(src_tr_x),
-             y_train=src_tr_y,
-             win_x_test=src_tst_x,
-             man_x_test=extract_manual_features(src_tst_x),
-             y_test=src_tst_y)
+    """
+    loads and preprocess the 4 training cmapss datasets into time windows and manual features
+    each one is separated into train and test datasets
+    for transfer-learning experiments, the first one has 80 engines for training of a source model, while the other 3
+    have 10 engines and serve as target datasets
+    Returns:
 
-
-
-
+    """
+    nb_train_engines = [80, 10, 10, 10]
+    preproc_dfs = [preprocess_data(load_train(i+1), nb_train_engines=nb) for i, nb in enumerate(nb_train_engines)]
+    # src_tr_x, src_tr_y, src_tst_x, src_tst_y = preprocess_data(src_df, nb_train_engines=80)
+    for i, dfs in enumerate(preproc_dfs):
+        tr_x, tr_y, tst_x, tst_y = dfs
+        np.savez("../Data/df"+str(i+1)+"/preproc_dataset.npz",
+                 win_x_train=tr_x,
+                 man_x_train=extract_manual_features(tr_x),
+                 y_train=tr_y,
+                 win_x_test=tst_x,
+                 man_x_test=extract_manual_features(tst_x),
+                 y_test=tst_y)
 
 
 if __name__ == '__main__':
