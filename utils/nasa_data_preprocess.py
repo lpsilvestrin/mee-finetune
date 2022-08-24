@@ -69,7 +69,7 @@ def preprocess_data(df, nb_train_engines=80):
     op_set = ["op" + str(i) for i in range(1, 4)]
     sensor = np.array(["sensor" + str(i) for i in range(1, 22)])
     drop_cols = list(sensor[np.array([1,5,6,10,16,18,19])-1])
-    drop_cols = drop_cols + op_set
+    drop_cols = drop_cols + op_set + ['cycle']
 
     df = df.drop(drop_cols, axis=1)
 
@@ -78,10 +78,12 @@ def preprocess_data(df, nb_train_engines=80):
     # create a random state for reproducibility
     rand = np.random.RandomState(1234)
     rand.shuffle(ids)
-    df_train = df[df["id"].isin(ids[:nb_train_engines])]
+    df_train = df[df["id"].isin(ids[:nb_train_engines])].reset_index(drop=True)
     y_train = df_train.pop('RUL')
-    df_test = df[df["id"].isin(ids[nb_train_engines:])]
+    id_train = df_train.pop('id')
+    df_test = df[df["id"].isin(ids[nb_train_engines:])].reset_index(drop=True)
     y_test = df_test.pop('RUL')
+    id_test = df_test.pop('id')
     # save input column names
     x_cols = df_train.columns
 
@@ -92,10 +94,12 @@ def preprocess_data(df, nb_train_engines=80):
     df_train = pt.fit_transform(df_train)
     df_train = pd.DataFrame(df_train, columns=x_cols)
     df_train['RUL'] = y_train
+    df_train['id'] = id_train
     df_test = scaler.transform(df_test)
     df_test = pt.transform(df_test)
     df_test = pd.DataFrame(df_test, columns=x_cols)
     df_test['RUL'] = y_test
+    df_test['id'] = id_test
 
     # extract the time windows and separate RUL as the label
     win = SlidingWindowPanel(window_len=30,
@@ -149,6 +153,15 @@ def save_tl_datasets():
                  win_x_test=tst_x,
                  man_x_test=extract_manual_features(tst_x),
                  y_test=tst_y)
+
+
+def load_preproc_data(name='src'):
+    names_dict = {'src': '1',
+                  'tar1': '2',
+                  'tar2': '3',
+                  'tar3': '4'}
+    filename = '../Data/df'+names_dict[name]+'/preproc_dataset.npz'
+    return np.load(filename)
 
 
 if __name__ == '__main__':
