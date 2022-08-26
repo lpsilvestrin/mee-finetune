@@ -9,13 +9,13 @@ import tensorflow as tf
 import random
 
 from tcn import TCN
-from wandb.integration.keras import WandbCallback
 
 from utils.nasa_data_preprocess import load_preproc_data
 
 import wandb
 from wandb.keras import WandbCallback
 
+from sklearn.model_selection import ParameterGrid
 
 def root_mean_squared_error(y_true, y_pred):
     return K.sqrt(K.mean(K.square(y_pred - y_true)))
@@ -107,32 +107,32 @@ def debug_datasets(wandb_init):
         win_x = np.transpose(win_x, (0, 2, 1))
         tst_x = np.transpose(tst_x, (0, 2, 1))
 
-    for seed in range(5):
-        wandb_init['config']['seed'] = seed
-        train_tcn(win_x, win_y, tst_x, tst_y, wandb_init)
+    train_tcn(win_x, win_y, tst_x, tst_y, wandb_init)
 
 
 if __name__ == '__main__':
 
     wandb_init = {
-        "project": 'test', 'entity': 'transfer-learning-tcn', 'reinit': False,
+        "project": 'debug_datasets', 'entity': 'transfer-learning-tcn', 'reinit': False,
         'config': {
-            'learning_rate': 1e-3,
-            'dropout_rate': 0.2,
-            'loss_function': 'mse',
-            'epochs': 4,
-            'batch_size': 200,
-            'validation_split': 0.1,
-            'early_stop_patience': 15,
-            'seed': 2,
-            'gijs': True,
-            'transpose_input': False,
-            'op_inputs': False
+            'learning_rate': [1e-3, 1e-2, 1e-4],
+            'dropout_rate': [0.2],
+            'loss_function': ['mse'],
+            'epochs': [100],
+            'batch_size': [200],
+            'validation_split': [0.1],
+            'early_stop_patience': [15],
+            'seed': list(range(5)),
+            'gijs': [True, False],
+            'transpose_input': [False, True],
+            'op_inputs': [False, True]
         }
     }
 
-    for s in range(1,3):
-        wandb_init['config']['seed'] = s
+    grid = list(ParameterGrid(wandb_init['config']))
+
+    for config in grid:
+        wandb_init['config'] = config
         debug_datasets(wandb_init)
 
 
