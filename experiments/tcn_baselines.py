@@ -15,7 +15,7 @@ from utils.nasa_data_preprocess import load_preproc_data
 import wandb
 from wandb.keras import WandbCallback
 
-from sklearn.model_selection import ParameterGrid
+from sklearn.model_selection import ParameterGrid, train_test_split
 
 def root_mean_squared_error(y_true, y_pred):
     return K.sqrt(K.mean(K.square(y_pred - y_true)))
@@ -39,6 +39,11 @@ def train_tcn(train_x, train_y, test_x, test_y, init_dict):
     tf.random.set_seed(config.seed)
     random.seed(config.seed)
 
+    rand_state = np.random.RandomState(config.seed)
+    tr_x, val_x, tr_y, val_y = train_test_split(train_x, train_y,
+                                                test_size=config.validation_split,
+                                                random_state=rand_state)
+
     nb_features = train_x.shape[2]
     nb_steps = train_x.shape[1]
     nb_out = 1
@@ -46,9 +51,13 @@ def train_tcn(train_x, train_y, test_x, test_y, init_dict):
     i = Input(shape=(nb_steps, nb_features))
     #m = TCN()(i)
     #m = Dense(1, activation='linear')(m)
-
-    m = TCN(nb_filters=32, dropout_rate=config.dropout_rate, dilations=[1, 2, 4, 8, 16, 32], return_sequences=True)(i)
-    m = TCN(nb_filters=16, dropout_rate=config.dropout_rate, dilations=[1, 2, 4, 8, 16, 32], return_sequences=False)(m)
+    return_sequences = False if config.tcn2 is None else True
+    dilations1 = np.exp2(np.arange(config.tcn1['dilations'])).astype('int').tolist()
+    # dilations1 = [1,2]
+    m = TCN(kernel_size=config.kernel_size, nb_filters=config.tcn1['filters'], dropout_rate=config.dropout_rate, dilations=dilations1, return_sequences=return_sequences)(i)
+    if config.tcn2 is not None:
+        dilations2 = np.exp2(np.arange(config.tcn2['dilations'])).astype('int').tolist()
+        m = TCN(kernel_size=config.kernel_size, nb_filters=config.tcn2['filters'], dropout_rate=config.dropout_rate, dilations=dilations2, return_sequences=False)(m)
     m = Dense(nb_out, activation='linear')(m)
     model = Model(inputs=[i], outputs=[m])
 
@@ -58,7 +67,7 @@ def train_tcn(train_x, train_y, test_x, test_y, init_dict):
 
     early_stop = keras.callbacks.EarlyStopping(
         monitor="val_loss",
-        patience=15,
+        patience=config.early_stop_patience,
         mode="min",
         restore_best_weights=True,
     )
@@ -67,15 +76,18 @@ def train_tcn(train_x, train_y, test_x, test_y, init_dict):
     callbacks = [early_stop]
     callbacks.append(WandbCallback())
 
-    history = model.fit(train_x, train_y,
+    history = model.fit(tr_x, tr_y,
                         epochs=config.epochs,
                         batch_size=config.batch_size,
-                        validation_split=config.validation_split,
+                        validation_data=(val_x, val_y),
                         verbose=2,
                         callbacks=callbacks)
 
     result = model.evaluate(test_x, test_y)
-    test_metric_names = ["test_"+n for n in model.metrics_names]
+    test_metric_names = ["test/"+n for n in model.metrics_names]
+    run.log(dict(zip(test_metric_names, result)))
+    result = model.evaluate(val_x, val_y)
+    test_metric_names = ["val/" + n for n in model.metrics_names]
     run.log(dict(zip(test_metric_names, result)))
 
     run.join()
@@ -93,15 +105,6 @@ def debug_datasets(wandb_init):
         win_y = data_dict['y_train']
         tst_x = data_dict['win_x_test']
         tst_y = data_dict['y_test']
-    else:
-        win_x = np.load('../Data/df1/swpX.npy')
-        win_y = np.load('../Data/df1/swpy.npy')
-        tst_x = np.load('../Data/df1/swpX_test.npy')
-        tst_y = np.load('../Data/df1/swpy_test.npy')
-
-        if not op_inputs:
-            win_x = win_x[:, 2:, :]
-            tst_x = tst_x[:, 2:, :]
 
     if transpose_input:
         win_x = np.transpose(win_x, (0, 2, 1))
@@ -112,20 +115,25 @@ def debug_datasets(wandb_init):
 
 if __name__ == '__main__':
 
+    grid_tcn = list(ParameterGrid({
+        "filters": [8, 16, 32],
+        "dilations": [2, 3, 4]
+    }))
     wandb_init = {
-        "project": 'debug_datasets', 'entity': 'transfer-learning-tcn', 'reinit': False,
+        "project": 'tune_src', 'entity': 'transfer-learning-tcn', 'reinit': False,
         'config': {
-            'learning_rate': [1e-3, 1e-2, 1e-4],
-            'dropout_rate': [0.2],
+            'learning_rate': [1e-2, 1e-3],
+            'dropout_rate': [0.2, 0.1],
             'loss_function': ['mse'],
             'epochs': [100],
-            'batch_size': [200],
+            'batch_size': [200, 64],
             'validation_split': [0.1],
             'early_stop_patience': [15],
             'seed': list(range(5)),
-            'gijs': [True, False],
-            'transpose_input': [False, True],
-            'op_inputs': [False, True]
+            'tcn1': grid_tcn,
+            'tcn2': [None] + grid_tcn,
+            'kernel_size': [2, 3],
+            'transpose_input': [True, False]
         }
     }
 
