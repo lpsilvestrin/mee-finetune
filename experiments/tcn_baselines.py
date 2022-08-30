@@ -132,7 +132,7 @@ def gridsearch_tcn_baseline():
             'learning_rate': [1e-2, 1e-3],
             'dropout_rate': [0.2, 0.1],
             'loss_function': ['mse'],
-            'epochs': [4],
+            'epochs': [100],
             'batch_size': [200, 64],
             'validation_split': [0.1],
             'early_stop_patience': [15],
@@ -155,7 +155,7 @@ def gridsearch_tcn_baseline():
         data_dict = load_preproc_data(name=name)
         test_data_dict[name] = (data_dict['win_x_test'], data_dict['y_test'])
 
-    for config in grid[:2]:
+    for config in grid:
         wandb_init['config'] = config
         train_tcn(win_x, win_y, test_data_dict, wandb_init)
 
