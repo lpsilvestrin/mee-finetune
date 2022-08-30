@@ -29,7 +29,7 @@ def r2_keras(y_true, y_pred):
     return (1 - SS_res / (SS_tot + K.epsilon()))
 
 
-def train_tcn(train_x, train_y, test_x, test_y, init_dict):
+def train_tcn(train_x, train_y, test_sets, init_dict):
     run = wandb.init(**init_dict)
 
     config = wandb.config
@@ -38,6 +38,10 @@ def train_tcn(train_x, train_y, test_x, test_y, init_dict):
     np.random.seed(config.seed)
     tf.random.set_seed(config.seed)
     random.seed(config.seed)
+
+    test_dict = {}
+    if config.transpose_input:
+        train_x = np.transpose(train_x, (0, 2, 1))
 
     rand_state = np.random.RandomState(config.seed)
     tr_x, val_x, tr_y, val_y = train_test_split(train_x, train_y,
@@ -49,8 +53,7 @@ def train_tcn(train_x, train_y, test_x, test_y, init_dict):
     nb_out = 1
 
     i = Input(shape=(nb_steps, nb_features))
-    #m = TCN()(i)
-    #m = Dense(1, activation='linear')(m)
+
     return_sequences = False if config.tcn2 is None else True
     dilations1 = np.exp2(np.arange(config.tcn1['dilations'])).astype('int').tolist()
     # dilations1 = [1,2]
@@ -83,12 +86,17 @@ def train_tcn(train_x, train_y, test_x, test_y, init_dict):
                         verbose=2,
                         callbacks=callbacks)
 
-    result = model.evaluate(test_x, test_y)
-    test_metric_names = ["test/"+n for n in model.metrics_names]
-    run.log(dict(zip(test_metric_names, result)))
     result = model.evaluate(val_x, val_y)
     test_metric_names = ["val/" + n for n in model.metrics_names]
     run.log(dict(zip(test_metric_names, result)))
+
+    for key, t_set in test_sets.items():
+        tst_x, tst_y = t_set
+        if config.transpose_input:
+            tst_x = np.transpose(tst_x, (0, 2, 1))
+        result = model.evaluate(tst_x, tst_y)
+        test_metric_names = [key+"/" + n for n in model.metrics_names]
+        run.log(dict(zip(test_metric_names, result)))
 
     run.join()
     wandb.finish()
@@ -113,19 +121,18 @@ def debug_datasets(wandb_init):
     train_tcn(win_x, win_y, tst_x, tst_y, wandb_init)
 
 
-if __name__ == '__main__':
-
+def gridsearch_tcn_baseline():
     grid_tcn = list(ParameterGrid({
         "filters": [8, 16, 32],
         "dilations": [2, 3, 4]
     }))
     wandb_init = {
-        "project": 'tune_src', 'entity': 'transfer-learning-tcn', 'reinit': False,
+        "project": 'test2', 'entity': 'transfer-learning-tcn', 'reinit': False,
         'config': {
             'learning_rate': [1e-2, 1e-3],
             'dropout_rate': [0.2, 0.1],
             'loss_function': ['mse'],
-            'epochs': [100],
+            'epochs': [4],
             'batch_size': [200, 64],
             'validation_split': [0.1],
             'early_stop_patience': [15],
@@ -139,9 +146,23 @@ if __name__ == '__main__':
 
     grid = list(ParameterGrid(wandb_init['config']))
 
-    for config in grid:
+    data_dict = load_preproc_data(name='src')
+    win_x = data_dict['win_x_train']
+    win_y = data_dict['y_train']
+
+    test_data_dict = {"test": (data_dict['win_x_test'], data_dict['y_test'])}
+    for name in ["tar1", "tar2", "tar3"]:
+        data_dict = load_preproc_data(name=name)
+        test_data_dict[name] = (data_dict['win_x_test'], data_dict['y_test'])
+
+    for config in grid[:2]:
         wandb_init['config'] = config
-        debug_datasets(wandb_init)
+        train_tcn(win_x, win_y, test_data_dict, wandb_init)
+
+
+if __name__ == '__main__':
+    gridsearch_tcn_baseline()
+
 
 
 
