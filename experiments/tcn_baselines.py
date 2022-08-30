@@ -127,7 +127,7 @@ def gridsearch_tcn_baseline():
         "dilations": [2, 3, 4]
     }))
     wandb_init = {
-        "project": 'test2', 'entity': 'transfer-learning-tcn', 'reinit': False,
+        "project": 'gridsearch_src_tcn', 'entity': 'transfer-learning-tcn', 'reinit': False,
         'config': {
             'learning_rate': [1e-2, 1e-3],
             'dropout_rate': [0.2, 0.1],
