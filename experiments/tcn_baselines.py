@@ -81,7 +81,8 @@ def train_tcn(train_x, train_y, test_sets, init_dict):
 
     # callbacks = []
     callbacks = [early_stop]
-    callbacks.append(WandbCallback())
+    callbacks.append(WandbCallback(save_model=False,
+                                   save_graph=False))
 
     history = model.fit(tr_x, tr_y,
                         epochs=config.epochs,
@@ -102,7 +103,6 @@ def train_tcn(train_x, train_y, test_sets, init_dict):
         test_metric_names = [key+"/" + n for n in model.metrics_names]
         run.log(dict(zip(test_metric_names, result)))
 
-    run.join()
     wandb.finish()
 
 
