@@ -165,7 +165,19 @@ def gridsearch_tcn_baseline():
 
 
 def wandb_sweep():
-    config = {}
+    config = {'learning_rate': 1e-2,
+            'dropout_rate': 0.1,
+            'loss_function': 'mse',
+            'epochs': 4,
+            'batch_size': 200,
+            'validation_split': 0.1,
+            'early_stop_patience': 15,
+            'seed': 0,
+            'tcn': {'dilations': 1,
+                    'filters': 8},
+            'tcn2': False,
+            'kernel_size': 2,
+            'transpose_input': True}
     wandb_init = dict(
         project='test2',
         entity='transfer-learning-tcn',
