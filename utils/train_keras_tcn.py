@@ -80,8 +80,12 @@ def train_tcn(train_x, train_y, test_sets, wandb_init):
 
     # callbacks = []
     callbacks = [early_stop]
-    callbacks.append(WandbCallback(save_model=False,
-                                   save_graph=False))
+    if 'save_model' in config.keys():
+        save_model = config.save_model
+    else:
+        save_model = False
+    callbacks.append(WandbCallback(save_model=save_model,
+                                   save_graph=save_model))
 
     history = model.fit(tr_x, tr_y,
                         epochs=config.epochs,
