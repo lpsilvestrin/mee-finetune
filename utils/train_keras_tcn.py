@@ -29,6 +29,26 @@ def r2_keras(y_true, y_pred):
     return (1 - SS_res / (SS_tot + K.epsilon()))
 
 
+def build_tcn_from_config(nb_features, nb_steps, nb_out, config):
+    i = Input(shape=(nb_steps, nb_features))
+
+    return_sequences = True if config.tcn2 else True
+    dilations = np.exp2(np.arange(config.tcn['dilations'])).astype('int').tolist()
+    m = TCN(kernel_size=config.kernel_size,
+            nb_filters=config.tcn['filters'],
+            dropout_rate=config.dropout_rate,
+            dilations=dilations,
+            return_sequences=return_sequences)(i)
+    if config.tcn2:
+        m = TCN(kernel_size=config.kernel_size,
+                nb_filters=config.tcn['filters'],
+                dropout_rate=config.dropout_rate,
+                dilations=dilations,
+                return_sequences=False)(m)
+    m = Dense(nb_out, activation='linear')(m)
+    return Model(inputs=[i], outputs=[m])
+
+
 def train_tcn(train_x, train_y, test_sets, wandb_init):
     run = wandb.init(**wandb_init)
     config = wandb.config
@@ -49,23 +69,7 @@ def train_tcn(train_x, train_y, test_sets, wandb_init):
     nb_steps = train_x.shape[1]
     nb_out = 1
 
-    i = Input(shape=(nb_steps, nb_features))
-
-    return_sequences = True if config.tcn2 else True
-    dilations = np.exp2(np.arange(config.tcn['dilations'])).astype('int').tolist()
-    m = TCN(kernel_size=config.kernel_size,
-            nb_filters=config.tcn['filters'],
-            dropout_rate=config.dropout_rate,
-            dilations=dilations,
-            return_sequences=return_sequences)(i)
-    if config.tcn2:
-        m = TCN(kernel_size=config.kernel_size,
-                nb_filters=config.tcn['filters'],
-                dropout_rate=config.dropout_rate,
-                dilations=dilations,
-                return_sequences=False)(m)
-    m = Dense(nb_out, activation='linear')(m)
-    model = Model(inputs=[i], outputs=[m])
+    model = build_tcn_from_config(nb_features, nb_steps, nb_out, config)
 
     adam_opt = keras.optimizers.Adam(learning_rate=config.learning_rate)
     # adam_opt = 'adam'
