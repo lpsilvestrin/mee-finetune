@@ -1,5 +1,7 @@
+from types import SimpleNamespace
+
 import numpy as np
-import tensorflow as tf
+import yaml
 
 from tensorflow.keras import Input, Model
 from tensorflow.keras.layers import Dense
@@ -105,6 +107,99 @@ def train_tcn(train_x, train_y, test_sets, wandb_init):
     for key, t_set in test_sets.items():
         tst_x, tst_y = t_set
         if config.transpose_input:
+            tst_x = np.transpose(tst_x, (0, 2, 1))
+        result = model.evaluate(tst_x, tst_y)
+        test_metric_names = [key + "/" + n for n in model.metrics_names]
+        run.log(dict(zip(test_metric_names, result)))
+
+    wandb.finish()
+
+    return model
+
+
+def restore_wandb_tcn_files(run_path):
+    config_file = wandb.restore('config.yaml', run_path=run_path)
+    weight_file = wandb.restore('model-best.h5', run_path=run_path)
+    with open(config_file.name, 'r') as f:
+        wandb_config = yaml.safe_load(f)
+    del wandb_config['_wandb']
+    del wandb_config['wandb_version']
+    config = dict([(k, v['value']) for k, v in wandb_config.items()])
+    config = SimpleNamespace(**config)
+    return config, weight_file
+
+
+def finetune_tcn(train_x, train_y, test_sets, wandb_init):
+    run = wandb.init(**wandb_init)
+    config = wandb.config
+    src_config, src_weight_file = restore_wandb_tcn_files(config.src_run_path)
+
+    np.random.seed(config.seed)
+    tf.random.set_seed(config.seed)
+    random.seed(config.seed)
+
+    if src_config.transpose_input:
+        train_x = np.transpose(train_x, (0, 2, 1))
+
+    rand_state = np.random.RandomState(config.seed)
+    tr_x, val_x, tr_y, val_y = train_test_split(train_x, train_y,
+                                                test_size=config.validation_split,
+                                                random_state=rand_state)
+
+    nb_features = train_x.shape[2]
+    nb_steps = train_x.shape[1]
+    nb_out = 1
+
+    model = build_tcn_from_config(nb_features, nb_steps, nb_out, src_config)
+    model.load_weights(src_weight_file.name)
+
+    if config.last_layer:
+        model.trainable = False
+        model.layers[-1].trainable = True
+
+    opt = keras.optimizers.get(config.optimizer)
+    opt.learning_rate.assign(config.learning_rate)
+    # adam_opt = 'adam'
+    model.compile(loss=config.loss_function, optimizer=opt, metrics=['mae', r2_keras, root_mean_squared_error])
+
+
+    early_stop = keras.callbacks.EarlyStopping(
+        monitor="val_loss",
+        patience=config.early_stop_patience,
+        mode="min",
+        restore_best_weights=True,
+    )
+
+    lr_sched = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss',
+                                                    factor=config.lr_schedule['factor'],
+                                                    patience=config.lr_schedule['patience'],
+                                                    verbose=1)
+
+    # callbacks = []
+    callbacks = [early_stop]
+    if config.lr_schedule['enable']:
+        callbacks.append(lr_sched)
+    if 'save_model' in config.keys():
+        save_model = config.save_model
+    else:
+        save_model = False
+    callbacks.append(WandbCallback(save_model=save_model,
+                                   save_graph=save_model))
+
+    history = model.fit(tr_x, tr_y,
+                        epochs=config.epochs,
+                        batch_size=config.batch_size,
+                        validation_data=(val_x, val_y),
+                        verbose=2,
+                        callbacks=callbacks)
+
+    result = model.evaluate(val_x, val_y)
+    test_metric_names = ["val/" + n for n in model.metrics_names]
+    run.log(dict(zip(test_metric_names, result)))
+
+    for key, t_set in test_sets.items():
+        tst_x, tst_y = t_set
+        if src_config.transpose_input:
             tst_x = np.transpose(tst_x, (0, 2, 1))
         result = model.evaluate(tst_x, tst_y)
         test_metric_names = [key + "/" + n for n in model.metrics_names]
