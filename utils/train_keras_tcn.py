@@ -154,8 +154,8 @@ def finetune_tcn(train_x, train_y, test_sets, wandb_init):
     model.load_weights(src_weight_file.name)
 
     if config.last_layer:
-        model.trainable = False
-        model.layers[-1].trainable = True
+        for layer in model.layers[:-1]:
+            layer.trainable = False
 
     opt = keras.optimizers.get(config.optimizer)
     if config.optimizer == 'sgd':
