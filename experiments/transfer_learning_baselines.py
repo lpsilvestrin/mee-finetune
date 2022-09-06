@@ -1,15 +1,4 @@
-from types import SimpleNamespace
-
-import numpy as np
-import yaml
-import random
-
-import tensorflow as tf
-import keras
-from sklearn.model_selection import train_test_split
-
 import wandb
-from wandb.keras import WandbCallback
 
 from utils.nasa_data_preprocess import load_preproc_data
 from utils.train_keras_tcn import build_tcn_from_config, r2_keras, root_mean_squared_error, finetune_tcn
@@ -17,21 +6,27 @@ from utils.train_keras_tcn import build_tcn_from_config, r2_keras, root_mean_squ
 
 def train_and_log_tl_baselines():
     # best TCN hyperparameters found using the source dataset
-    config = dict(learning_rate=1e-3,
-                  dropout_rate=0.1,
+    config = dict(learning_rate=1e-5,
                   loss_function='mse',
                   epochs=4,
                   batch_size=64,
                   validation_split=0.1,
                   early_stop_patience=15,
+                  lr_schedule=dict(
+                      enable=True,
+                      factor=0.2,
+                      patience=8
+                  ),
+                  optimizer='adam',
+                  sgd_nesterov=dict(
+                      enable=False,
+                      momentum=0.9
+                  ),
                   # seed=list(range(5)),
                   seed=4,
-                  tcn=dict(dilations=2,
-                           filters=128),
-                  tcn2=True,
-                  kernel_size=3,
-                  transpose_input=True,
-                  save_model=True,
+                  save_model=False,
+                  last_layer=True,
+                  src_run_path='transfer-learning-tcn/non_tl_baselines/jf791kuq',
                   # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
                   train_dataset='tar1')
 
