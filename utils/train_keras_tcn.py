@@ -158,10 +158,13 @@ def finetune_tcn(train_x, train_y, test_sets, wandb_init):
         model.layers[-1].trainable = True
 
     opt = keras.optimizers.get(config.optimizer)
+    if config.optimizer == 'sgd':
+        opt.nesterov = config.sgd_nesterov['enable']
+        opt.momentum.assign(config.sgd_nesterov['momentum'])
+
     opt.learning_rate.assign(config.learning_rate)
     # adam_opt = 'adam'
     model.compile(loss=config.loss_function, optimizer=opt, metrics=['mae', r2_keras, root_mean_squared_error])
-
 
     early_stop = keras.callbacks.EarlyStopping(
         monitor="val_loss",
