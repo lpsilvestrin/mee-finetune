@@ -125,6 +125,7 @@ def restore_wandb_tcn_files(run_path):
     del wandb_config['_wandb']
     del wandb_config['wandb_version']
     print(f"Restored tcn config run: {run_path}")
+    print(f"Local config path: {config_file.name}")
     print(wandb_config)
     config = dict([(k, v['value']) for k, v in wandb_config.items()])
     config = SimpleNamespace(**config)
