@@ -126,6 +126,8 @@ def restore_wandb_tcn_files(run_path):
     del wandb_config['wandb_version']
     config = dict([(k, v['value']) for k, v in wandb_config.items()])
     config = SimpleNamespace(**config)
+    print("Restored tcn config:")
+    print(config)
     return config, weight_file
 
 
