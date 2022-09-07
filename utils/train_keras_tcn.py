@@ -118,8 +118,8 @@ def train_tcn(train_x, train_y, test_sets, wandb_init):
 
 
 def restore_wandb_tcn_files(run_path):
-    config_file = wandb.restore('config.yaml', run_path=run_path)
-    weight_file = wandb.restore('model-best.h5', run_path=run_path)
+    config_file = wandb.restore('config.yaml', run_path=run_path, replace=True)
+    weight_file = wandb.restore('model-best.h5', run_path=run_path, replace=True)
     with open(config_file.name, 'r') as f:
         wandb_config = yaml.safe_load(f)
     del wandb_config['_wandb']
