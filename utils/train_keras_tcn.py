@@ -11,7 +11,7 @@ import tensorflow as tf
 
 import random
 
-from tcn import TCN
+from algorithms.tcn import TCN
 
 from wandb.keras import WandbCallback
 import wandb
@@ -36,18 +36,24 @@ def build_tcn_from_config(nb_features, nb_steps, nb_out, config):
 
     return_sequences = True if config.tcn2 else True
     dilations = np.exp2(np.arange(config.tcn['dilations'])).astype('int').tolist()
+    l2 = config.l2_reg if 'l2_reg' in config.keys() else 0
+    l2_reg = keras.regularizers.L2(l2)
     m = TCN(kernel_size=config.kernel_size,
             nb_filters=config.tcn['filters'],
             dropout_rate=config.dropout_rate,
             dilations=dilations,
-            return_sequences=return_sequences)(i)
+            return_sequences=return_sequences,
+            kernel_regularizer=l2_reg)(i)
     if config.tcn2:
         m = TCN(kernel_size=config.kernel_size,
                 nb_filters=config.tcn['filters'],
                 dropout_rate=config.dropout_rate,
                 dilations=dilations,
+                kernel_regularizer=l2_reg,
                 return_sequences=False)(m)
-    m = Dense(nb_out, activation='linear')(m)
+    m = Dense(nb_out,
+              activation='linear',
+              kernel_regularizer=l2_reg)(m)
     return Model(inputs=[i], outputs=[m])
 
 
