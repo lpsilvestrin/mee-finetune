@@ -127,6 +127,7 @@ def train_and_log_baselines():
                   kernel_size=3,
                   transpose_input=True,
                   save_model=True,
+                  l2_reg=1e-2,
                   # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
                   train_dataset='tar1')
 

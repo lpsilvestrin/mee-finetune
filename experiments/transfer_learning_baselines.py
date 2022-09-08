@@ -1,7 +1,7 @@
 import wandb
 
 from utils.nasa_data_preprocess import load_preproc_data
-from utils.train_keras_tcn import build_tcn_from_config, r2_keras, root_mean_squared_error, finetune_tcn
+from utils.train_keras_tcn import finetune_tcn
 
 
 def train_and_log_tl_baselines():
@@ -26,7 +26,8 @@ def train_and_log_tl_baselines():
                   seed=4,
                   save_model=False,
                   last_layer=True,
-                  src_run_path='transfer-learning-tcn/non_tl_baselines/jf791kuq',
+                  l2_reg=1e-5,
+                  src_run_path='transfer-learning-tcn/non_tl_baselines/gawmh514',
                   # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
                   train_dataset='tar1')
 
