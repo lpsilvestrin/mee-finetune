@@ -1,19 +1,8 @@
 import numpy as np
 
-from tensorflow.keras import Input, Model
-from tensorflow.keras.layers import Dense
-import tensorflow.keras as keras
-import tensorflow.keras.backend as K
-import tensorflow as tf
-
-import random
-
-from tcn import TCN
-
 from utils.nasa_data_preprocess import load_preproc_data
 
 import wandb
-from wandb.keras import WandbCallback
 
 from sklearn.model_selection import ParameterGrid
 
@@ -126,7 +115,7 @@ def train_and_log_baselines():
                   tcn2=True,
                   kernel_size=3,
                   transpose_input=True,
-                  save_model=True,
+                  save_model=False,
                   l2_reg=1e-2,
                   # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
                   train_dataset='tar1')
