@@ -131,7 +131,8 @@ class ResidualBlock(Layer):
                         kernel_size=1,
                         padding='same',
                         name=name,
-                        kernel_initializer=self.kernel_initializer
+                        kernel_initializer=self.kernel_initializer,
+                        kernel_regularizer=self.kernel_regularizer
                     )
             else:
                 name = 'matching_identity'
