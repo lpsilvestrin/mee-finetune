@@ -2,7 +2,7 @@ from types import SimpleNamespace
 from typing import Union, TextIO
 
 import numpy as np
-import yaml
+from omegaconf import OmegaConf, DictConfig
 
 from tensorflow.keras import Input, Model
 from tensorflow.keras.layers import Dense
@@ -32,12 +32,12 @@ def r2_keras(y_true, y_pred):
     return (1 - SS_res / (SS_tot + K.epsilon()))
 
 
-def build_tcn_from_config(nb_features: int, nb_steps: int, nb_out: int, config: SimpleNamespace):
+def build_tcn_from_config(nb_features: int, nb_steps: int, nb_out: int, config: DictConfig):
     i = Input(shape=(nb_steps, nb_features))
 
     return_sequences = True if config.tcn2 else False
     dilations = np.exp2(np.arange(config.tcn['dilations'])).astype('int').tolist()
-    l2 = config.l2_reg if 'l2_reg' in vars(config).keys() else 0
+    l2 = config.l2_reg if 'l2_reg' in config else 0
     l2_reg = keras.regularizers.L2(l2)
     m = TCN(kernel_size=config.kernel_size,
             nb_filters=config.tcn['filters'],
@@ -124,15 +124,15 @@ def train_tcn(train_x, train_y, test_sets, wandb_init):
     return model
 
 
-def restore_wandb_tcn_files(run_path: str) -> (SimpleNamespace, Union[None, TextIO]):
+def restore_wandb_tcn_files(run_path: str) -> (DictConfig, Union[None, TextIO]):
     config_file = wandb.restore('config.yaml', run_path=run_path, replace=True)
     weight_file = wandb.restore('model-best.h5', run_path=run_path, replace=True)
-    with open(config_file.name, 'r') as f:
-        wandb_config = yaml.safe_load(f)
+    wandb_config = OmegaConf.load(config_file.name)
+
     del wandb_config['_wandb']
     del wandb_config['wandb_version']
     config = dict([(k, v['value']) for k, v in wandb_config.items()])
-    config = SimpleNamespace(**config)
+    config = OmegaConf.create(config)
     return config, weight_file
 
 
