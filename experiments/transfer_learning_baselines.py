@@ -5,7 +5,6 @@ from utils.train_keras_tcn import finetune_tcn
 
 
 def train_and_log_tl_baselines():
-    # best TCN hyperparameters found using the source dataset
     config = dict(learning_rate=1e-5,
                   loss_function='mse',
                   epochs=4,
@@ -27,7 +26,7 @@ def train_and_log_tl_baselines():
                   save_model=False,
                   last_layer=True,
                   l2_reg=1e-5,
-                  src_run_path='transfer-learning-tcn/non_tl_baselines/gawmh514',
+                  src_run_path='transfer-learning-tcn/non_tl_baselines/jf791kuq',
                   # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
                   train_dataset='tar1')
 
@@ -43,14 +42,14 @@ def train_and_log_tl_baselines():
     test_data_dict = dict()
     for name in ["tar1", "tar2", "tar3"]:
         data_dict = load_preproc_data(name=name)
-        test_data_dict[name] = (data_dict['win_x_test'], data_dict['y_test'])
+        test_data_dict[name] = (data_dict['win_x_test'], data_dict['y_test'].reshape(-1,1))
 
     wandb.init(**wandb_init)
     config = wandb.config
     print(config)
     data_dict = load_preproc_data(name=config['train_dataset'])
-    test_data_dict["test"] = (data_dict['win_x_test'], data_dict['y_test'])
-    win_x, win_y = data_dict['win_x_train'], data_dict['y_train']
+    test_data_dict["test"] = (data_dict['win_x_test'], data_dict['y_test'].reshape(-1,1))
+    win_x, win_y = data_dict['win_x_train'], data_dict['y_train'].reshape(-1,1)
     wandb_init['config'] = config
     finetune_tcn(win_x, win_y, test_data_dict, wandb_init)
 

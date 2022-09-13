@@ -132,7 +132,7 @@ def train_and_log_baselines():
     test_data_dict = dict()
     for name in ["tar1", "tar2", "tar3"]:
         data_dict = load_preproc_data(name=name)
-        test_data_dict[name] = (data_dict['win_x_test'], data_dict['y_test'])
+        test_data_dict[name] = (data_dict['win_x_test'], data_dict['y_test'].reshape(-1,1))
 
     wandb.init(**wandb_init)
     config = wandb.config
@@ -140,14 +140,14 @@ def train_and_log_baselines():
     # in case of 2 training sets, concatenate them together
     train_datasets = config['train_dataset'].split('+')
     data_dict = load_preproc_data(name=train_datasets[0])
-    win_x, win_y = data_dict['win_x_train'], data_dict['y_train']
+    win_x, win_y = data_dict['win_x_train'], data_dict['y_train'].reshape(-1,1)
 
     if len(train_datasets) > 1:
         data_dict = load_preproc_data(name=train_datasets[1])
         win_x = np.concatenate([win_x, data_dict['win_x_train']])
-        win_y = np.concatenate([win_y, data_dict['y_train']])
+        win_y = np.concatenate([win_y, data_dict['y_train'].reshape(-1,1)])
 
-    test_data_dict["test"] = (data_dict['win_x_test'], data_dict['y_test'])
+    test_data_dict["test"] = (data_dict['win_x_test'], data_dict['y_test'].reshape(-1,1))
 
     wandb_init['config'] = config
     train_tcn(win_x, win_y, test_data_dict, wandb_init)
