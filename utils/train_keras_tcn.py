@@ -20,10 +20,6 @@ import wandb
 from sklearn.model_selection import train_test_split
 
 
-def root_mean_squared_error(y_true, y_pred):
-    return K.sqrt(K.mean(K.square(y_pred - y_true)))
-
-
 def r2_keras(y_true, y_pred):
     """Coefficient of Determination
     """
@@ -82,7 +78,8 @@ def train_tcn(train_x, train_y, test_sets, wandb_init):
 
     adam_opt = keras.optimizers.Adam(learning_rate=config.learning_rate)
     # adam_opt = 'adam'
-    model.compile(loss=config.loss_function, optimizer=adam_opt, metrics=['mae', r2_keras, root_mean_squared_error])
+    rmse = tf.keras.metrics.RootMeanSquaredError(name='root_mean_squared_error')
+    model.compile(loss=config.loss_function, optimizer=adam_opt, metrics=['mae', rmse])
 
     early_stop = keras.callbacks.EarlyStopping(
         monitor="val_loss",
@@ -174,7 +171,8 @@ def finetune_tcn(train_x, train_y, test_sets, wandb_init):
 
     opt.learning_rate.assign(config.learning_rate)
     # adam_opt = 'adam'
-    model.compile(loss=config.loss_function, optimizer=opt, metrics=['mae', r2_keras, root_mean_squared_error])
+    rmse = tf.keras.metrics.RootMeanSquaredError(name='root_mean_squared_error')
+    model.compile(loss=config.loss_function, optimizer=opt, metrics=['mae', rmse])
 
     early_stop = keras.callbacks.EarlyStopping(
         monitor="val_loss",
