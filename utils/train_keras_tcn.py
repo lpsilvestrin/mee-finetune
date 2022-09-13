@@ -124,22 +124,25 @@ def train_tcn(train_x, train_y, test_sets, wandb_init):
     return model
 
 
-def restore_wandb_tcn_files(run_path: str) -> (DictConfig, Union[None, TextIO]):
+def restore_wandb_config(run_path: str) -> DictConfig:
     config_file = wandb.restore('config.yaml', run_path=run_path, replace=True)
-    weight_file = wandb.restore('model-best.h5', run_path=run_path, replace=True)
     wandb_config = OmegaConf.load(config_file.name)
 
     del wandb_config['_wandb']
     del wandb_config['wandb_version']
     config = dict([(k, v['value']) for k, v in wandb_config.items()])
     config = OmegaConf.create(config)
-    return config, weight_file
+    return config
+
+def restore_wandb_weights(run_path: str) -> Union[None, TextIO]:
+    return wandb.restore('model-best.h5', run_path=run_path, replace=True)
 
 
 def finetune_tcn(train_x, train_y, test_sets, wandb_init):
     run = wandb.init(**wandb_init)
     config = wandb.config
-    src_config, src_weight_file = restore_wandb_tcn_files(config.src_run_path)
+    src_config = restore_wandb_config(config.src_run_path)
+    src_weight_file = restore_wandb_weights(config.src_run_path)
 
     np.random.seed(config.seed)
     tf.random.set_seed(config.seed)
