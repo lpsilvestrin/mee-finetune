@@ -7,20 +7,23 @@ from utils.nasa_data_preprocess import load_preproc_data
 def sweep_vanilla_wann():
     config = dict(
         validation_split=0.1,
-      # seed=list(range(5)),
-      seed=4,
-      mlp=dict(
+        # seed=list(range(5)),
+        seed=4,
+        mlp=dict(
           learning_rate=0.001,
           epochs=2,
           batch_size=64,
           early_stop_patience=15,
-          hidden=[100, 100, 100],
+          hidden=dict(
+              n=2,
+              units=100
+          ),
           l2_reg=1e-4,
           loss_function='mse',
           dropout_rate=0.1
-      ),
-      # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
-      train_dataset='tar1'
+        ),
+        # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
+        train_dataset='tar1'
     )
 
     wandb_init = dict(
