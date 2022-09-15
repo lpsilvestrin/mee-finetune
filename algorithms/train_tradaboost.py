@@ -13,9 +13,7 @@ from utils.train_keras_tcn import (
     restore_wandb_config,
     build_tcn_from_config
 )
-
-from tensorflow.keras import Input, Model
-from tensorflow.keras.layers import Dense, Dropout
+from utils.utils import evaluate, build_mlp
 
 
 def train_tradaboost_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
@@ -173,30 +171,3 @@ def train_tradaboost_nn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
     return model
 
 
-def evaluate(x, y, model, metrics):
-    pred = model.predict(x)
-    result = []
-    for met in metrics:
-        met.update_state(y, pred)
-        result.append(met.result().numpy())
-        met.reset_state()
-    return result
-
-
-def build_mlp(nb_features: int, nb_out: int, config: DictConfig):
-    i = Input(shape=(nb_features))
-
-    l2 = config.l2_reg if 'l2_reg' in config else 0
-    l2_reg = keras.regularizers.L2(l2)
-
-    m = i
-    for n in config.hidden:
-        m = Dense(n,
-                  activation='relu',
-                  kernel_regularizer=l2_reg)(m)
-        Dropout(config.dropout_rate)(m)
-
-    m = Dense(nb_out,
-              activation='linear',
-              kernel_regularizer=l2_reg)(m)
-    return Model(inputs=[i], outputs=[m])
