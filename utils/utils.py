@@ -15,13 +15,18 @@ def evaluate(x, y, model, metrics):
 
 
 def build_mlp(nb_features: int, nb_out: int, config: DictConfig):
+    if isinstance(config.hidden, DictConfig) or isinstance(config.hidden, dict):
+        hidden = [config.hidden.units for _ in range(config.hidden.n)]
+    else:
+        hidden = config.hidden
+
     i = Input(shape=(nb_features))
 
     l2 = config.l2_reg if 'l2_reg' in config else 0
     l2_reg = keras.regularizers.L2(l2)
 
     m = i
-    for n in config.hidden:
+    for n in hidden:
         m = Dense(n,
                   activation='relu',
                   kernel_regularizer=l2_reg)(m)
