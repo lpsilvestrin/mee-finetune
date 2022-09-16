@@ -97,7 +97,6 @@ def train_wann_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
     nb_features = tar_x.shape[2]
     nb_steps = tar_x.shape[1]
     nb_out = 1
-
     model = build_tcn_from_config(nb_features, nb_steps, nb_out, config)
 
     opt = keras.optimizers.Adam(learning_rate=config.learning_rate)
@@ -113,10 +112,14 @@ def train_wann_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
     # callbacks = []
     callbacks = [early_stop]
 
+    # TODO: ensure that the activation of the last layer for the weighter model is a ReLU (last paragraph of section 2 of WANN paper)
+    # TODO: sweep over clipping parameter C
+    # TODO: early stopping doesn't work
     wann = WANN(task=model,
                 weighter=model,
                 Xt=tr_x,
-                yt=tr_y)
+                yt=tr_y,
+                C=1.)
 
     metrics = [tf.keras.metrics.RootMeanSquaredError(name='root_mean_squared_error'),
                tf.keras.metrics.MeanAbsoluteError(name='mae'),
