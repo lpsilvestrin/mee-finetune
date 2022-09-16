@@ -106,6 +106,7 @@ def train_wann_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
         monitor="loss",
         patience=config.early_stop_patience,
         mode="min",
+        min_delta=1e-5,
         restore_best_weights=True,
     )
 
