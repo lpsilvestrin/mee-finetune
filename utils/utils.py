@@ -14,7 +14,7 @@ def evaluate(x, y, model, metrics):
     return result
 
 
-def build_mlp(nb_features: int, nb_out: int, config: DictConfig):
+def build_mlp(nb_features: int, nb_out: int, config: DictConfig, last_activation: str = 'linear') -> Model:
     if isinstance(config.hidden, DictConfig) or isinstance(config.hidden, dict):
         hidden = [config.hidden.units for _ in range(config.hidden.n)]
     else:
@@ -33,6 +33,6 @@ def build_mlp(nb_features: int, nb_out: int, config: DictConfig):
         Dropout(config.dropout_rate)(m)
 
     m = Dense(nb_out,
-              activation='linear',
+              activation=last_activation,
               kernel_regularizer=l2_reg)(m)
     return Model(inputs=[i], outputs=[m])

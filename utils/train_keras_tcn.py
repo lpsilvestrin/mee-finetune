@@ -28,7 +28,12 @@ def r2_keras(y_true, y_pred):
     return (1 - SS_res / (SS_tot + K.epsilon()))
 
 
-def build_tcn_from_config(nb_features: int, nb_steps: int, nb_out: int, config: DictConfig):
+def build_tcn_from_config(
+        nb_features: int,
+        nb_steps: int,
+        nb_out: int,
+        config: DictConfig,
+        last_activation: str = 'linear') -> Model:
     i = Input(shape=(nb_steps, nb_features))
 
     return_sequences = True if config.tcn2 else False
@@ -49,7 +54,7 @@ def build_tcn_from_config(nb_features: int, nb_steps: int, nb_out: int, config: 
                 kernel_regularizer=l2_reg,
                 return_sequences=False)(m)
     m = Dense(nb_out,
-              activation='linear',
+              activation=last_activation,
               kernel_regularizer=l2_reg)(m)
     return Model(inputs=[i], outputs=[m])
 
