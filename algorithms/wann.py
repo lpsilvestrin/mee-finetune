@@ -47,7 +47,8 @@ def train_wann(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
     wann = WANN(task=task_model,
                 weighter=weighter_model,
                 Xt=tr_x,
-                yt=tr_y)
+                yt=tr_y,
+                C=config.C)
 
     metrics = [tf.keras.metrics.RootMeanSquaredError(name='root_mean_squared_error'),
                tf.keras.metrics.MeanAbsoluteError(name='mae'),
