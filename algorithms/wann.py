@@ -54,6 +54,7 @@ def train_wann(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
                 Xt=tr_x,
                 yt=tr_y,
                 C=config.C,
+                pretrain=config.pre_train,
                 loss=mlp_config.loss_function,
                 optimizer=opt,
                 metrics={'disc': [], 'task': metrics})
@@ -105,11 +106,10 @@ def train_wann_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
     weighter_model = build_tcn_from_config(nb_features, nb_steps, nb_out, config, last_activation='relu')
     task_model = build_tcn_from_config(nb_features, nb_steps, nb_out, config, last_activation='linear')
 
-
     opt = keras.optimizers.Adam(learning_rate=config.learning_rate)
 
     early_stop = keras.callbacks.EarlyStopping(
-        monitor="loss",
+        monitor="val_loss",
         patience=config.early_stop_patience,
         mode="min",
         min_delta=1e-5,
@@ -119,25 +119,27 @@ def train_wann_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
     # callbacks = []
     callbacks = [early_stop]
 
-    # TODO: ensure that the activation of the last layer for the weighter model is a ReLU (last paragraph of section 2 of WANN paper)
-    # TODO: sweep over clipping parameter C
-    # TODO: early stopping doesn't work
-    wann = WANN(task=task_model,
-                weighter=weighter_model,
-                Xt=tr_x,
-                yt=tr_y,
-                C=1.)
-
     metrics = [tf.keras.metrics.RootMeanSquaredError(name='root_mean_squared_error'),
                tf.keras.metrics.MeanAbsoluteError(name='mae'),
                tf.keras.metrics.MeanSquaredError(name='loss')]
 
-    wann.compile(loss=config.loss_function, optimizer=opt, metrics={'disc': [], 'task': metrics})
+    # wann.compile(loss=config.loss_function, optimizer=opt, metrics={'disc': [], 'task': metrics})
+
+    wann = WANN(task=task_model,
+                weighter=weighter_model,
+                Xt=tr_x,
+                yt=tr_y,
+                C=config.C,
+                pretrain=config.pre_train,
+                loss=config.loss_function,
+                optimizer=opt,
+                metrics={'disc': [], 'task': metrics})
 
     wann.fit(src_x, src_y,
              epochs=config.epochs,
              batch_size=config.batch_size,
              callbacks=callbacks,
+             validation_data=(val_x, val_y),
              verbose=1)
 
     metrics_names = [m.name for m in metrics]
