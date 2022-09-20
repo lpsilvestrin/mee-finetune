@@ -19,16 +19,21 @@ from utils.utils import evaluate, build_mlp
 def train_tradaboost_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
     run = wandb.init(**wandb_init)
     config = wandb.config
-    src_config = restore_wandb_config(config.src_run_path)
+
+    if 'src_run_path' in config:
+        estim_config = restore_wandb_config(config.src_run_path)
+    else:
+        estim_config = DictConfig(config.estimator)
 
     np.random.seed(config.seed)
     tf.random.set_seed(config.seed)
     random.seed(config.seed)
 
-    if src_config.transpose_input:
+    if estim_config.transpose_input:
         src_x = np.transpose(src_x, (0, 2, 1))
         tar_x = np.transpose(tar_x, (0, 2, 1))
 
+    # TODO: fix memory issues when calling tradaboost.predict
     rand_state = np.random.RandomState(config.seed)
     tr_x, val_x, tr_y, val_y = train_test_split(tar_x, tar_y,
                                                 test_size=config.validation_split,
@@ -37,17 +42,15 @@ def train_tradaboost_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
     nb_features = tr_x.shape[2]
     nb_steps = tr_x.shape[1]
     nb_out = 1
-    src_config.tcn2 = False
-    src_config.tcn.nb_filters = 4
-    src_config.tcn.dilations = 1
-    model = build_tcn_from_config(nb_features, nb_steps, nb_out, src_config)
 
-    opt = keras.optimizers.Adam(lr=src_config.learning_rate)
-    model.compile(loss=src_config.loss_function, optimizer=opt)
+    model = build_tcn_from_config(nb_features, nb_steps, nb_out, estim_config)
+
+    opt = keras.optimizers.Adam(learning_rate=estim_config.learning_rate)
+    model.compile(loss=estim_config.loss_function, optimizer=opt)
 
     early_stop = keras.callbacks.EarlyStopping(
-        monitor="loss",
-        patience=src_config.early_stop_patience,
+        monitor="val_loss",
+        patience=estim_config.early_stop_patience,
         mode="min",
         restore_best_weights=True,
     )
@@ -72,9 +75,10 @@ def train_tradaboost_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
                                       random_state=config.seed)
 
     tradaboost.fit(src_x, src_y,
-                   epochs=src_config.epochs,
-                   batch_size=src_config.batch_size,
+                   epochs=estim_config.epochs,
+                   batch_size=estim_config.batch_size,
                    callbacks=callbacks,
+                   validation_data=(val_x, val_y),
                    verbose=1)
 
     metrics = [tf.keras.metrics.RootMeanSquaredError(name='root_mean_squared_error'),
@@ -88,7 +92,7 @@ def train_tradaboost_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
 
     for key, t_set in test_sets.items():
         tst_x, tst_y = t_set
-        if src_config.transpose_input:
+        if estim_config.transpose_input:
             tst_x = np.transpose(tst_x, (0, 2, 1))
         result = evaluate(tst_x, tst_y, tradaboost, metrics)
         test_metric_names = [key + "/" + n for n in metrics_names]
