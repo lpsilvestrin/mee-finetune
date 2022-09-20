@@ -5,13 +5,15 @@ from utils.nasa_data_preprocess import load_preproc_data
 
 def sweep_wann_tcn():
     config = dict(
-        learning_rate=1e-3,
+        C=0.1,
+        pre_train=False,
+        learning_rate=1e-4,
         dropout_rate=0.1,
         loss_function='mse',
         epochs=4,
         batch_size=64,
         validation_split=0.1,
-        early_stop_patience=15,
+        early_stop_patience=2,
         seed=4,
         tcn=dict(dilations=2,
                  filters=128),

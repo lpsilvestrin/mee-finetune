@@ -10,10 +10,10 @@ def sweep_vanilla_wann():
         # seed=list(range(5)),
         seed=4,
         mlp=dict(
-          learning_rate=0.001,
+          learning_rate=1e-3,
           epochs=20,
           batch_size=64,
-          early_stop_patience=15,
+          early_stop_patience=4,
           hidden=dict(
               n=2,
               units=100
@@ -24,7 +24,8 @@ def sweep_vanilla_wann():
         ),
         # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
         train_dataset='tar1',
-        C=0.5
+        C=0.5,
+        pre_train=True
     )
 
     wandb_init = dict(
