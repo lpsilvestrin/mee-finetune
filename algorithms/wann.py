@@ -35,9 +35,10 @@ def train_wann(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
     opt = keras.optimizers.Adam(learning_rate=mlp_config.learning_rate)
 
     early_stop = keras.callbacks.EarlyStopping(
-        monitor="loss",
+        monitor="val_loss",
         patience=mlp_config.early_stop_patience,
         mode="min",
+        min_delta=1e-5,
         restore_best_weights=True,
     )
 
@@ -61,7 +62,8 @@ def train_wann(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
              epochs=mlp_config.epochs,
              batch_size=mlp_config.batch_size,
              callbacks=callbacks,
-             verbose=1)
+             verbose=1,
+             validation_data=(val_x, val_y))
 
     metrics_names = [m.name for m in metrics]
 
