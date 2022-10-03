@@ -69,7 +69,7 @@ class TCN_base(nn.Module):
         return self.fc(res[:,:,-1].squeeze(-1))
 
 
-def build_tcn_from_config(
+def build_tcn(
         nb_features: int,
         nb_out: int,
         config: DictConfig) -> nn.Module:
@@ -97,7 +97,7 @@ def train_tcn(train_x, train_y, test_sets, wandb_init):
     nb_steps = train_x.shape[1]
     nb_out = 1
 
-    model = build_tcn_from_config(nb_features, nb_steps, nb_out, config)
+    model = build_tcn(nb_features, nb_steps, nb_out, config)
 
     adam_opt = keras.optimizers.Adam(learning_rate=config.learning_rate)
     # adam_opt = 'adam'
