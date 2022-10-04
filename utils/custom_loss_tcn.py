@@ -50,7 +50,8 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
             with tf.GradientTape() as tape:
                 y_pred = self(x, training=True)  # Forward pass
                 # Compute our own loss
-                loss, hx, hy, hxy = loss_fn(x, y_pred, y, config.loss_function)
+                # loss, hx, hy, hxy = loss_fn(x, y_pred, y, config.loss_function)
+                loss = loss_fn(x, y_pred, y, config.loss_function)
                 # loss = keras.losses.mean_squared_error(y, y_pred)
             # Compute gradients
             trainable_vars = self.trainable_variables
@@ -183,7 +184,7 @@ def calculate_MI(x: tf.Tensor, y: tf.Tensor, s_x: float, s_y: float):
     Hxy = joint_entropy(x, y, s_x, s_y)
     Ixy = Hx + Hy - Hxy
     normalize = Ixy / (tf.maximum(Hx, Hy) + 1e-16)
-    return normalize, Hx, Hy, Hxy
+    return normalize#, Hx, Hy, Hxy
 
 
 def GaussianKernelMatrix(x: tf.Tensor, sigma: float):
