@@ -164,6 +164,23 @@ def load_preproc_data(name='src'):
     return np.load(filename)
 
 
+def normalize_label(y, mode='in'):
+    """
+    normalize the labels based on the mean and std of the source training data labels
+    Args:
+        y: labels
+        mode:   in - normalize the labels
+                out - rescale and shift the model output to match the real label distribution
+
+    Returns:
+
+    """
+    if mode == 'in':
+        return (y - 95.672325) / 63.0819
+    else:
+        return (y * 63.0819) + 95.672325
+
+
 if __name__ == '__main__':
     # train, test = load(4)
     # print("train:", train.groupby('id')["cycle"].max().min())
