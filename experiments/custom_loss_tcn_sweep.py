@@ -7,22 +7,22 @@ from utils.nasa_data_preprocess import load_preproc_data
 
 def sweep_custom_tcn():
     # best TCN hyperparameters found using the source dataset
-    config = dict(learning_rate=1e-6,
+    config = dict(learning_rate=1e-3,
                   dropout_rate=0.1,
-                  loss_function='MI',
+                  loss_function='MEE',
                   epochs=4,
                   batch_size=64,
                   validation_split=0.1,
                   early_stop_patience=15,
                   # seed=list(range(5)),
-                  seed=4,
+                  seed=3,
                   tcn=dict(dilations=2,
                            filters=128),
                   tcn2=True,
                   kernel_size=3,
                   transpose_input=True,
-                  save_model=False,
-                  l2_reg=1e-2,
+                  save_model=True,
+                  l2_reg=0.01,
                   # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
                   train_dataset='src')
 
