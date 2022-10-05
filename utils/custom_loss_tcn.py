@@ -35,9 +35,6 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     model = build_tcn_from_config(nb_features, nb_steps, nb_out, config)
 
     loss_tracker = keras.metrics.Mean(name="loss")
-    # tckr1 = keras.metrics.Mean(name="loss")
-    # tckr2 = keras.metrics.Mean(name="loss")
-    # tckr3 = keras.metrics.Mean(name="loss")
 
     class CustomLossModel(keras.Model):
         """
@@ -50,28 +47,29 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
             with tf.GradientTape() as tape:
                 y_pred = self(x, training=True)  # Forward pass
                 # Compute our own loss
-                # loss, hx, hy, hxy = loss_fn(x, y_pred, y, config.loss_function)
                 loss = loss_fn(x, y_pred, y, config.loss_function)
-                # loss = keras.losses.mean_squared_error(y, y_pred)
             # Compute gradients
             trainable_vars = self.trainable_variables
             gradients = tape.gradient(loss, trainable_vars)
+
+            print()
+            print(f"%%%%%%%%%%%%%% step {self.step_counter}")
+            print(f"loss: {loss}")
+            print(f"grad min: {tf.reduce_min(gradients[0])}")
+            print(f"grad max: {tf.reduce_max(gradients[0])}")
+            print(f"grad mean: {tf.reduce_mean(gradients[0])}")
+            print(f"mae: {tf.reduce_mean(tf.abs(y_pred - y))}")
+            self.step_counter += 1
 
             # Update weights
             self.optimizer.apply_gradients(zip(gradients, trainable_vars))
 
             # Compute our own metrics
             loss_tracker.update_state(loss)
-            # tckr1.update_state(hx)
-            # tckr2.update_state(hxy)
-            # tckr3.update_state(hy)
 
             self.compiled_metrics.update_state(y, y_pred)
             result = {m.name: m.result() for m in self.metrics}
             result['loss'] = loss_tracker.result()
-            # result['hx'] = tckr1.result()
-            # result['hxy'] = tckr2.result()
-            # result['hy'] = tckr3.result()
 
             return result
 
@@ -91,12 +89,13 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
 
     # Construct an instance of CustomModel
     model = CustomLossModel(model.inputs, model.outputs)
+    model.step_counter = 0
 
     adam_opt = keras.optimizers.Adam(learning_rate=config.learning_rate)
     # adam_opt = 'adam'
     # rmse = tf.keras.metrics.RootMeanSquaredError(name='root_mean_squared_error')
     # mse = tf.keras.metrics.MeanSquaredError(name='mse')
-    model.compile(optimizer=adam_opt, metrics=['mae', 'mse'])
+    model.compile(optimizer=adam_opt, metrics=['mae', 'mse'], run_eagerly=True)
 
     early_stop = keras.callbacks.EarlyStopping(
         monitor="val_mse",
@@ -184,7 +183,8 @@ def calculate_MI(x: tf.Tensor, y: tf.Tensor, s_x: float, s_y: float):
     Hxy = joint_entropy(x, y, s_x, s_y)
     Ixy = Hx + Hy - Hxy
     normalize = Ixy / (tf.maximum(Hx, Hy) + 1e-16)
-    return normalize#, Hx, Hy, Hxy
+    return normalize
+    # return Ixy
 
 
 def GaussianKernelMatrix(x: tf.Tensor, sigma: float):
@@ -225,9 +225,9 @@ def loss_fn(inputs, outputs, targets, name):
     if name == 'mse':
         loss = keras.losses.mean_squared_error(targets, outputs)
     if name == 'HSIC':
-        loss = HSIC(inputs_2d, error, s_x=22, s_y=1)
+        loss = HSIC(inputs_2d, error, s_x=2, s_y=1)
     if name == 'MI':
-        loss = calculate_MI(inputs_2d, error, s_x=22, s_y=1)
+        loss = calculate_MI(inputs_2d, error, s_x=2, s_y=1)
     if name == 'MEE':
         loss = reyi_entropy(error, sigma=1)
 
