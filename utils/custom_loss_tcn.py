@@ -36,6 +36,10 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
 
     loss_tracker = keras.metrics.Mean(name="loss")
 
+    debug_mode = False
+    if 'debug_mode' in config:
+        debug_mode = config.debug_mode
+
     class CustomLossModel(keras.Model):
         """
         based on the CustomModel class from:
@@ -52,14 +56,15 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
             trainable_vars = self.trainable_variables
             gradients = tape.gradient(loss, trainable_vars)
 
-            print()
-            print(f"%%%%%%%%%%%%%% step {self.step_counter}")
-            print(f"loss: {loss}")
-            print(f"grad min: {tf.reduce_min(gradients[0])}")
-            print(f"grad max: {tf.reduce_max(gradients[0])}")
-            print(f"grad mean: {tf.reduce_mean(gradients[0])}")
-            print(f"mae: {tf.reduce_mean(tf.abs(y_pred - y))}")
-            self.step_counter += 1
+            if debug_mode:
+                print()
+                print(f"%%%%%%%%%%%%%% step {self.step_counter}")
+                print(f"loss: {loss}")
+                print(f"grad min: {tf.reduce_min(gradients[0])}")
+                print(f"grad max: {tf.reduce_max(gradients[0])}")
+                print(f"grad mean: {tf.reduce_mean(gradients[0])}")
+                print(f"mae: {tf.reduce_mean(tf.abs(y_pred - y))}")
+                self.step_counter += 1
 
             # Update weights
             self.optimizer.apply_gradients(zip(gradients, trainable_vars))
@@ -95,7 +100,7 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     # adam_opt = 'adam'
     # rmse = tf.keras.metrics.RootMeanSquaredError(name='root_mean_squared_error')
     # mse = tf.keras.metrics.MeanSquaredError(name='mse')
-    model.compile(optimizer=adam_opt, metrics=['mae', 'mse'], run_eagerly=True)
+    model.compile(optimizer=adam_opt, metrics=['mae', 'mse'], run_eagerly=debug_mode)
 
     early_stop = keras.callbacks.EarlyStopping(
         monitor="val_mse",
