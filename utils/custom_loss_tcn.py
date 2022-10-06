@@ -26,7 +26,7 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     tr_x, val_x, tr_y, val_y = train_test_split(train_x, train_y,
                                                 test_size=config.validation_split,
                                                 random_state=rand_state)
-    tr_y = normalize_label(tr_y, mode='in')
+    tr_y = normalize_label(tr_y, mode='in', trunc=config.trunc_label)
 
     nb_features = train_x.shape[2]
     nb_steps = train_x.shape[1]
@@ -83,7 +83,7 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
             x, y = data
             # Compute predictions
             y_pred = self(x, training=False)
-            y_pred = normalize_label(y_pred, mode='out')
+            y_pred = normalize_label(y_pred, mode='out', trunc=config.trunc_label)
             # Updates the metrics tracking the loss
             # self.compiled_loss(y, y_pred, regularization_losses=self.losses)
             # Update the metrics.

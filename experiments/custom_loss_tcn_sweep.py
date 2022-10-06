@@ -21,10 +21,11 @@ def sweep_custom_tcn():
                   tcn2=True,
                   kernel_size=3,
                   transpose_input=True,
-                  save_model=True,
+                  save_model=False,
                   l2_reg=0.01,
-                  # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
-                  train_dataset='src')
+                  train_dataset='src',
+                  trunc_label=True,
+                  debug_mode=False)
 
     wandb_init = dict(
         project='test2',
@@ -33,27 +34,32 @@ def sweep_custom_tcn():
         config=config
     )
 
-    # grid = list(ParameterGrid(config))
+    wandb.init(**wandb_init)
+    config = wandb.config
+    print(config)
+
+    label_test = 'y_test'
+    label_train = 'y_train'
+    if config.trunc_label:
+        label_test = 'trunc_' + label_test
+        label_train = 'trunc_' + label_train
 
     test_data_dict = dict()
     for name in ["tar1", "tar2", "tar3"]:
         data_dict = load_preproc_data(name=name)
-        test_data_dict[name] = (data_dict['win_x_test'], data_dict['y_test'].reshape(-1,1).astype(np.float32))
+        test_data_dict[name] = (data_dict['win_x_test'], data_dict[label_test].reshape(-1,1).astype(np.float32))
 
-    wandb.init(**wandb_init)
-    config = wandb.config
-    print(config)
     # in case of 2 training sets, concatenate them together
     train_datasets = config['train_dataset'].split('+')
     data_dict = load_preproc_data(name=train_datasets[0])
-    win_x, win_y = data_dict['win_x_train'], data_dict['y_train'].reshape(-1,1).astype(np.float32)
+    win_x, win_y = data_dict['win_x_train'], data_dict[label_train].reshape(-1,1).astype(np.float32)
 
     if len(train_datasets) > 1:
         data_dict = load_preproc_data(name=train_datasets[1])
         win_x = np.concatenate([win_x, data_dict['win_x_train']])
-        win_y = np.concatenate([win_y, data_dict['y_train'].reshape(-1,1).astype(np.float32)])
+        win_y = np.concatenate([win_y, data_dict[label_train].reshape(-1,1).astype(np.float32)])
 
-    test_data_dict["test"] = (data_dict['win_x_test'], data_dict['y_test'].reshape(-1,1).astype(np.float32))
+    test_data_dict["test"] = (data_dict['win_x_test'], data_dict[label_test].reshape(-1,1).astype(np.float32))
 
     wandb_init['config'] = config
     train_custom_loss_tcn(win_x, win_y, test_data_dict, wandb_init)
