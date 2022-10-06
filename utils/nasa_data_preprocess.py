@@ -180,21 +180,26 @@ def load_preproc_data(name='src'):
     return np.load(filename)
 
 
-def normalize_label(y, mode='in'):
+def normalize_label(y, mode='in', trunc=False):
     """
     normalize the labels based on the mean and std of the source training data labels
     Args:
         y: labels
         mode:   in - normalize the labels
                 out - rescale and shift the model output to match the real label distribution
+        trunc:  whether to normalize using the truncated label statistics or not
 
     Returns:
 
     """
-    if mode == 'in':
-        return (y - 95.672325) / 63.0819
+    if trunc:
+        mean, std = 82.8281596, 43.3697826
     else:
-        return (y * 63.0819) + 95.672325
+        mean, std = 95.672325, 63.0819
+    if mode == 'in':
+        return (y - mean) / std
+    else:
+        return (y * std) + mean
 
 
 if __name__ == '__main__':
