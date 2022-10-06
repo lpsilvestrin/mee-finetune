@@ -132,6 +132,20 @@ def extract_manual_features(window_dataset):
     return np.concatenate([mean_feat, std_feat, max_feat, min_feat], axis=1)
 
 
+def truncate_labels(y):
+    """
+    truncate the labels at 130 steps. according to the following article (section 4.2.3), it's the most common
+    truncation value in all related work
+    https://www.sciencedirect.com/science/article/pii/S0951832018307506
+    Args:
+        y:
+
+    Returns:
+
+    """
+    return np.min([y, 130*np.ones(len(y))], axis=0)
+
+
 def save_tl_datasets():
     """
     loads and preprocess the 4 training cmapss datasets into time windows and manual features
@@ -150,9 +164,11 @@ def save_tl_datasets():
                  win_x_train=tr_x,
                  man_x_train=extract_manual_features(tr_x),
                  y_train=tr_y,
+                 trunc_y_train=truncate_labels(tr_y),
                  win_x_test=tst_x,
                  man_x_test=extract_manual_features(tst_x),
-                 y_test=tst_y)
+                 y_test=tst_y,
+                 trunc_y_test=truncate_labels(tst_y))
 
 
 def load_preproc_data(name='src'):
