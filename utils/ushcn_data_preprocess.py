@@ -87,8 +87,8 @@ def convert_all_to_pandas(target_dir="./"):
         to_pandas(os.path.join(target_dir, state_dir))
 
 
-def clean_and_subsample():
-    df = pd.read_csv("daily_merged.csv")
+def clean_and_subsample(target_dir="./"):
+    df = pd.read_csv(os.path.join(target_dir, "daily_merged.csv"))
     print(f"Loaded df. Number of observations : {df.shape[0]}")
     # Remove NaNs
     df.drop(df.loc[df.VALUE.isna()].index, inplace=True)
@@ -171,15 +171,15 @@ def clean_and_subsample():
     sample_df["TIME_STAMP"] = 2500 * sample_df.DAYS_FROM_1950 / sample_df.DAYS_FROM_1950.max()
     sample_df["TIME_STAMP"] = sample_df["TIME_STAMP"].round(1)
 
-    sample_df.to_csv("cleaned_and_subsampled_df.csv", index=False)
+    sample_df.to_csv(os.path.join(target_dir, "cleaned_and_subsampled_df.csv"), index=False)
 
     # Save dict.
-    np.save("centers_id_mapping.npy", unique_map)
-    np.save("label_id_mapping.npy", label_map)
+    np.save(os.path.join(target_dir, "centers_id_mapping.npy"), unique_map)
+    np.save(os.path.join(target_dir, "label_id_mapping.npy"), label_map)
 
 
-def make_fit_for_gru_ode():
-    df = pd.read_csv("cleaned_and_subsampled_df.csv")
+def make_fit_for_gru_ode(target_dir="./"):
+    df = pd.read_csv(os.path.join(target_dir, "cleaned_and_subsampled_df.csv"))
     unique_centers = df["UNIQUE_ID"].unique()
     nunique_labels = df["LABEL"].nunique()
     labels_col_names = ["Value_" + str(n) for n in np.sort(df["LABEL"].unique())]
@@ -200,11 +200,11 @@ def make_fit_for_gru_ode():
             entry[idx_time, 1] = time
             entry[idx_time, 0] = center
         df_new = df_new.append(pd.DataFrame(entry, columns=col))
-    df_new.to_csv(f"daily_sporadic.csv", index=False)
+    df_new.to_csv(os.path.join(target_dir, f"daily_sporadic.csv"), index=False)
 
 
-def chunk_series():
-    df = pd.read_csv("daily_sporadic.csv")
+def chunk_series(target_dir="./"):
+    df = pd.read_csv(os.path.join(target_dir, "daily_sporadic.csv"))
     df["initial_cent"] = df.ID
     num_centers = df.ID.nunique()
     max_id = df.ID.max()
@@ -224,7 +224,7 @@ def chunk_series():
     assert df_clean.loc[df_clean.Time > 75, "ID"].nunique() == df_clean.ID.nunique()
     df_clean[
         ['ID', 'Time', 'Value_0', 'Value_1', 'Value_2', 'Value_3', 'Value_4', 'Mask_0', 'Mask_1', 'Mask_2', 'Mask_3',
-         'Mask_4']].to_csv("chunked_sporadic.csv", index=False)
+         'Mask_4']].to_csv(os.path.join(target_dir, "chunked_sporadic.csv"), index=False)
 
     df_small = df.loc[df.Time >= 2300].copy()
     df_small.Time = df_small.Time - 2300
@@ -234,13 +234,14 @@ def chunk_series():
     df_clean_small = df_small.loc[df_small.ID.isin(valid_list)]
     df_clean_small[
         ['ID', 'Time', 'Value_0', 'Value_1', 'Value_2', 'Value_3', 'Value_4', 'Mask_0', 'Mask_1', 'Mask_2', 'Mask_3',
-         'Mask_4']].to_csv("small_chunked_sporadic.csv", index=False)
+         'Mask_4']].to_csv(os.path.join(target_dir, "small_chunked_sporadic.csv"), index=False)
 
 
 if __name__ == "__main__":
-    # convert_all_to_pandas("../Data/ushcn/ftp/ushcn_daily/")
-    merge_dfs("../Data/ushcn/ftp/ushcn_daily/")
-    # clean_and_subsample()
-    # make_fit_for_gru_ode()
-    # chunk_series()
+    data_dir = "../Data/ushcn/ftp/ushcn_daily/"
+    # convert_all_to_pandas(data_dir)
+    # merge_dfs(data_dir)
+    clean_and_subsample(data_dir)
+    make_fit_for_gru_ode(data_dir)
+    chunk_series(data_dir)
 
