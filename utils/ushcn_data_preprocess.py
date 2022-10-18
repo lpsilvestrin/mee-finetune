@@ -67,14 +67,14 @@ def merge_dfs(target_dir="./"):
     df_list = []
     for state_csv in state_csv_list:
         print(f"Loading dataframe for state : {state_csv[:-4]}")
-        df_temp = pd.read_csv(state_csv)
+        df_temp = pd.read_csv(os.path.join(target_dir, state_csv))
         df_temp.insert(0, "STATE", state_csv[-6:-4])
         df_list.append(df_temp)
     print("All dataframes are loaded")
     # Merge all datasets:
     print("Concat all ...")
     df = pd.concat(df_list)
-    df.to_csv("daily_merged.csv", index=False)
+    df.to_csv(os.path.join(target_dir, "daily_merged.csv"), index=False)
 
 
 def convert_all_to_pandas(target_dir="./"):
@@ -238,7 +238,7 @@ def chunk_series():
 
 
 if __name__ == "__main__":
-    convert_all_to_pandas("../Data/ushcn/ftp/ushcn_daily/")
+    # convert_all_to_pandas("../Data/ushcn/ftp/ushcn_daily/")
     merge_dfs("../Data/ushcn/ftp/ushcn_daily/")
     # clean_and_subsample()
     # make_fit_for_gru_ode()
