@@ -118,7 +118,8 @@ def train_and_log_baselines():
                   save_model=False,
                   l2_reg=1e-2,
                   # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
-                  train_dataset='src')
+                  train_dataset='src',
+                  test_dataset=['tar1', 'tar2', 'tar3'])
 
     wandb_init = dict(
         project='test2',
@@ -127,16 +128,15 @@ def train_and_log_baselines():
         config=config
     )
 
-    # grid = list(ParameterGrid(config))
-
-    test_data_dict = dict()
-    for name in ["tar1", "tar2", "tar3"]:
-        data_dict = load_preproc_data(name=name)
-        test_data_dict[name] = (data_dict['win_x_test'], data_dict['y_test'].reshape(-1,1))
-
     wandb.init(**wandb_init)
     config = wandb.config
     print(config)
+
+    test_data_dict = dict()
+    for name in config.test_dataset:
+        data_dict = load_preproc_data(name=name)
+        test_data_dict[name] = (data_dict['win_x_test'], data_dict['y_test'].reshape(-1,1))
+
     # in case of 2 training sets, concatenate them together
     train_datasets = config['train_dataset'].split('+')
     data_dict = load_preproc_data(name=train_datasets[0])
