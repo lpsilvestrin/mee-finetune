@@ -2,7 +2,7 @@ import numpy as np
 import wandb
 
 from utils.custom_loss_tcn import train_custom_loss_tcn
-from utils.nasa_data_preprocess import load_preproc_data
+from utils.datasets import load_preproc_data
 
 
 def sweep_custom_tcn():

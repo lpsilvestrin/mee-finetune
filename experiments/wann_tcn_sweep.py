@@ -1,6 +1,6 @@
 import wandb
 from algorithms.wann import train_wann_tcn
-from utils.nasa_data_preprocess import load_preproc_data
+from utils.datasets import load_preproc_data
 
 
 def sweep_wann_tcn():

@@ -1,6 +1,6 @@
 import numpy as np
 
-from utils.nasa_data_preprocess import load_preproc_data
+from utils.datasets import load_preproc_data
 
 import wandb
 
@@ -118,7 +118,7 @@ def train_and_log_baselines():
                   save_model=False,
                   l2_reg=1e-2,
                   # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
-                  train_dataset='src+tar1')
+                  train_dataset='src')
 
     wandb_init = dict(
         project='test2',

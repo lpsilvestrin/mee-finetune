@@ -1,7 +1,7 @@
 import wandb
 
 from algorithms.wann import train_wann
-from utils.nasa_data_preprocess import load_preproc_data
+from utils.datasets import load_preproc_data
 
 
 def sweep_vanilla_wann():

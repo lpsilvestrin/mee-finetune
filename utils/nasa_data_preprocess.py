@@ -171,15 +171,6 @@ def save_tl_datasets():
                  trunc_y_test=truncate_labels(tst_y))
 
 
-def load_preproc_data(name='src'):
-    names_dict = {'src': '1',
-                  'tar1': '2',
-                  'tar2': '3',
-                  'tar3': '4'}
-    filename = '../Data/df'+names_dict[name]+'/preproc_dataset.npz'
-    return np.load(filename)
-
-
 def normalize_label(y, mode='in', trunc=False):
     """
     normalize the labels based on the mean and std of the source training data labels
