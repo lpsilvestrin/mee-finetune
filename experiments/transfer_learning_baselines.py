@@ -26,9 +26,10 @@ def train_and_log_tl_baselines():
                   save_model=False,
                   last_layer=True,
                   l2_reg=1e-5,
-                  src_run_path='transfer-learning-tcn/non_tl_baselines/jf791kuq',
+                  src_run_path='transfer-learning-tcn/non_tl_baselines/gkpu5m0u',
                   # train_dataset=['src', 'tar1', 'tar2', 'tar3'])
-                  train_dataset='tar1')
+                  train_dataset='tar1',
+                  test_dataset=['tar1', 'tar2', 'tar3'])
 
     wandb_init = dict(
         project='test2',
@@ -37,16 +38,15 @@ def train_and_log_tl_baselines():
         config=config
     )
 
-    # grid = list(ParameterGrid(config))
-
-    test_data_dict = dict()
-    for name in ["tar1", "tar2", "tar3"]:
-        data_dict = load_preproc_data(name=name)
-        test_data_dict[name] = (data_dict['win_x_test'], data_dict['y_test'].reshape(-1,1))
-
     wandb.init(**wandb_init)
     config = wandb.config
     print(config)
+
+    test_data_dict = dict()
+    for name in config.test_dataset:
+        data_dict = load_preproc_data(name=name)
+        test_data_dict[name] = (data_dict['win_x_test'], data_dict['y_test'].reshape(-1,1))
+
     data_dict = load_preproc_data(name=config['train_dataset'])
     test_data_dict["test"] = (data_dict['win_x_test'], data_dict['y_test'].reshape(-1,1))
     win_x, win_y = data_dict['win_x_train'], data_dict['y_train'].reshape(-1,1)
