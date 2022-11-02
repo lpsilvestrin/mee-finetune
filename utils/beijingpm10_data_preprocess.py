@@ -42,10 +42,15 @@ def save_tl_datasets(path="../Data/"):
     dsid = "BeijingPM10Quality"
 
     X, y, _ = get_Monash_regression_data(dsid, path=path, split_data=False)
+
+    # remove nans
+    nan_idx = np.any(np.isnan(X), axis=(1,2))
+    X, y = X[~nan_idx], y[~nan_idx]
+
     src_x, src_y = X[:5000, :, :], y[:5000]
-    tar_x, tar_y = X[-5000:, :, :], y[-5000:]
+    tar_x, tar_y = X[-1200:, :, :], y[-1200:]
     src = train_test_split(src_x, src_y, test_size=1000, shuffle=False)
-    tar = train_test_split(tar_x, tar_y, test_size=4500, shuffle=False)
+    tar = train_test_split(tar_x, tar_y, test_size=1000, shuffle=False)
 
     preproc_dfs = [('src', src), ('tar', tar)]
     for name, dfs in preproc_dfs:
