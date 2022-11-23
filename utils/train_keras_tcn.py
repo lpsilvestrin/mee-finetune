@@ -29,12 +29,12 @@ def r2_keras(y_true, y_pred):
 
 
 def build_tcn_from_config(
-        nb_features: int,
-        nb_steps: int,
+        input_shape: tuple,
         nb_out: int,
         config: DictConfig,
         last_activation: str = 'linear') -> Model:
-    i = Input(shape=(nb_steps, nb_features))
+    # shape should be (nb_steps, nb_features) for keras tcn
+    i = Input(shape=input_shape)
 
     return_sequences = True if config.tcn2 else False
     dilations = np.exp2(np.arange(config.tcn['dilations'])).astype('int').tolist()
@@ -75,11 +75,9 @@ def train_tcn(train_x, train_y, test_sets, wandb_init):
                                                 test_size=config.validation_split,
                                                 random_state=rand_state)
 
-    nb_features = train_x.shape[2]
-    nb_steps = train_x.shape[1]
     nb_out = 1
 
-    model = build_tcn_from_config(nb_features, nb_steps, nb_out, config)
+    model = build_tcn_from_config(train_x.shape[1:], nb_out, config)
 
     adam_opt = keras.optimizers.Adam(learning_rate=config.learning_rate)
     # adam_opt = 'adam'
@@ -158,11 +156,9 @@ def finetune_tcn(train_x, train_y, test_sets, wandb_init):
                                                 test_size=config.validation_split,
                                                 random_state=rand_state)
 
-    nb_features = train_x.shape[2]
-    nb_steps = train_x.shape[1]
     nb_out = 1
 
-    model = build_tcn_from_config(nb_features, nb_steps, nb_out, src_config)
+    model = build_tcn_from_config(train_x.shape[1:], nb_out, src_config)
     model.load_weights(src_weight_file.name)
 
     if config.last_layer:

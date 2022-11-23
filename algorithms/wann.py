@@ -100,11 +100,9 @@ def train_wann_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
                                                 test_size=config.validation_split,
                                                 random_state=rand_state)
 
-    nb_features = tar_x.shape[2]
-    nb_steps = tar_x.shape[1]
     nb_out = 1
-    weighter_model = build_tcn_from_config(nb_features, nb_steps, nb_out, config, last_activation='relu')
-    task_model = build_tcn_from_config(nb_features, nb_steps, nb_out, config, last_activation='linear')
+    weighter_model = build_tcn_from_config(tar_x.shape[1:], nb_out, config, last_activation='relu')
+    task_model = build_tcn_from_config(tar_x.shape[1:], nb_out, config, last_activation='linear')
 
     opt = keras.optimizers.Adam(learning_rate=config.learning_rate)
 
