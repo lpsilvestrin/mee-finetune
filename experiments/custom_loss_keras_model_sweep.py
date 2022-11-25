@@ -5,7 +5,7 @@ from utils.custom_loss_keras_model import train_custom_loss_tcn
 from utils.datasets import load_preproc_data
 
 
-def sweep_custom_tcn():
+def sweep_custom_keras_model():
     # best TCN hyperparameters found using the source dataset
     # config = dict(
     #     learning_rate=1e-4,
@@ -46,12 +46,12 @@ def sweep_custom_tcn():
         hidden=[100, 20],
         transpose_input=False,
         save_model=False,
-        l2_reg=0.01,
+        l2_reg=1e-6,
         train_dataset='src',
-        test_dataset=['tar1'],
+        test_dataset=[],
         trunc_label=False,
         debug_mode=False,
-        input_type='c22',
+        input_type='man',
         model_type='mlp'
     )
 
@@ -116,4 +116,4 @@ def tr(x):
 
 
 if __name__ == '__main__':
-    sweep_custom_tcn()
+    sweep_custom_keras_model()
