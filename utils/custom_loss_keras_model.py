@@ -245,6 +245,6 @@ def loss_fn(inputs, outputs, targets, name):
     if name == 'MI':
         loss = calculate_MI(inputs_2d, error, s_x=2, s_y=1)
     if name == 'MEE':
-        loss = reyi_entropy(error, sigma=2)
+        loss = reyi_entropy(error, sigma=1)
 
     return loss
