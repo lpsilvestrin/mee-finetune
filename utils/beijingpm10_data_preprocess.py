@@ -6,14 +6,14 @@ from sklearn.preprocessing import MinMaxScaler
 
 from tsai.data.external import get_Monash_regression_data
 
-from nasa_data_preprocess import extract_manual_features
+from utils import catch22, extract_manual_features
 
 
 def load_train(data_path="/home/luis/datasets/beijing_air_quality/"):
     X, y, _ = get_Monash_regression_data("BeijingPM10Quality", path="", split_data=False)
 
 
-def preprocess_date(x_train, x_test, y_train, y_test, scaler=None):
+def preprocess_data(x_train, x_test, y_train, y_test, scaler=None):
     # flatten windows
     _, channels, win_size = x_train.shape
     x_train = x_train.transpose(0,2,1).reshape(-1, channels)
@@ -53,14 +53,18 @@ def save_tl_datasets(path="../Data/"):
     tar = train_test_split(tar_x, tar_y, test_size=1000, shuffle=False)
 
     preproc_dfs = [('src', src), ('tar', tar)]
+    c22_drop_cols = None
     for name, dfs in preproc_dfs:
-        tr_x, tst_x, tr_y, tst_y = preprocess_date(*dfs)
+        tr_x, tst_x, tr_y, tst_y = preprocess_data(*dfs)
+        c22_tr, c22_tst, c22_cols = catch22(tr_x.transpose(0, 2, 1), tst_x.transpose(0, 2, 1), c22_drop_cols)
         np.savez(os.path.join(path, dsid, f"{name}.npz"),
                  win_x_train=tr_x,
                  man_x_train=extract_manual_features(tr_x.transpose(0, 2, 1)),
+                 c22_x_train=c22_tr,
                  y_train=tr_y,
                  win_x_test=tst_x,
                  man_x_test=extract_manual_features(tst_x.transpose(0, 2, 1)),
+                 c22_x_test=c22_tst,
                  y_test=tst_y)
 
 

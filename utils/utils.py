@@ -1,7 +1,9 @@
 import keras
+import numpy as np
 from keras import Model, Input
 from omegaconf import DictConfig
 from keras.layers import Dense, Dropout
+from sktime.transformations.panel.catch22 import Catch22
 
 
 def evaluate(x, y, model, metrics):
@@ -36,3 +38,46 @@ def build_mlp(nb_features: int, nb_out: int, config: DictConfig, last_activation
               activation=last_activation,
               kernel_regularizer=l2_reg)(m)
     return Model(inputs=[i], outputs=[m])
+
+
+def catch22(tr_x, tst_x, drop_cols=None):
+    """
+    expects inputs in the shape (samples, features, steps)
+    Args:
+        tr_x:
+        tst_x:
+        drop_cols:
+
+    Returns:
+
+    """
+    c22 = Catch22(n_jobs=8)
+    c22_tr = np.array(c22.fit_transform(tr_x))
+    c22_tst = np.array(c22.transform(tst_x))
+
+    if drop_cols is None:
+        nan_cols = np.any(np.isnan(c22_tr), axis=0)
+    else:
+        nan_cols = drop_cols
+
+    c22_tr = c22_tr[:, ~nan_cols]
+    c22_tst = c22_tst[:, ~nan_cols]
+    return c22_tr, c22_tst, nan_cols
+
+
+def extract_manual_features(window_dataset):
+    """
+    given a multivariate time-window dataset, summarize over time all the variables in each window
+    using min, max, mean and std statistics
+    expects input in the format (samples, features, steps)
+    Args:
+        window_dataset:
+
+    Returns:
+
+    """
+    mean_feat = np.mean(window_dataset, axis=2)
+    std_feat = np.std(window_dataset, axis=2)
+    min_feat = np.min(window_dataset, axis=2)
+    max_feat = np.max(window_dataset, axis=2)
+    return np.concatenate([mean_feat, std_feat, max_feat, min_feat], axis=1)
