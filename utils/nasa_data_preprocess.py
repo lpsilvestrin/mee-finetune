@@ -3,8 +3,10 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import os
 
 from sklearn.preprocessing import MinMaxScaler, PowerTransformer
+from sktime.transformations.panel.catch22 import Catch22
 
 from tsai.data.preparation import SlidingWindowPanel
+
 
 def load_train(dataset_id, data_path="/home/luis/Documents/datasets/nasa_turbofan/"):
     """
@@ -146,6 +148,21 @@ def truncate_labels(y):
     return np.min([y, 130*np.ones(len(y))], axis=0)
 
 
+def catch22(tr_x, tst_x, drop_cols=None):
+    c22 = Catch22(n_jobs=8)
+    c22_tr = np.array(c22.fit_transform(tr_x))
+    c22_tst = np.array(c22.transform(tst_x))
+
+    if drop_cols is None:
+        nan_cols = np.any(np.isnan(c22_tr), axis=0)
+    else:
+        nan_cols = drop_cols
+
+    c22_tr = c22_tr[:, ~nan_cols]
+    c22_tst = c22_tst[:, ~nan_cols]
+    return c22_tr, c22_tst, nan_cols
+
+
 def save_tl_datasets():
     """
     loads and preprocess the 4 training cmapss datasets into time windows and manual features
@@ -158,15 +175,20 @@ def save_tl_datasets():
     nb_train_engines = [80, 10, 10, 10]
     preproc_dfs = [preprocess_data(load_train(i+1), nb_train_engines=nb) for i, nb in enumerate(nb_train_engines)]
     # src_tr_x, src_tr_y, src_tst_x, src_tst_y = preprocess_data(src_df, nb_train_engines=80)
+
+    c22_nan_cols = None
     for i, dfs in enumerate(preproc_dfs):
         tr_x, tr_y, tst_x, tst_y = dfs
+        c22_tr, c22_tst, c22_nan_cols = catch22(tr_x, tst_x, c22_nan_cols)
         np.savez("../Data/df"+str(i+1)+"/preproc_dataset.npz",
-                 win_x_train=tr_x,
+                 win_x_train=tr_x.transpose(0, 2, 1),
                  man_x_train=extract_manual_features(tr_x),
+                 c22_x_train=c22_tr,
                  y_train=tr_y,
                  trunc_y_train=truncate_labels(tr_y),
-                 win_x_test=tst_x,
+                 win_x_test=tst_x.transpose(0, 2, 1),
                  man_x_test=extract_manual_features(tst_x),
+                 c22_x_test=c22_tst,
                  y_test=tst_y,
                  trunc_y_test=truncate_labels(tst_y))
 
