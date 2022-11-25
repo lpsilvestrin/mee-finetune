@@ -9,6 +9,7 @@ from wandb.integration.keras import WandbCallback
 
 from utils.nasa_data_preprocess import normalize_label
 from utils.train_keras_tcn import build_tcn_from_config
+from utils.utils import build_mlp
 
 
 def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
@@ -19,81 +20,30 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     tf.random.set_seed(config.seed)
     random.seed(config.seed)
 
-    if config.transpose_input:
-        train_x = np.transpose(train_x, (0, 2, 1))
+    # if config.transpose_input:
+    #     train_x = np.transpose(train_x, (0, 2, 1))
 
     rand_state = np.random.RandomState(config.seed)
     tr_x, val_x, tr_y, val_y = train_test_split(train_x, train_y,
                                                 test_size=config.validation_split,
                                                 random_state=rand_state)
-    tr_y = normalize_label(tr_y, mode='in', trunc=config.trunc_label)
 
-    nb_features = train_x.shape[2]
-    nb_steps = train_x.shape[1]
-    nb_out = 1
+    out_shape = train_y.shape[1]
 
-    model = build_tcn_from_config(nb_features, nb_steps, nb_out, config)
+    in_shape = train_x.shape[1:]
+    if config.model_type == 'tcn':
+        model = build_tcn_from_config(in_shape, out_shape, config)
+    elif config.model_type == 'mlp':
+        model = build_mlp(in_shape, out_shape, config)
 
-    loss_tracker = keras.metrics.Mean(name="loss")
-
-    debug_mode = False
-    if 'debug_mode' in config:
-        debug_mode = config.debug_mode
-
-    class CustomLossModel(keras.Model):
-        """
-        based on the CustomModel class from:
-        https://keras.io/guides/customizing_what_happens_in_fit/#going-lowerlevel
-        """
-        def train_step(self, data):
-            x, y = data
-
-            with tf.GradientTape() as tape:
-                y_pred = self(x, training=True)  # Forward pass
-                # Compute our own loss
-                loss = loss_fn(x, y_pred, y, config.loss_function)
-            # Compute gradients
-            trainable_vars = self.trainable_variables
-            gradients = tape.gradient(loss, trainable_vars)
-
-            if debug_mode:
-                print()
-                print(f"%%%%%%%%%%%%%% step {self.step_counter}")
-                print(f"loss: {loss}")
-                print(f"grad min: {tf.reduce_min(gradients[0])}")
-                print(f"grad max: {tf.reduce_max(gradients[0])}")
-                print(f"grad mean: {tf.reduce_mean(gradients[0])}")
-                print(f"mae: {tf.reduce_mean(tf.abs(y_pred - y))}")
-                self.step_counter += 1
-
-            # Update weights
-            self.optimizer.apply_gradients(zip(gradients, trainable_vars))
-
-            # Compute our own metrics
-            loss_tracker.update_state(loss)
-
-            self.compiled_metrics.update_state(y, y_pred)
-            result = {m.name: m.result() for m in self.metrics}
-            result['loss'] = loss_tracker.result()
-
-            return result
-
-        def test_step(self, data):
-            # Unpack the data
-            x, y = data
-            # Compute predictions
-            y_pred = self(x, training=False)
-            y_pred = normalize_label(y_pred, mode='out', trunc=config.trunc_label)
-            # Updates the metrics tracking the loss
-            # self.compiled_loss(y, y_pred, regularization_losses=self.losses)
-            # Update the metrics.
-            self.compiled_metrics.update_state(y, y_pred)
-            # Return a dict mapping metric names to current value.
-            # Note that it will include the loss (tracked in self.metrics).
-            return {m.name: m.result() for m in self.metrics}
+    debug_mode = config.debug_mode if 'debug_mode' in config else False
 
     # Construct an instance of CustomModel
-    model = CustomLossModel(model.inputs, model.outputs)
+    model = CustomLossModel(
+        model.inputs,
+        model.outputs,
+        custom_loss=config.loss_function,
+        debug_mode=debug_mode)
     model.step_counter = 0
 
     adam_opt = keras.optimizers.Adam(learning_rate=config.learning_rate)
@@ -131,8 +81,8 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
 
     for key, t_set in test_sets.items():
         tst_x, tst_y = t_set
-        if config.transpose_input:
-            tst_x = np.transpose(tst_x, (0, 2, 1))
+        # if config.transpose_input:
+        #     tst_x = np.transpose(tst_x, (0, 2, 1))
         result = model.evaluate(tst_x, tst_y)
         test_metric_names = [key + "/" + n for n in model.metrics_names]
         run.log(dict(zip(test_metric_names, result)))
@@ -140,6 +90,66 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     wandb.finish()
 
     return model
+
+
+class CustomLossModel(keras.Model):
+    """
+    based on the CustomModel class from:
+    https://keras.io/guides/customizing_what_happens_in_fit/#going-lowerlevel
+    """
+    def __init__(self, *args, custom_loss='mse', debug_mode=False, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.loss_tracker = keras.metrics.Mean(name="loss")
+        self.custom_loss = custom_loss
+        self.debug_mode = debug_mode
+
+    def train_step(self, data):
+        x, y = data
+        with tf.GradientTape() as tape:
+            y_pred = self(x, training=True)  # Forward pass
+            # Compute our own loss
+            loss = loss_fn(x, y_pred, y, self.custom_loss)
+        # Compute gradients
+        trainable_vars = self.trainable_variables
+        gradients = tape.gradient(loss, trainable_vars)
+        if self.debug_mode:
+            print()
+            print(f"%%%%%%%%%%%%%% step {self.step_counter}")
+            print(f"loss: {loss}")
+            print(f"grad min: {tf.reduce_min(gradients[0])}")
+            print(f"grad max: {tf.reduce_max(gradients[0])}")
+            print(f"grad mean: {tf.reduce_mean(gradients[0])}")
+            print(f"mae: {tf.reduce_mean(tf.abs(y_pred - y))}")
+            self.step_counter += 1
+
+        # Update weights
+        self.optimizer.apply_gradients(zip(gradients, trainable_vars))
+
+        # Compute our own metrics
+        self.loss_tracker.update_state(loss)
+
+        self.compiled_metrics.update_state(y, y_pred)
+        result = {m.name: m.result() for m in self.metrics}
+        result['loss'] = self.loss_tracker.result()
+
+        return result
+
+    def test_step(self, data):
+        # Unpack the data
+        x, y = data
+        # Compute predictions
+        y_pred = self(x, training=False)
+        # Updates the metrics tracking the loss
+        # self.compiled_loss(y, y_pred, regularization_losses=self.losses)
+        # Update the metrics.
+        self.compiled_metrics.update_state(y, y_pred)
+
+        loss = loss_fn(x, y_pred, y, self.custom_loss)
+        # Return a dict mapping metric names to current value.
+        # Note that it will include the loss (tracked in self.metrics).
+        res = {m.name: m.result() for m in self.metrics}
+        res['loss'] = loss
+        return res
 
 
 def pairwise_distances(x: tf.Tensor):
@@ -187,9 +197,9 @@ def calculate_MI(x: tf.Tensor, y: tf.Tensor, s_x: float, s_y: float):
     Hy = reyi_entropy(y, sigma=s_y)
     Hxy = joint_entropy(x, y, s_x, s_y)
     Ixy = Hx + Hy - Hxy
-    normalize = Ixy / (tf.maximum(Hx, Hy) + 1e-16)
-    return normalize
-    # return Ixy
+    # normalize = Ixy / (tf.maximum(Hx, Hy) + 1e-16)
+    # return normalize
+    return Ixy
 
 
 def GaussianKernelMatrix(x: tf.Tensor, sigma: float):
@@ -228,12 +238,13 @@ def loss_fn(inputs, outputs, targets, name):
     error = targets - outputs
 
     if name == 'mse':
-        loss = keras.losses.mean_squared_error(targets, outputs)
+        mse = tf.keras.losses.MeanSquaredError()
+        loss = mse(targets, outputs)
     if name == 'HSIC':
         loss = HSIC(inputs_2d, error, s_x=2, s_y=1)
     if name == 'MI':
         loss = calculate_MI(inputs_2d, error, s_x=2, s_y=1)
     if name == 'MEE':
-        loss = reyi_entropy(error, sigma=1)
+        loss = reyi_entropy(error, sigma=2)
 
     return loss
