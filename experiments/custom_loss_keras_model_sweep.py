@@ -43,7 +43,7 @@ def sweep_custom_keras_model():
         early_stop_patience=400,
         # seed=list(range(5)),
         seed=3,
-        hidden=[],
+        hidden=[100, 20],
         transpose_input=False,
         save_model=False,
         l2_reg=1e-5,
@@ -110,6 +110,7 @@ def prepare_data(config):
         win_x = tr(win_x)
 
     return win_x, win_y, test_data_dict
+
 
 def tr(x):
     return x.transpose(0, 2, 1)

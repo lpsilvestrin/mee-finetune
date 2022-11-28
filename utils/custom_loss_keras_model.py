@@ -38,18 +38,19 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     debug_mode = config.debug_mode if 'debug_mode' in config else False
 
     # Construct an instance of CustomModel
-    model = CustomLossModel(
-        model.inputs,
-        model.outputs,
-        custom_loss=config.loss_function,
-        debug_mode=debug_mode)
-    model.step_counter = 0
+    # model = CustomLossModel(
+    #     model.inputs,
+    #     model.outputs,
+    #     custom_loss=config.loss_function,
+    #     debug_mode=debug_mode)
+    # model.step_counter = 0
 
     adam_opt = keras.optimizers.Adam(learning_rate=config.learning_rate)
     # adam_opt = 'adam'
     # rmse = tf.keras.metrics.RootMeanSquaredError(name='root_mean_squared_error')
     # mse = tf.keras.metrics.MeanSquaredError(name='mse')
-    model.compile(optimizer=adam_opt, metrics=['mae', 'mse'], run_eagerly=debug_mode)
+    loss = get_custom_loss_fn(config.loss_function)
+    model.compile(optimizer=adam_opt, metrics=['mae', 'mse'], loss=loss, run_eagerly=debug_mode)
 
     early_stop = keras.callbacks.EarlyStopping(
         monitor="val_mse",
@@ -247,3 +248,15 @@ def loss_fn(inputs, outputs, targets, name):
         loss = reyi_entropy(error, sigma=1)
 
     return loss
+
+
+def reyi_entropy_loss(y_true, y_pred):
+    error = y_true - y_pred
+    return reyi_entropy(error, sigma=1)
+
+
+def get_custom_loss_fn(name):
+    if name == 'mse':
+        return tf.keras.losses.MeanSquaredError()
+    elif name == 'MEE':
+        return reyi_entropy_loss
