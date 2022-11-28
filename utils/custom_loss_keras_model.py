@@ -38,19 +38,20 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     debug_mode = config.debug_mode if 'debug_mode' in config else False
 
     # Construct an instance of CustomModel
-    # model = CustomLossModel(
-    #     model.inputs,
-    #     model.outputs,
-    #     custom_loss=config.loss_function,
-    #     debug_mode=debug_mode)
-    # model.step_counter = 0
+    model = CustomLossModel(
+        model.inputs,
+        model.outputs,
+        custom_loss=config.loss_function,
+        debug_mode=debug_mode)
+    model.step_counter = 0
 
     adam_opt = keras.optimizers.Adam(learning_rate=config.learning_rate)
     # adam_opt = 'adam'
     # rmse = tf.keras.metrics.RootMeanSquaredError(name='root_mean_squared_error')
     # mse = tf.keras.metrics.MeanSquaredError(name='mse')
     loss = get_custom_loss_fn(config.loss_function)
-    model.compile(optimizer=adam_opt, metrics=['mae', 'mse'], loss=loss, run_eagerly=debug_mode)
+    # model.compile(optimizer=adam_opt, metrics=['mae', 'mse'], loss=loss, run_eagerly=debug_mode)
+    model.compile(optimizer=adam_opt, metrics=['mae', 'mse'], run_eagerly=debug_mode)
 
     early_stop = keras.callbacks.EarlyStopping(
         monitor="val_mse",
@@ -155,11 +156,13 @@ class CustomLossModel(keras.Model):
 def pairwise_distances(x: tf.Tensor):
     # x should be two dimensional
     instances_norm = tf.reduce_sum(x ** 2, -1, keepdims=True)
+    print("instances_norm: ", np.transpose(instances_norm))
     return -2 * tf.matmul(x, tf.transpose(x)) + instances_norm + tf.transpose(instances_norm)
 
 
 def calculate_gram_mat(x: tf.Tensor, sigma: float):
     dist = pairwise_distances(x)
+    print("pairwise_dist:", dist)
     return tf.exp(-dist / sigma)
 
 
@@ -172,12 +175,13 @@ def tf_log2(x: tf.Tensor):
 def reyi_entropy(x: tf.Tensor, sigma: float):
     alpha = 1.001
 
-    print(np.max(x))
+    print("input:", tf.transpose(x))
 
     k = calculate_gram_mat(x, sigma)
+    print("gram_mat:", k)
     k = k / tf.linalg.trace(k)
 
-    print(k.shape, np.max(k))
+    print("norm_gram:", k)
 
     eigv = tf.abs(tf.linalg.eig(k)[0])
     eig_pow = eigv ** alpha

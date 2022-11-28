@@ -38,7 +38,7 @@ def sweep_custom_keras_model():
         dropout_rate=0.1,
         loss_function='MEE',
         epochs=400,
-        batch_size=64,
+        batch_size=32,
         validation_split=0.1,
         early_stop_patience=400,
         # seed=list(range(5)),
