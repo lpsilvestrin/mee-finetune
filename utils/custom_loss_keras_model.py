@@ -171,11 +171,19 @@ def tf_log2(x: tf.Tensor):
 
 def reyi_entropy(x: tf.Tensor, sigma: float):
     alpha = 1.001
+
+    print(np.max(x))
+
     k = calculate_gram_mat(x, sigma)
     k = k / tf.linalg.trace(k)
+
+    print(k.shape, np.max(k))
+
     eigv = tf.abs(tf.linalg.eig(k)[0])
     eig_pow = eigv ** alpha
     entropy = (1 / (1 - alpha)) * tf_log2(tf.reduce_sum(eig_pow))
+
+    print("entropy:", entropy)
     return entropy
 
 

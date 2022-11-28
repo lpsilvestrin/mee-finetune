@@ -50,7 +50,7 @@ def sweep_custom_keras_model():
         train_dataset='src',
         test_dataset=[],
         trunc_label=False,
-        debug_mode=False,
+        debug_mode=True,
         input_type='man',
         model_type='mlp'
     )
