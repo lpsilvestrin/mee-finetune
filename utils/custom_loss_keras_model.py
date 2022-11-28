@@ -181,6 +181,7 @@ def reyi_entropy(x: tf.Tensor, sigma: float):
 
     k = calculate_gram_mat(x, sigma)
     print("gram_mat:", k)
+    print("trace gram:", tf.linalg.trace(k))
     k = k / tf.linalg.trace(k)
 
     print("norm_gram:", k)
