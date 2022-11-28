@@ -155,7 +155,7 @@ class CustomLossModel(keras.Model):
 
 def pairwise_distances(x: tf.Tensor):
     # x should be two dimensional
-    instances_norm = tf.reduce_sum(x ** 2, -1, keepdims=True)
+    instances_norm = tf.reduce_sum(x * x, -1, keepdims=True)
     print("instances_norm: ", tf.transpose(instances_norm))
     print("i+i.T:", instances_norm + tf.transpose(instances_norm))
     print("2*i*i.T:", 2*tf.matmul(x, tf.transpose(x)))
