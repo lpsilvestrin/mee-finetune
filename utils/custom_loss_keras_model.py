@@ -190,7 +190,7 @@ def reyi_entropy(x: tf.Tensor, sigma: float):
 
     # print("norm_gram:", k)
 
-    eigv = tf.abs(tf.linalg.eig(k)[0])
+    eigv = tf.abs(tf.linalg.eigvalsh(k))
     eig_pow = eigv ** alpha
     entropy = (1 / (1 - alpha)) * tf_log2(tf.reduce_sum(eig_pow))
 

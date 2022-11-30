@@ -56,7 +56,7 @@ def sweep_custom_keras_model():
     # )
 
     wandb_init = dict(
-        project='tcn_custom_loss',
+        project='test2',
         entity='transfer-learning-tcn',
         reinit=False,
         config=config
