@@ -12,6 +12,9 @@ from utils.utils import build_mlp
 
 
 def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
+    # disable TensorFloat-32 to avoid rounding errors from matmul
+    tf.config.experimental.enable_tensor_float_32_execution(False)
+
     run = wandb.init(**wandb_init)
     config = wandb.config
 
@@ -156,15 +159,16 @@ class CustomLossModel(keras.Model):
 def pairwise_distances(x: tf.Tensor):
     # x should be two dimensional
     instances_norm = tf.reduce_sum(x * x, -1, keepdims=True)
-    print("instances_norm: ", tf.transpose(instances_norm))
-    print("i+i.T:", instances_norm + tf.transpose(instances_norm))
-    print("2*i*i.T:", 2*tf.matmul(x, tf.transpose(x)))
-    return -2 * tf.matmul(x, tf.transpose(x)) + instances_norm + tf.transpose(instances_norm)
+    xxt = tf.matmul(x, tf.transpose(x))
+    # print("instances_norm: ", tf.transpose(instances_norm))
+    # print("i+i.T:", instances_norm + tf.transpose(instances_norm))
+    # print("2*i*i.T:", 2*tf.matmul(x, tf.transpose(x)))
+    return -2 * xxt + instances_norm + tf.transpose(instances_norm)
 
 
 def calculate_gram_mat(x: tf.Tensor, sigma: float):
     dist = pairwise_distances(x)
-    print("pairwise_dist:", dist)
+    # print("pairwise_dist:", dist)
     return tf.exp(-dist / sigma)
 
 
@@ -177,20 +181,20 @@ def tf_log2(x: tf.Tensor):
 def reyi_entropy(x: tf.Tensor, sigma: float):
     alpha = 1.001
 
-    print("input:", tf.transpose(x))
+    # print("input:", tf.transpose(x))
 
     k = calculate_gram_mat(x, sigma)
-    print("gram_mat:", k)
-    print("trace gram:", tf.linalg.trace(k))
+    # print("gram_mat:", k)
+    # print("trace gram:", tf.linalg.trace(k))
     k = k / tf.linalg.trace(k)
 
-    print("norm_gram:", k)
+    # print("norm_gram:", k)
 
     eigv = tf.abs(tf.linalg.eig(k)[0])
     eig_pow = eigv ** alpha
     entropy = (1 / (1 - alpha)) * tf_log2(tf.reduce_sum(eig_pow))
 
-    print("entropy:", entropy)
+    # print("entropy:", entropy)
     return entropy
 
 
