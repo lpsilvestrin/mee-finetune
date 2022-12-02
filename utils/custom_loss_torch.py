@@ -65,7 +65,7 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     for key, t_set in test_sets.items():
         tensor_t_set = torch.tensor(t_set[0], dtype=torch.float32), torch.tensor(t_set[1], dtype=torch.float32)
         _, metrics = litmodel._get_preds_loss_metrics(tensor_t_set)
-        run.log({f"{k}/{k}": v for k, v in metrics.items()})
+        run.log({f"{key}/{k}": v for k, v in metrics.items()})
 
     wandb.finish()
 
