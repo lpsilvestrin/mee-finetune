@@ -14,7 +14,8 @@ from pytorch_lightning import LightningModule, seed_everything, Trainer
 import wandb
 
 from algorithms.custom_loss_torch_lit_class import My_LitModule
-from algorithms.torch_tcn import build_tcn, TCN
+from algorithms.torch_mlp import build_mlp
+from algorithms.torch_tcn import build_tcn
 
 
 def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
@@ -40,12 +41,12 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     out_shape = train_y.shape[1]
 
     in_shape = train_x.shape[1:]
+    in_features = in_shape[0]
     if config.model_type == 'tcn':
-        in_features = in_shape[0]
         # model = build_tcn(in_features, out_shape, config)
         model = build_tcn(in_features, out_shape, config)
-    # elif config.model_type == 'mlp':
-    #     model = build_mlp(in_shape, out_shape, config)
+    elif config.model_type == 'mlp':
+        model = build_mlp(in_features, out_shape, config)
 
     # model.double()
     if 'save_model' in config.keys():
