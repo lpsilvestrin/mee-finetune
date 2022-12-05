@@ -2,7 +2,7 @@ import numpy as np
 
 import torch
 import torch.nn as nn
-from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 from pytorch_lightning.loggers import WandbLogger
 from sklearn.model_selection import train_test_split
 from torch.nn import Linear, CrossEntropyLoss, functional as F
@@ -55,6 +55,7 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     wandb_logger = WandbLogger(log_model=save_model)
 
     ckp_callback = ModelCheckpoint(dirpath='pylit_chkpt/', monitor='val_loss', mode='min', filename=run.id)
+    earlystop_callback = EarlyStopping(monitor='val_loss', mode='min', patience=config.early_stop_patience)
 
     metrics = dict(
         mse=mean_squared_error,
@@ -62,17 +63,11 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     )
     litmodel = My_LitModule(model, metrics=metrics, loss=config.loss_function, lr=config.learning_rate)
 
-    # litmodel.loss = config.loss_function
-    # litmodel.lr = config.learning_rate
-    # litmodel.metrics = dict(
-    #     mse=mean_squared_error,
-    #     mae=mean_absolute_error,
-    # )
     trainer = Trainer(
         max_epochs=config.epochs,
         logger=wandb_logger,
         accelerator='auto',
-        callbacks=[ckp_callback],
+        callbacks=[ckp_callback, earlystop_callback],
     )
     trainer.fit(litmodel, train_loader, val_loader)
 

@@ -20,7 +20,6 @@ class My_LitModule(LightningModule):
         self.lr = lr
         self.metrics = metrics
 
-
     def forward(self, x):
         '''method used for inference input -> output'''
 
@@ -100,8 +99,9 @@ def calculate_MI(x, y, s_x, s_y):
     Hy = reyi_entropy(y, sigma=s_y)
     Hxy = joint_entropy(x, y, s_x, s_y)
     Ixy = Hx + Hy - Hxy
-    normlize = Ixy / (torch.max(Hx, Hy) + 1e-16)
-    return normlize
+    # normlize = Ixy / (torch.max(Hx, Hy) + 1e-16)
+    # return normalize
+    return Ixy
 
 
 def GaussianKernelMatrix(x, sigma):
