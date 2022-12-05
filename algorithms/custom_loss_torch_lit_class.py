@@ -6,24 +6,25 @@ import torch.nn as nn
 
 class My_LitModule(LightningModule):
 
-    # def __init__(self, loss, metrics, lr=1e-3):
-    def __init__(self):
+    def __init__(self, model, loss, metrics, lr=1e-3):
+    # def __init__(self, loss, lr, metrics={}):
         '''method used to define our model parameters'''
         super().__init__()
 
-        # self.model = model
-
-        # self.loss = loss
-        # self.lr = lr
-        # self.metrics = metrics
-
         # save hyper-parameters to self.hparams (auto-logged by W&B)
-        # self.save_hyperparameters()
+        self.save_hyperparameters(ignore='model')
 
-    # def forward(self, x):
-    #     '''method used for inference input -> output'''
-    #
-    #     return self.model(x)
+        self.model = model
+
+        self.loss = loss
+        self.lr = lr
+        self.metrics = metrics
+
+
+    def forward(self, x):
+        '''method used for inference input -> output'''
+
+        return self.model(x)
 
     def training_step(self, batch, batch_idx):
         '''needs to return a loss from a single batch'''

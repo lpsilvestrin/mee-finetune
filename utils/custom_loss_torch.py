@@ -13,6 +13,7 @@ from pytorch_lightning import LightningModule, seed_everything, Trainer
 
 import wandb
 
+from algorithms.custom_loss_torch_lit_class import My_LitModule
 from algorithms.torch_tcn import build_tcn, TCN
 
 
@@ -42,7 +43,7 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     if config.model_type == 'tcn':
         in_features = in_shape[0]
         # model = build_tcn(in_features, out_shape, config)
-        litmodel = build_tcn(in_features, out_shape, config)
+        model = build_tcn(in_features, out_shape, config)
     # elif config.model_type == 'mlp':
     #     model = build_mlp(in_shape, out_shape, config)
 
@@ -55,14 +56,18 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
 
     ckp_callback = ModelCheckpoint(dirpath='pylit_chkpt/', monitor='val_loss', mode='min', filename=run.id)
 
-    # litmodel = My_LitModule(model, loss=config.loss_function, lr=config.learning_rate)
-
-    litmodel.loss = config.loss_function
-    litmodel.lr = config.learning_rate
-    litmodel.metrics = dict(
+    metrics = dict(
         mse=mean_squared_error,
         mae=mean_absolute_error,
     )
+    litmodel = My_LitModule(model, metrics=metrics, loss=config.loss_function, lr=config.learning_rate)
+
+    # litmodel.loss = config.loss_function
+    # litmodel.lr = config.learning_rate
+    # litmodel.metrics = dict(
+    #     mse=mean_squared_error,
+    #     mae=mean_absolute_error,
+    # )
     trainer = Trainer(
         max_epochs=config.epochs,
         logger=wandb_logger,
@@ -72,7 +77,7 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     trainer.fit(litmodel, train_loader, val_loader)
 
     # load best model
-    litmodel.load_from_checkpoint(ckp_callback.best_model_path)
+    litmodel = My_LitModule.load_from_checkpoint(ckp_callback.best_model_path, model=model)
     # eval mode: disable randomness, dropout, etc before running tests
     litmodel.eval()
 
