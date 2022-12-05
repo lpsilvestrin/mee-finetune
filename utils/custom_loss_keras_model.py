@@ -11,7 +11,7 @@ from utils.train_keras_tcn import build_tcn_from_config
 from utils.utils import build_mlp
 
 
-def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
+def train_custom_loss_keras_model(train_x, train_y, test_sets, wandb_init):
     # disable TensorFloat-32 to avoid rounding errors from matmul
     tf.config.experimental.enable_tensor_float_32_execution(False)
 
