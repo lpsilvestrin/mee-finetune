@@ -8,6 +8,8 @@ from omegaconf import DictConfig
 from sklearn.model_selection import train_test_split
 from torch.nn.utils import weight_norm
 
+from algorithms.custom_loss_torch_lit_class import My_LitModule
+
 
 class Chomp1d(nn.Module):
     def __init__(self, chomp_size):
@@ -72,9 +74,10 @@ class TemporalConvNet(nn.Module):
         return self.network(x)
 
 
-class TCN(nn.Module):
+class TCN(My_LitModule):
     def __init__(self, num_inputs: int, channels: list, num_blocks: int, num_out: int, kernel_size: int=2, dropout: float =0.2):
         super(TCN, self).__init__()
+        self.save_hyperparameters()
         tcn_list = [TemporalConvNet(num_inputs, channels, kernel_size, dropout)]
         for _ in range(num_blocks-1):
             tcn_list.append(TemporalConvNet(channels[-1], channels, kernel_size, dropout))
@@ -90,7 +93,7 @@ class TCN(nn.Module):
 def build_tcn(
         nb_features: int,
         nb_out: int,
-        config: DictConfig) -> nn.Module:
+        config: DictConfig) -> TCN:
     num_blocks = 1
     if config.tcn2 is True:
         num_blocks = 2
@@ -99,5 +102,34 @@ def build_tcn(
     else:
         filters = config.filters
 
-    return TCN(nb_features, filters, num_blocks, nb_out, config.kernel_size, config.dropout_rate)
+    tcn = TCN(
+        num_inputs=nb_features,
+        channels=filters,
+        num_blocks=num_blocks,
+        num_out=nb_out,
+        kernel_size=config.kernel_size,
+        dropout=config.dropout_rate
+    )
+    return tcn
 
+
+def load_tcn(
+        checkpoint_path: str,
+        nb_features: int,
+        nb_out: int,
+        config: DictConfig) -> TCN:
+    num_blocks = 1
+    if config.tcn2 is True:
+        num_blocks = 2
+    if 'tcn' in config:
+        filters = [config.tcn.filters for _ in range(config.tcn.dilations)]
+    else:
+        filters = config.filters
+
+    return TCN.load_from_checkpoint(checkpoint_path,
+                                    num_inputs=nb_features,
+                                    channels=filters,
+                                    num_blocks=num_blocks,
+                                    num_out=nb_out,
+                                    kernel_size=config.kernel_size,
+                                    dropout=config.dropout_rate)
