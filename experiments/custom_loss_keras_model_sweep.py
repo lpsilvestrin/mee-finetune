@@ -1,9 +1,7 @@
-import numpy as np
 import wandb
 
-from utils.custom_loss_keras_model import train_custom_loss_tcn
-from utils.custom_loss_torch import train_custom_loss_tcn as train_torch
-from utils.datasets import load_preproc_data
+from utils.custom_loss_keras_model import train_custom_loss_keras_model
+from utils.data_utils import prepare_data
 
 
 def sweep_custom_keras_model():
@@ -11,16 +9,16 @@ def sweep_custom_keras_model():
     config = dict(
         learning_rate=1e-4,
         dropout_rate=0.1,
-        loss_function='mse',
-        epochs=1,
+        loss_function='MEE',
+        epochs=10,
         batch_size=64,
         validation_split=0.1,
-        early_stop_patience=80,
+        early_stop_patience=2,
         # seed=list(range(5)),
         seed=7,
         # tcn=dict(dilations=2,
         #        filters=128),
-        tcn2=True,
+        tcn2=False,
         filters=[128, 128],
         kernel_size=3,
         transpose_input=True,
@@ -53,7 +51,7 @@ def sweep_custom_keras_model():
     #     test_dataset=[],
     #     trunc_label=False,
     #     debug_mode=False,
-    #     input_type='c22',
+    #     input_type='man',
     #     model_type='mlp'
     # )
 
@@ -72,51 +70,7 @@ def sweep_custom_keras_model():
 
     wandb_init['config'] = config
     # train_custom_loss_tcn(win_x, win_y, test_data_dict, wandb_init)
-    train_torch(win_x, win_y, test_data_dict, wandb_init)
-
-
-def prepare_data(config):
-    label_test = 'y_test'
-    label_train = 'y_train'
-    if config.trunc_label:
-        label_test = 'trunc_' + label_test
-        label_train = 'trunc_' + label_train
-
-    if 'input_type' in config:
-        feat_train = config.input_type+'_x_train'
-        feat_test = config.input_type+'_x_test'
-    else:
-        feat_train = 'win_x_train'
-        feat_test = 'win_x_test'
-
-    test_data_dict = dict()
-    for name in config.test_dataset:
-        data_dict = load_preproc_data(name=name)
-        test_data_dict[name] = (data_dict[feat_test], data_dict[label_test].reshape(-1,1).astype(np.float32))
-
-    # in case of 2 training sets, concatenate them together
-    train_datasets = config['train_dataset'].split('+')
-    data_dict = load_preproc_data(name=train_datasets[0])
-    win_x, win_y = data_dict[feat_train], data_dict[label_train].reshape(-1,1).astype(np.float32)
-
-    if len(train_datasets) > 1:
-        data_dict = load_preproc_data(name=train_datasets[1])
-        win_x = np.concatenate([win_x, data_dict[feat_train]])
-        win_y = np.concatenate([win_y, data_dict[label_train].reshape(-1,1).astype(np.float32)])
-
-    test_data_dict["test"] = (data_dict[feat_test], data_dict[label_test].reshape(-1,1).astype(np.float32))
-
-    if 'transpose_input' in config and config.transpose_input is True:
-        for k, d in test_data_dict.items():
-            x, y = d
-            test_data_dict[k] = (tr(x), y)
-        win_x = tr(win_x)
-
-    return win_x, win_y, test_data_dict
-
-
-def tr(x):
-    return x.transpose(0, 2, 1)
+    train_custom_loss_keras_model(win_x, win_y, test_data_dict, wandb_init)
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ from torch.optim.adam import Adam
 import torch.nn as nn
 
 
-class My_LitModule(LightningModule):
+class PyLitModelWrapper(LightningModule):
 
     def __init__(self, model, loss, metrics, lr=1e-3):
     # def __init__(self, loss, lr, metrics={}):

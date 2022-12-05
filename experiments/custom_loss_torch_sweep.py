@@ -2,9 +2,9 @@ import numpy as np
 from omegaconf import DictConfig
 
 import wandb
-from experiments.custom_loss_keras_model_sweep import prepare_data
+from utils.data_utils import prepare_data
 
-from utils.custom_loss_keras_model import train_custom_loss_tcn
+from utils.custom_loss_keras_model import train_custom_loss_keras_model
 from utils.custom_loss_torch import train_custom_loss_tcn as train_torch
 from utils.datasets import load_preproc_data
 
@@ -21,10 +21,10 @@ def sweep_custom_torch_model():
         early_stop_patience=2,
         # seed=list(range(5)),
         seed=7,
-        # tcn=dict(dilations=2,
-        #        filters=128),
+        tcn=dict(dilations=2,
+                 filters=128),
         tcn2=False,
-        filters=[128, 128],
+        # filters=[128, 128],
         kernel_size=3,
         transpose_input=True,
         save_model=False,

@@ -6,7 +6,7 @@ from sklearn.preprocessing import MinMaxScaler
 
 from tsai.data.external import get_Monash_regression_data
 
-from utils import catch22, extract_manual_features
+from utils.data_utils import catch22, extract_manual_features
 
 
 def load_train(data_path="/home/luis/datasets/beijing_air_quality/"):
