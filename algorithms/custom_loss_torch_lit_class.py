@@ -6,7 +6,7 @@ import torch.nn as nn
 
 class PyLitModelWrapper(LightningModule):
 
-    def __init__(self, model, loss, metrics, lr=1e-3):
+    def __init__(self, model, loss, metrics, lr=1e-3, l2_reg=.0):
     # def __init__(self, loss, lr, metrics={}):
         '''method used to define our model parameters'''
         super().__init__()
@@ -19,6 +19,7 @@ class PyLitModelWrapper(LightningModule):
         self.loss = loss
         self.lr = lr
         self.metrics = metrics
+        self.l2_reg = l2_reg
 
     def forward(self, x):
         '''method used for inference input -> output'''
@@ -32,7 +33,7 @@ class PyLitModelWrapper(LightningModule):
         # Log loss and metric
         # self.log('train_loss', loss)
         for k, v in metrics.items():
-            self.log(f'train_{k}', v)
+            self.log(f'train_{k}', v, on_step=False, on_epoch=True)
         return metrics
 
     def validation_step(self, batch, batch_idx):
@@ -42,12 +43,12 @@ class PyLitModelWrapper(LightningModule):
         # Log loss and metric
         # self.log('train_loss', loss)
         for k, v in metrics.items():
-            self.log(f'val_{k}', v)
+            self.log(f'val_{k}', v, on_step=False, on_epoch=True)
         return metrics
 
     def configure_optimizers(self):
         '''defines model optimizer'''
-        return Adam(self.parameters(), lr=self.lr)
+        return Adam(self.parameters(), lr=self.lr, weight_decay=self.l2_reg)
 
     def _get_preds_loss_metrics(self, batch):
         '''convenience function since train/valid/test steps are similar'''

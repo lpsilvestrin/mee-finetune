@@ -98,7 +98,7 @@ def build_tcn(
     if config.tcn2 is True:
         num_blocks = 2
     if 'tcn' in config:
-        filters = [config.tcn.filters for _ in range(config.tcn.dilations)]
+        filters = [config.tcn['filters'] for _ in range(config.tcn['dilations'])]
     else:
         filters = config.filters
 

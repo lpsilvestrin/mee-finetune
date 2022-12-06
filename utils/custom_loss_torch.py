@@ -62,7 +62,13 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
         mse=mean_squared_error,
         mae=mean_absolute_error,
     )
-    litmodel = PyLitModelWrapper(model, metrics=metrics, loss=config.loss_function, lr=config.learning_rate)
+    litmodel = PyLitModelWrapper(
+        model,
+        metrics=metrics,
+        loss=config.loss_function,
+        lr=config.learning_rate,
+        l2_reg=config.l2_reg
+    )
 
     trainer = Trainer(
         max_epochs=config.epochs,
