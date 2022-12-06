@@ -43,6 +43,7 @@ class PyLitModelWrapper(LightningModule):
             # self.log()
             keys = gathered[0].keys()
             metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
+            metrics['step'] = self.current_epoch
             self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True)
 
                 # loss = sum(output['train_loss'].mean() for output in gathered) / len(outputs)
@@ -55,8 +56,9 @@ class PyLitModelWrapper(LightningModule):
             # self.log()
             keys = gathered[0].keys()
             metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
+            metrics['step'] = self.current_epoch
             self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True)
-            
+
     def validation_step(self, batch, batch_idx):
         '''used for logging metrics'''
         preds, metrics = self._get_preds_loss_metrics(batch)
