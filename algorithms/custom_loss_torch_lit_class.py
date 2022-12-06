@@ -44,7 +44,7 @@ class PyLitModelWrapper(LightningModule):
             keys = gathered[0].keys()
             metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
             for k, v in metrics.items():
-                self.log(f'val_{k}', v, on_step=False, on_epoch=True, prog_bar=True)
+                self.log(k, v, on_step=False, on_epoch=True, prog_bar=True)
 
                 # loss = sum(output['train_loss'].mean() for output in gathered) / len(outputs)
                 # print(loss.item())
