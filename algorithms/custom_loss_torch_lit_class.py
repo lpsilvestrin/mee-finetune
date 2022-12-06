@@ -30,47 +30,33 @@ class PyLitModelWrapper(LightningModule):
     def training_step(self, batch, batch_idx):
         '''needs to return a loss from a single batch'''
         _, metrics = self._get_preds_loss_metrics(batch)
-
-        # Log loss and metric
-        # self.log('train_loss', loss)
-        # for k, v in metrics.items():
-        #     self.log(f'train_{k}', v, on_step=False, on_epoch=True)
         return metrics
 
     def training_epoch_end(self, outputs) -> None:
         gathered = self.all_gather(outputs)
         if self.global_rank == 0:
             # print(gathered)
-            # self.log()
             keys = gathered[0].keys()
-            metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
+            metrics = {f"train_{k}": sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
             self.wandb_run.log(metrics, step=self.current_epoch)
-            # metrics['step'] = self.current_epoch
-            self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True)
-
-                # loss = sum(output['train_loss'].mean() for output in gathered) / len(outputs)
-                # print(loss.item())
+            self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True, logger=False)
 
     def validation_epoch_end(self, outputs) -> None:
         gathered = self.all_gather(outputs)
         if self.global_rank == 0:
             # print(gathered)
-            # self.log()
             keys = gathered[0].keys()
             metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
             self.wandb_run.log(metrics, step=self.current_epoch)
-            # metrics['step'] = self.current_epoch
-            self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True)
+            self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True, logger=False)
 
     def validation_step(self, batch, batch_idx):
         '''used for logging metrics'''
         preds, metrics = self._get_preds_loss_metrics(batch)
 
         # Log loss and metric
-        # self.log('train_loss', loss)
         metrics = {f'val_{k}': v for k, v in metrics.items()}
-        # for k, v in metrics.items():
-        self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=False)
+        self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=False, logger=False)
 
         return metrics
 
@@ -103,6 +89,7 @@ def calculate_gram_mat(x, sigma):
 def renyi_entropy(x, sigma):
     alpha = 1.001
     k = calculate_gram_mat(x, sigma)
+    print("gram_mat trace:", torch.trace(k).item())
     k = k / torch.trace(k)
     eigv = torch.abs(torch.linalg.eigh(k)[0])
     eig_pow = eigv ** alpha
