@@ -178,7 +178,7 @@ def tf_log2(x: tf.Tensor):
   return numerator / denominator
 
 
-def reyi_entropy(x: tf.Tensor, sigma: float):
+def renyi_entropy(x: tf.Tensor, sigma: float):
     alpha = 1.001
 
     # print("input:", tf.transpose(x))
@@ -212,8 +212,8 @@ def joint_entropy(x: tf.Tensor, y: tf.Tensor, s_x: float, s_y: float):
 
 
 def calculate_MI(x: tf.Tensor, y: tf.Tensor, s_x: float, s_y: float):
-    Hx = reyi_entropy(x, sigma=s_x)
-    Hy = reyi_entropy(y, sigma=s_y)
+    Hx = renyi_entropy(x, sigma=s_x)
+    Hy = renyi_entropy(y, sigma=s_y)
     Hxy = joint_entropy(x, y, s_x, s_y)
     Ixy = Hx + Hy - Hxy
     # normalize = Ixy / (tf.maximum(Hx, Hy) + 1e-16)
@@ -264,14 +264,14 @@ def loss_fn(inputs, outputs, targets, name):
     if name == 'MI':
         loss = calculate_MI(inputs_2d, error, s_x=2, s_y=1)
     if name == 'MEE':
-        loss = reyi_entropy(error, sigma=1)
+        loss = renyi_entropy(error, sigma=1)
 
     return loss
 
 
 def reyi_entropy_loss(y_true, y_pred):
     error = y_true - y_pred
-    return reyi_entropy(error, sigma=1)
+    return renyi_entropy(error, sigma=1)
 
 
 def get_custom_loss_fn(name):

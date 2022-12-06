@@ -72,7 +72,7 @@ def calculate_gram_mat(x, sigma):
     return torch.exp(-dist / sigma)
 
 
-def reyi_entropy(x, sigma):
+def renyi_entropy(x, sigma):
     alpha = 1.001
     k = calculate_gram_mat(x, sigma)
     k = k / torch.trace(k)
@@ -96,8 +96,8 @@ def joint_entropy(x, y, s_x, s_y):
 
 
 def calculate_MI(x, y, s_x, s_y):
-    Hx = reyi_entropy(x, sigma=s_x)
-    Hy = reyi_entropy(y, sigma=s_y)
+    Hx = renyi_entropy(x, sigma=s_x)
+    Hy = renyi_entropy(y, sigma=s_y)
     Hxy = joint_entropy(x, y, s_x, s_y)
     Ixy = Hx + Hy - Hxy
     # normlize = Ixy / (torch.max(Hx, Hy) + 1e-16)
@@ -153,7 +153,7 @@ def loss_fn(inputs, outputs, targets, name):
     if name == 'MI':
         loss = calculate_MI(inputs_2d, error, s_x=2, s_y=1)
     if name == 'MEE':
-        loss = reyi_entropy(error, sigma=1)
+        loss = renyi_entropy(error, sigma=1)
     if name == 'bias':
         loss = targets - outputs
         loss = torch.mean(loss, 0)
