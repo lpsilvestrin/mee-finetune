@@ -32,9 +32,22 @@ class PyLitModelWrapper(LightningModule):
 
         # Log loss and metric
         # self.log('train_loss', loss)
-        for k, v in metrics.items():
-            self.log(f'train_{k}', v, on_step=False, on_epoch=True)
+        # for k, v in metrics.items():
+        #     self.log(f'train_{k}', v, on_step=False, on_epoch=True)
         return metrics
+
+    def training_epoch_end(self, outputs) -> None:
+        gathered = self.all_gather(outputs)
+        if self.global_rank == 0:
+            # print(gathered)
+            # self.log()
+            keys = gathered[0].keys()
+            metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
+            for k, v in metrics.items():
+                self.log(f'val_{k}', v, on_step=False, on_epoch=True, prog_bar=True)
+
+                # loss = sum(output['train_loss'].mean() for output in gathered) / len(outputs)
+                # print(loss.item())
 
     def validation_step(self, batch, batch_idx):
         '''used for logging metrics'''
@@ -42,8 +55,8 @@ class PyLitModelWrapper(LightningModule):
 
         # Log loss and metric
         # self.log('train_loss', loss)
-        for k, v in metrics.items():
-            self.log(f'val_{k}', v, on_step=False, on_epoch=True)
+        # for k, v in metrics.items():
+        #     self.log(f'val_{k}', v, on_step=False, on_epoch=True, prog_bar=True)
         return metrics
 
     def configure_optimizers(self):
