@@ -57,6 +57,7 @@ class PyLitModelWrapper(LightningModule):
         # self.log('train_loss', loss)
         # for k, v in metrics.items():
         #     self.log(f'val_{k}', v, on_step=False, on_epoch=True, prog_bar=True)
+        metrics = {f"val_{k}": v for k, v in metrics.items()}
         return metrics
 
     def configure_optimizers(self):
