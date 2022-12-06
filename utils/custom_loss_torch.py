@@ -53,7 +53,7 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
         save_model = config.save_model
     else:
         save_model = False
-    wandb_logger = WandbLogger(log_model=save_model)
+    # wandb_logger = WandbLogger(log_model=save_model)
 
     ckp_callback = ModelCheckpoint(dirpath='pylit_chkpt/', monitor='val_loss', mode='min', filename=run.id)
     earlystop_callback = EarlyStopping(monitor='val_loss', mode='min', patience=config.early_stop_patience)
@@ -69,10 +69,12 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
         lr=config.learning_rate,
         l2_reg=config.l2_reg
     )
+    # assign the wandb run object to log training statistics
+    litmodel.wandb_run = run
 
     trainer = Trainer(
         max_epochs=config.epochs,
-        logger=wandb_logger,
+        # logger=wandb_logger,
         accelerator='auto',
         callbacks=[ckp_callback, earlystop_callback],
     )

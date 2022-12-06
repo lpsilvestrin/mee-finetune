@@ -20,6 +20,7 @@ class PyLitModelWrapper(LightningModule):
         self.lr = lr
         self.metrics = metrics
         self.l2_reg = l2_reg
+        self.wandb_run = None
 
     def forward(self, x):
         '''method used for inference input -> output'''
@@ -43,7 +44,8 @@ class PyLitModelWrapper(LightningModule):
             # self.log()
             keys = gathered[0].keys()
             metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
-            metrics['step'] = self.current_epoch
+            self.wandb_run.log(metrics, step=self.current_epoch)
+            # metrics['step'] = self.current_epoch
             self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True)
 
                 # loss = sum(output['train_loss'].mean() for output in gathered) / len(outputs)
@@ -56,7 +58,8 @@ class PyLitModelWrapper(LightningModule):
             # self.log()
             keys = gathered[0].keys()
             metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
-            metrics['step'] = self.current_epoch
+            self.wandb_run.log(metrics, step=self.current_epoch)
+            # metrics['step'] = self.current_epoch
             self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True)
 
     def validation_step(self, batch, batch_idx):
@@ -67,7 +70,7 @@ class PyLitModelWrapper(LightningModule):
         # self.log('train_loss', loss)
         metrics = {f'val_{k}': v for k, v in metrics.items()}
         # for k, v in metrics.items():
-        self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=False, logger=False)
+        self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=False)
 
         return metrics
 
