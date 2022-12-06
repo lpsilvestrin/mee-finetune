@@ -43,21 +43,30 @@ class PyLitModelWrapper(LightningModule):
             # self.log()
             keys = gathered[0].keys()
             metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
-            for k, v in metrics.items():
-                self.log(k, v, on_step=False, on_epoch=True, prog_bar=True)
+            self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True)
 
                 # loss = sum(output['train_loss'].mean() for output in gathered) / len(outputs)
                 # print(loss.item())
 
+    def validation_epoch_end(self, outputs) -> None:
+        gathered = self.all_gather(outputs)
+        if self.global_rank == 0:
+            # print(gathered)
+            # self.log()
+            keys = gathered[0].keys()
+            metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
+            self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True)
+            
     def validation_step(self, batch, batch_idx):
         '''used for logging metrics'''
         preds, metrics = self._get_preds_loss_metrics(batch)
 
         # Log loss and metric
         # self.log('train_loss', loss)
-        for k, v in metrics.items():
-            self.log(f'val_{k}', v, on_step=False, on_epoch=True, prog_bar=True)
-        # metrics = {f"val_{k}": v for k, v in metrics.items()}
+        metrics = {f'val_{k}': v for k, v in metrics.items()}
+        # for k, v in metrics.items():
+        self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=False, logger=False)
+
         return metrics
 
     def configure_optimizers(self):
