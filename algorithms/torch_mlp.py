@@ -6,7 +6,6 @@ from torchvision.ops import MLP
 class MyMLP(nn.Module):
     def __init__(self, in_channels: int, hidden_channels: list, out_channels: int, dropout: float, last_activation: str = 'linear'):
         super().__init__()
-        self.mlp = MLP(in_channels=in_channels, hidden_channels=hidden_channels, dropout=dropout)
         ch = [in_channels] + hidden_channels
 
         activations = dict(
