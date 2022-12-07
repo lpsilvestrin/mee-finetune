@@ -77,14 +77,14 @@ class PyLitModelWrapper(LightningModule):
 
 def pairwise_distances(x):
     # x should be two dimensional
-    instances_norm = torch.sum(x ** 2, -1).reshape((-1, 1))
+    instances_norm = torch.sum(torch.square(x), -1).reshape((-1, 1))
     xxt = torch.mm(x, x.t())
-    print("pairwise dist diagonal sum:", torch.trace(xxt - instances_norm).item())
     return -2 * xxt + instances_norm + instances_norm.t()
 
 
 def calculate_gram_mat(x, sigma):
     dist = pairwise_distances(x)
+    print("pairwise dist diagonal sum:", torch.trace(dist).item())
     return torch.exp(-dist / sigma)
 
 
