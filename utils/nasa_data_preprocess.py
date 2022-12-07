@@ -154,11 +154,13 @@ def save_tl_datasets():
                  man_x_train=extract_manual_features(tr_x),
                  c22_x_train=c22_tr,
                  y_train=tr_y,
+                 norm_y_train=normalize_label(tr_y),
                  trunc_y_train=truncate_labels(tr_y),
                  win_x_test=tst_x.transpose(0, 2, 1),
                  man_x_test=extract_manual_features(tst_x),
                  c22_x_test=c22_tst,
                  y_test=tst_y,
+                 norm_y_test=normalize_label(tst_y),
                  trunc_y_test=truncate_labels(tst_y))
 
 

@@ -2,6 +2,7 @@ import numpy as np
 from omegaconf import DictConfig
 from sktime.transformations.panel.catch22 import Catch22
 
+# from datasets import load_preproc_data
 from utils.datasets import load_preproc_data
 
 
@@ -11,6 +12,9 @@ def prepare_data(config: DictConfig):
     if 'trunc_label' in config and config.trunc_label is True:
         label_test = 'trunc_' + label_test
         label_train = 'trunc_' + label_train
+    if 'norm_label' in config and config.norm_label is True:
+        label_test = 'norm_' + label_test
+        label_train = 'norm_' + label_train
 
     if 'input_type' in config:
         feat_train = config.input_type+'_x_train'
