@@ -85,6 +85,7 @@ def pairwise_distances(x):
 def calculate_gram_mat(x, sigma):
     dist = pairwise_distances(x)
     print("pairwise dist diagonal sum:", torch.trace(dist).item())
+    print("PW matrix min, max:", (torch.min(dist).item(), torch.max(dist).item()))
     return torch.exp(-dist / sigma)
 
 
