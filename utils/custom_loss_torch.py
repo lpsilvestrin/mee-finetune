@@ -72,6 +72,13 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
     # assign the wandb run object to log training statistics
     litmodel.wandb_run = run
 
+    debug_mode = False
+    if 'debug_mode' in config:
+        debug_mode = config.debug_mode
+
+    if debug_mode:
+        wandb_logger.watch(litmodel, log='all', log_graph=False, log_freq=10)
+
     trainer = Trainer(
         max_epochs=config.epochs,
         logger=wandb_logger,
