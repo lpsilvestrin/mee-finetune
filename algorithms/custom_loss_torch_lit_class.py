@@ -152,6 +152,9 @@ class RMSELoss(nn.Module):
 def loss_fn(inputs, outputs, targets, name):
     inputs_2d = inputs.reshape(inputs.shape[0], -1)
     error = targets - outputs
+    print("input (min, max):", (torch.min(inputs).item(), torch.max(inputs).item()))
+    print("output (min, max):", (torch.min(outputs).item(), torch.max(outputs).item()))
+    print("label (min, max):", (torch.min(targets).item(), torch.max(targets).item()))
     # error = rmse(outputs, targets)
     if name == 'cross_entropy':
         criterion = nn.CrossEntropyLoss()
