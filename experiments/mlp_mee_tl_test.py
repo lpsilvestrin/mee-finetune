@@ -13,7 +13,7 @@ from utils.datasets import load_preproc_data
 
 def run(loss_src='MEE', loss_tar='mse', seed=0):
     # test mlp hyperparameters
-    config = DictConfig(dict(
+    config = dict(
         learning_rate=1e-3,
         dropout_rate=0.1,
         loss_function=loss_src,
@@ -33,7 +33,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
         debug_mode=False,
         input_type='man',
         model_type='mlp'
-    ))
+    )
 
     wandb_init = dict(
         project='MEE_loss_test',
@@ -47,7 +47,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
     # config = wandb.config
     # print(config)
 
-    train_x, train_y, test_data_dict = prepare_data(config)
+    train_x, train_y, test_data_dict = prepare_data(DictConfig(config))
 
     # pretain on the source data
     litmodel = train_torch(train_x, train_y, test_data_dict, wandb_init)
@@ -58,7 +58,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
     config['loss_src'] = loss_src
     config['train_dataset'] = 'tar1'
 
-    train_x, train_y, test_data_dict = prepare_data(config)
+    train_x, train_y, test_data_dict = prepare_data(DictConfig(config))
 
     train_torch(train_x, train_y, test_data_dict, wandb_init, model=litmodel.model)
 
