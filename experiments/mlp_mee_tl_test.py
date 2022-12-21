@@ -29,6 +29,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
         l2_reg=.0,
         train_dataset='src',
         test_dataset=['tar1'],
+        norm_label=True,
         trunc_label=False,
         debug_mode=False,
         input_type='man',
