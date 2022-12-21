@@ -13,7 +13,7 @@ from utils.datasets import load_preproc_data
 
 def run(loss_src='MEE', loss_tar='mse', seed=0):
     # test mlp hyperparameters
-    config = dict(
+    config = DictConfig(dict(
         learning_rate=1e-3,
         dropout_rate=0.1,
         loss_function=loss_src,
@@ -33,7 +33,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
         debug_mode=False,
         input_type='man',
         model_type='mlp'
-    )
+    ))
 
     wandb_init = dict(
         project='MEE_loss_test',
