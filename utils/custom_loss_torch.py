@@ -18,7 +18,7 @@ from algorithms.torch_mlp import build_mlp
 from algorithms.torch_tcn import build_tcn
 
 
-def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
+def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     run = wandb.init(**wandb_init)
     config = wandb.config
 
@@ -42,11 +42,12 @@ def train_custom_loss_tcn(train_x, train_y, test_sets, wandb_init):
 
     in_shape = train_x.shape[1:]
     in_features = in_shape[0]
-    if config.model_type == 'tcn':
-        # model = build_tcn(in_features, out_shape, config)
-        model = build_tcn(in_features, out_shape, config)
-    elif config.model_type == 'mlp':
-        model = build_mlp(in_features, out_shape, config)
+    if model is None:
+        if config.model_type == 'tcn':
+            # model = build_tcn(in_features, out_shape, config)
+            model = build_tcn(in_features, out_shape, config)
+        elif config.model_type == 'mlp':
+            model = build_mlp(in_features, out_shape, config)
 
     # model.double()
     if 'save_model' in config.keys():
