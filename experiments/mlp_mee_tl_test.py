@@ -53,7 +53,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
     litmodel = train_torch(train_x, train_y, test_data_dict, wandb_init)
 
     # finetune on the target data
-    wandb_init['group'] = 'bike-renting-tar'
+    wandb_init['group'] = 'nasa_tar1_tar'
     config['loss_function'] = loss_tar
     config['loss_src'] = loss_src
     config['train_dataset'] = 'tar1'
