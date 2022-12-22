@@ -20,6 +20,7 @@ from algorithms.torch_tcn import build_tcn
 
 def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     run = wandb.init(**wandb_init)
+    wandb.require("service")
     config = wandb.config
 
     seed_everything(config.seed)
@@ -93,9 +94,8 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     # eval mode: disable randomness, dropout, etc before running tests
     litmodel.eval()
 
-    metrics = trainer.test(litmodel, val_loader)
-    metric_names = metrics[0].keys()
-    metrics = {m_name: np.mean(m_dict[m_name] for m_dict in metrics) for m_name in metric_names}
+    trainer.test(litmodel, val_loader)
+    metrics = litmodel.test_output
     run.log({f"val/{k}": v for k, v in metrics.items()})
 
     for key, t_set in test_sets.items():
@@ -105,9 +105,8 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
             shuffle=False,
             num_workers=4)
 
-        metrics = trainer.test(litmodel, test_loader)
-        metric_names = metrics[0].keys()
-        metrics = {m_name: np.mean(m_dict[m_name] for m_dict in metrics) for m_name in metric_names}
+        trainer.test(litmodel, test_loader)
+        metrics = litmodel.test_output
         run.log({f"{key}/{k}": v for k, v in metrics.items()})
 
     wandb.finish()

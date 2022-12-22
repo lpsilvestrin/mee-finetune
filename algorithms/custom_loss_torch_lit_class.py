@@ -21,6 +21,9 @@ class PyLitModelWrapper(LightningModule):
         self.metrics = metrics
         self.l2_reg = l2_reg
         self.wandb_run = None
+        # hacky attribute in order to get the output from trainer.test()
+        # pylight issue documented here https://github.com/Lightning-AI/lightning/issues/1088
+        self.test_output = None
 
     def forward(self, x):
         '''method used for inference input -> output'''
@@ -35,6 +38,14 @@ class PyLitModelWrapper(LightningModule):
     def test_step(self, batch, batch_idx):
         _, metrics = self._get_preds_loss_metrics(batch)
         return metrics
+
+    def test_epoch_end(self, outputs) -> None:
+        gathered = self.all_gather(outputs)
+        if self.global_rank == 0:
+            # print(gathered)
+            keys = gathered[0].keys()
+            metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
+            self.test_output = metrics
 
     def training_epoch_end(self, outputs) -> None:
         gathered = self.all_gather(outputs)
