@@ -93,12 +93,21 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     # eval mode: disable randomness, dropout, etc before running tests
     litmodel.eval()
 
-    _, metrics = litmodel._get_preds_loss_metrics(val_loader.dataset.tensors)
+    metrics = trainer.test(litmodel, val_loader)
+    metric_names = metrics[0].keys()
+    metrics = {m_name: np.mean(m_dict[m_name] for m_dict in metrics) for m_name in metric_names}
     run.log({f"val/{k}": v for k, v in metrics.items()})
 
     for key, t_set in test_sets.items():
-        tensor_t_set = torch.tensor(t_set[0], dtype=torch.float32), torch.tensor(t_set[1], dtype=torch.float32)
-        _, metrics = litmodel._get_preds_loss_metrics(tensor_t_set)
+        test_loader = DataLoader(
+            TensorDataset(torch.tensor(t_set[0], dtype=torch.float32), torch.tensor(t_set[1], dtype=torch.float32)),
+            batch_size=config.batch_size,
+            shuffle=False,
+            num_workers=4)
+
+        metrics = trainer.test(litmodel, test_loader)
+        metric_names = metrics[0].keys()
+        metrics = {m_name: np.mean(m_dict[m_name] for m_dict in metrics) for m_name in metric_names}
         run.log({f"{key}/{k}": v for k, v in metrics.items()})
 
     wandb.finish()
