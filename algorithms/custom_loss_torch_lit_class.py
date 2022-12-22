@@ -32,6 +32,10 @@ class PyLitModelWrapper(LightningModule):
         _, metrics = self._get_preds_loss_metrics(batch)
         return metrics
 
+    def test_step(self, batch, batch_idx):
+        _, metrics = self._get_preds_loss_metrics(batch)
+        return metrics
+
     def training_epoch_end(self, outputs) -> None:
         gathered = self.all_gather(outputs)
         if self.global_rank == 0:
