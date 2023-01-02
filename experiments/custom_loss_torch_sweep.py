@@ -10,6 +10,8 @@ from utils.datasets import load_preproc_data
 
 
 def sweep_custom_torch_model():
+    config = dict()
+
     # best TCN hyperparameters found using the source dataset
     # config = dict(
     #     learning_rate=1e-4,
@@ -38,27 +40,27 @@ def sweep_custom_torch_model():
     # )
 
     # test mlp hyperparameters
-    config = dict(
-        learning_rate=1e-4,
-        dropout_rate=0.1,
-        loss_function='MEE',
-        epochs=400,
-        batch_size=32,
-        validation_split=0.1,
-        early_stop_patience=400,
-        # seed=list(range(5)),
-        seed=3,
-        hidden=[],
-        transpose_input=False,
-        save_model=False,
-        l2_reg=1e-5,
-        train_dataset='src',
-        test_dataset=[],
-        trunc_label=False,
-        debug_mode=False,
-        input_type='man',
-        model_type='mlp'
-    )
+    # config = dict(
+    #     learning_rate=1e-4,
+    #     dropout_rate=0.1,
+    #     loss_function='MEE',
+    #     epochs=400,
+    #     batch_size=32,
+    #     validation_split=0.1,
+    #     early_stop_patience=400,
+    #     # seed=list(range(5)),
+    #     seed=3,
+    #     hidden=[],
+    #     transpose_input=False,
+    #     save_model=False,
+    #     l2_reg=1e-5,
+    #     train_dataset='src',
+    #     test_dataset=[],
+    #     trunc_label=False,
+    #     debug_mode=False,
+    #     input_type='man',
+    #     model_type='mlp'
+    # )
 
     wandb_init = dict(
         project='test2',
