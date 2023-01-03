@@ -66,6 +66,6 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
 
 
 if __name__ == '__main__':
-    params = product(['MEE', 'mse', 'MI'], ['MEE'], list(range(0,10)))
+    params = product(['MEE', 'mse'], ['MEE'], list(range(0,10)))
     for loss_src, loss_tar, seed in params:
         run(loss_src=loss_src, loss_tar=loss_tar, seed=seed)
