@@ -27,8 +27,6 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
         save_model=False,
         l2_reg=.0,
         test_dataset=[],
-        norm_label=True,
-        trunc_label=False,
         debug_mode=False,
         input_type='win',
         model_type='tcn'
