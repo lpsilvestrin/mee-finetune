@@ -34,7 +34,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
         model_type='tcn'
     )
 
-    config['group'] = 'nasa_tar2_src'
+    config['group'] = 'nasa_tar1_src'
     config['loss_function'] = loss_src
     config['train_dataset'] = 'src'
 
@@ -55,11 +55,11 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
     litmodel = train_torch(train_x, train_y, test_data_dict, wandb_init)
 
     # finetune on the target data
-    config['group'] = 'nasa_tar2_tar'
+    config['group'] = 'nasa_tar1_tar'
     config['loss_function'] = loss_tar
     config['loss_src'] = loss_src
-    config['train_dataset'] = 'tar2'
-    config['test_dataset'] = ['tar2']
+    config['train_dataset'] = 'tar1'
+    config['test_dataset'] = ['tar1']
     wandb_init['config'] = config
 
     train_x, train_y, test_data_dict = prepare_data(DictConfig(config))
