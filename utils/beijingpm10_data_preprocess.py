@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 
 from tsai.data.external import get_Monash_regression_data
 
@@ -21,7 +21,7 @@ def preprocess_data(x_train, x_test, y_train, y_test, scaler=None):
 
     # normalize the data per input channel using training samples
     if scaler is None:
-        scaler = MinMaxScaler(feature_range=(0, 1))
+        scaler = StandardScaler()
         scaler.fit(x_train)
     x_train = scaler.transform(x_train)
     x_test = scaler.transform(x_test)
@@ -29,6 +29,12 @@ def preprocess_data(x_train, x_test, y_train, y_test, scaler=None):
     # unflatten the time windows (samples, window size, channels)
     x_train = x_train.reshape(-1, win_size, channels)
     x_test = x_test.reshape(-1, win_size, channels)
+
+    # normalize the outputs
+    scaler = StandardScaler()
+    y_train = scaler.fit_transform(y_train.reshape(-1, 1))
+    y_test = scaler.transform(y_test.reshape(-1, 1))
+
     return x_train, x_test, y_train, y_test
 
 

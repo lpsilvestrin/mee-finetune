@@ -2,7 +2,7 @@ import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import os
 
-from sklearn.preprocessing import MinMaxScaler, PowerTransformer
+from sklearn.preprocessing import StandardScaler
 
 from tsai.data.preparation import SlidingWindowPanel
 
@@ -82,27 +82,24 @@ def preprocess_data(df, nb_train_engines=80):
     rand = np.random.RandomState(1234)
     rand.shuffle(ids)
     df_train = df[df["id"].isin(ids[:nb_train_engines])].reset_index(drop=True)
-    y_train = df_train.pop('RUL')
     id_train = df_train.pop('id')
     df_test = df[df["id"].isin(ids[nb_train_engines:])].reset_index(drop=True)
-    y_test = df_test.pop('RUL')
     id_test = df_test.pop('id')
     # save input column names
-    x_cols = df_train.columns
+    df_cols = df_train.columns
 
     # normalize the data
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    pt = PowerTransformer()
+    scaler = StandardScaler()
     df_train = scaler.fit_transform(df_train)
-    df_train = pt.fit_transform(df_train)
-    df_train = pd.DataFrame(df_train, columns=x_cols)
-    df_train['RUL'] = y_train
+    df_train = pd.DataFrame(df_train, columns=df_cols)
     df_train['id'] = id_train
     df_test = scaler.transform(df_test)
-    df_test = pt.transform(df_test)
-    df_test = pd.DataFrame(df_test, columns=x_cols)
-    df_test['RUL'] = y_test
+    df_test = pd.DataFrame(df_test, columns=df_cols)
     df_test['id'] = id_test
+
+    # cols to be used as input
+    x_cols = list(df_cols)
+    x_cols.remove('RUL')
 
     # extract the time windows and separate RUL as the label
     win = SlidingWindowPanel(window_len=30,
@@ -154,14 +151,15 @@ def save_tl_datasets():
                  man_x_train=extract_manual_features(tr_x),
                  c22_x_train=c22_tr,
                  y_train=tr_y,
-                 norm_y_train=normalize_label(tr_y),
-                 trunc_y_train=truncate_labels(tr_y),
+                 # norm_y_train=normalize_label(tr_y),
+                 # trunc_y_train=truncate_labels(tr_y),
                  win_x_test=tst_x.transpose(0, 2, 1),
                  man_x_test=extract_manual_features(tst_x),
                  c22_x_test=c22_tst,
                  y_test=tst_y,
-                 norm_y_test=normalize_label(tst_y),
-                 trunc_y_test=truncate_labels(tst_y))
+                 # norm_y_test=normalize_label(tst_y),
+                 # trunc_y_test=truncate_labels(tst_y)
+        )
 
 
 def normalize_label(y, mode='in', trunc=False):
