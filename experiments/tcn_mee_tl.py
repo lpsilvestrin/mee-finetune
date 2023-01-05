@@ -26,7 +26,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
         transpose_input=True,
         save_model=False,
         l2_reg=.0,
-        test_dataset=['tar2'],
+        test_dataset=[],
         norm_label=True,
         trunc_label=False,
         debug_mode=False,
@@ -59,6 +59,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
     config['loss_function'] = loss_tar
     config['loss_src'] = loss_src
     config['train_dataset'] = 'tar2'
+    config['test_dataset'] = ['tar2']
     wandb_init['config'] = config
 
     train_x, train_y, test_data_dict = prepare_data(DictConfig(config))
@@ -67,6 +68,6 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
 
 
 if __name__ == '__main__':
-    params = product(['MEE', 'mse'], ['MEE', 'mse'], list(range(10,21)))
+    params = product(['MEE', 'mse'], ['MEE', 'mse'], list(range(0,20)))
     for loss_src, loss_tar, seed in params:
         run(loss_src=loss_src, loss_tar=loss_tar, seed=seed)
