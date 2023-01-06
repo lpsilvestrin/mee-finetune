@@ -34,9 +34,9 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
         model_type='tcn'
     )
 
-    config['group'] = 'nasa_tar3_src'
+    config['group'] = 'bpm10_src'
     config['loss_function'] = loss_src
-    config['train_dataset'] = 'src'
+    config['train_dataset'] = 'bpm10_src'
 
     wandb_init = dict(
         project='tcn_custom_loss',
@@ -55,11 +55,11 @@ def run(loss_src='MEE', loss_tar='mse', seed=0):
     litmodel = train_torch(train_x, train_y, test_data_dict, wandb_init)
 
     # finetune on the target data
-    config['group'] = 'nasa_tar3_tar'
+    config['group'] = 'bpm10_tar'
     config['loss_function'] = loss_tar
     config['loss_src'] = loss_src
-    config['train_dataset'] = 'tar3'
-    config['test_dataset'] = ['tar3']
+    config['train_dataset'] = 'bpm10_tar'
+    config['test_dataset'] = ['bpm10_tar']
     wandb_init['config'] = config
 
     train_x, train_y, test_data_dict = prepare_data(DictConfig(config))
