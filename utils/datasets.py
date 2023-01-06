@@ -4,6 +4,7 @@ import numpy as np
 def load_preproc_data(name='src', path='../Data/'):
     """
     the sequencial data should be in the tensorflow order (samples, steps, features)
+    inputs and outputs are standardized (- mean and * 1/std)
     Args:
         name:
         path:
