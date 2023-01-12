@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 
 import torch
@@ -95,7 +97,7 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     litmodel.eval()
 
     trainer.test(litmodel, val_loader)
-    metrics = litmodel.test_output
+    _, metrics = litmodel.test_output
     run.log({f"val/{k}": v for k, v in metrics.items()})
 
     for key, t_set in test_sets.items():
@@ -106,8 +108,11 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
             num_workers=4)
 
         trainer.test(litmodel, test_loader)
-        metrics = litmodel.test_output
+        res, metrics = litmodel.test_output
         run.log({f"{key}/{k}": v for k, v in metrics.items()})
+        res_filename = os.path.join(run.dir, f"{key}_test_residuals.npy")
+        np.save(res_filename, res)
+        run.save(res_filename)
 
     wandb.finish()
 

@@ -36,16 +36,20 @@ class PyLitModelWrapper(LightningModule):
         return metrics
 
     def test_step(self, batch, batch_idx):
-        _, metrics = self._get_preds_loss_metrics(batch)
-        return metrics
+        _, y = batch
+        pred, metrics = self._get_preds_loss_metrics(batch)
+        res = y - pred
+        return res, metrics
 
     def test_epoch_end(self, outputs) -> None:
         gathered = self.all_gather(outputs)
         if self.global_rank == 0:
-            # print(gathered)
-            keys = gathered[0].keys()
-            metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
-            self.test_output = metrics
+            # unzip residuals and metrics
+            res_gath, metrics_gath = zip(*gathered)
+            keys = metrics_gath[0].keys()
+            metrics = {k: sum(output[k].mean() for output in metrics_gath) / len(metrics_gath) for k in keys}
+            residuals = torch.concat(res_gath)
+            self.test_output = (residuals, metrics)
 
     def training_epoch_end(self, outputs) -> None:
         gathered = self.all_gather(outputs)
