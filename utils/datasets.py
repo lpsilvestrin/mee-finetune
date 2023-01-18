@@ -19,6 +19,8 @@ def load_preproc_data(name='src', path='../Data/'):
         'tar3': "df4/preproc_dataset.npz",
         'bpm10_src': "BeijingPM10Quality/src.npz",
         'bpm10_tar': "BeijingPM10Quality/tar.npz",
+        "bike11_src": "bike/src11.npz",
+        "bike11_tar": "bike/tar11.npz"
     }
     assert name in names_dict, f"{name} are not in the know dataset list: {', '.join(names_dict.keys())}"
     filename = path+'/'+names_dict[name]
