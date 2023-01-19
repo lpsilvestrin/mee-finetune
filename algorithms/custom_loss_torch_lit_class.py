@@ -24,10 +24,11 @@ class PyLitModelWrapper(LightningModule):
         # hacky attribute in order to get the output from trainer.test()
         # pylight issue documented here https://github.com/Lightning-AI/lightning/issues/1088
         self.test_output = None
+        # store model bias during training for use later at test steps
+        self.register_buffer("model_bias", torch.zeros(1))
 
     def forward(self, x):
         '''method used for inference input -> output'''
-
         return self.model(x)
 
     def training_step(self, batch, batch_idx):
@@ -36,10 +37,24 @@ class PyLitModelWrapper(LightningModule):
         return metrics
 
     def test_step(self, batch, batch_idx):
-        _, y = batch
-        pred, metrics = self._get_preds_loss_metrics(batch)
+        x, y = batch
+        pred = self(x) + self.model_bias
+        loss = loss_fn(x, pred, y, self.loss)
+
+        metrics = {k: m(pred, y) for k, m in self.metrics.items()}
+        metrics['loss'] = loss
         res = y - pred
         return res, metrics
+
+    def validation_step(self, batch, batch_idx):
+        '''used for logging metrics'''
+        preds, metrics = self._get_preds_loss_metrics(batch)
+
+        # Log loss and metric
+        metrics = {f'val_{k}': v for k, v in metrics.items()}
+        self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=False, logger=False)
+
+        return metrics
 
     def test_epoch_end(self, outputs) -> None:
         gathered = self.all_gather(outputs)
@@ -68,16 +83,6 @@ class PyLitModelWrapper(LightningModule):
             metrics = {k: sum(output[k].mean() for output in gathered) / len(outputs) for k in keys}
             self.wandb_run.log(metrics, step=self.current_epoch)
             self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True, logger=False)
-
-    def validation_step(self, batch, batch_idx):
-        '''used for logging metrics'''
-        preds, metrics = self._get_preds_loss_metrics(batch)
-
-        # Log loss and metric
-        metrics = {f'val_{k}': v for k, v in metrics.items()}
-        self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=False, logger=False)
-
-        return metrics
 
     def configure_optimizers(self):
         '''defines model optimizer'''
@@ -187,7 +192,6 @@ def loss_fn(inputs, outputs, targets, name):
     if name == 'MAE':
         criterion = torch.nn.L1Loss()
         loss = criterion(outputs, targets)
-
     if name == 'HSIC':
         loss = HSIC(inputs_2d, error, s_x=2, s_y=1)
     if name == 'MI':
