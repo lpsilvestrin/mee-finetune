@@ -123,19 +123,3 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     wandb.finish()
 
     return litmodel
-
-
-def calculate_bias(model, train_loader):
-    model.eval()
-    bias_loss = 0
-    with torch.no_grad():
-        for batch_idx, (inputs, targets) in enumerate(train_loader):
-            inputs, targets = inputs.to(device), targets.to(device)
-            outputs = model(inputs)
-            loss = loss_fn(inputs, outputs, targets, 'bias')
-
-            bias_loss += loss.item()
-        bias = bias_loss/(batch_idx+1)
-    return bias
-
-
