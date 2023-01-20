@@ -91,7 +91,7 @@ def load_pretrained_src(config, train_x, train_y, ckpt_path):
 if __name__ == '__main__':
     data_pairs = list(product(['src'], ['tar1', 'tar2', 'tar3']))
     data_pairs.append(('bpm10_src', 'bpm10_tar'))
-    params = product(['MEE', 'mse'], ['MEE', 'mse'], list(range(0, 1)), data_pairs)
+    params = product(['MEE', 'mse'], ['MEE', 'mse'], list(range(0, 20)), data_pairs)
     for loss_src, loss_tar, seed, src_tar_pair in params:
         src, tar = src_tar_pair
         run(loss_src=loss_src, loss_tar=loss_tar, seed=seed, src_data=src, tar_data=tar)
