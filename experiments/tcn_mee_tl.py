@@ -4,9 +4,13 @@ import numpy as np
 from omegaconf import DictConfig
 
 import wandb
+from algorithms.custom_loss_torch_lit_class import PyLitModelWrapper
+from algorithms.torch_tcn import build_tcn
 from utils.data_utils import prepare_data
 
 from utils.custom_loss_torch import train_torch
+
+_previous_src_paths = dict()
 
 
 def run(loss_src='MEE', loss_tar='mse', seed=0, tar_data="tar1", src_data="src"):
@@ -14,7 +18,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0, tar_data="tar1", src_data="src")
     config = dict(
         learning_rate=1e-4,
         dropout_rate=0.1,
-        epochs=200,
+        epochs=2,
         batch_size=64,
         validation_split=0.1,
         early_stop_patience=100,
@@ -45,14 +49,17 @@ def run(loss_src='MEE', loss_tar='mse', seed=0, tar_data="tar1", src_data="src")
         config=config
     )
 
-    # wandb.init(**wandb_init)
-    # config = wandb.config
-    # print(config)
-
     train_x, train_y, test_data_dict = prepare_data(DictConfig(config))
+    # test whether src was already trained before
+    # create unique id for each src run
+    src_id = "_".join([loss_src, src_data, str(seed)])
+    if src_id not in _previous_src_paths:
 
-    # pretain on the source data
-    litmodel = train_torch(train_x, train_y, test_data_dict, wandb_init)
+        # pretain on the source data
+        litmodel, ckpt_path = train_torch(train_x, train_y, test_data_dict, wandb_init)
+        _previous_src_paths[src_id] = ckpt_path
+    else:
+        litmodel = load_pretrained_src(config, train_x, train_y, _previous_src_paths[src_id])
 
     # finetune on the target data
     config['group'] = tar_data
@@ -67,10 +74,24 @@ def run(loss_src='MEE', loss_tar='mse', seed=0, tar_data="tar1", src_data="src")
     train_torch(train_x, train_y, test_data_dict, wandb_init, model=litmodel.model)
 
 
+def build_tcn_model(config, train_x, train_y):
+    out_shape = train_y.shape[1]
+    in_shape = train_x.shape[1:]
+    in_features = in_shape[0]
+    model = build_tcn(in_features, out_shape, config)
+    return model
+
+
+def load_pretrained_src(config, train_x, train_y, ckpt_path):
+    model = build_tcn_model(DictConfig(config), train_x, train_y)
+    litmodel = PyLitModelWrapper.load_from_checkpoint(ckpt_path, model=model)
+    return litmodel
+
+
 if __name__ == '__main__':
     data_pairs = list(product(['src'], ['tar1', 'tar2', 'tar3']))
     data_pairs.append(('bpm10_src', 'bpm10_tar'))
-    params = product(['MEE', 'mse'], ['MEE', 'mse'], list(range(0,1)), data_pairs)
+    params = product(['MEE', 'mse'], ['MEE', 'mse'], list(range(0, 1)), data_pairs)
     for loss_src, loss_tar, seed, src_tar_pair in params:
         src, tar = src_tar_pair
         run(loss_src=loss_src, loss_tar=loss_tar, seed=seed, src_data=src, tar_data=tar)

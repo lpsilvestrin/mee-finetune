@@ -122,4 +122,4 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
 
     wandb.finish()
 
-    return litmodel
+    return litmodel, ckp_callback.best_model_path
