@@ -22,7 +22,6 @@ from algorithms.torch_tcn import build_tcn
 
 def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     run = wandb.init(**wandb_init)
-    wandb.require("service")
     config = wandb.config
 
     seed_everything(config.seed)
