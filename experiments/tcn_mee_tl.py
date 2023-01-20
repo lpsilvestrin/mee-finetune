@@ -18,7 +18,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0, tar_data="tar1", src_data="src")
     config = dict(
         learning_rate=1e-4,
         dropout_rate=0.1,
-        epochs=2,
+        epochs=200,
         batch_size=64,
         validation_split=0.1,
         early_stop_patience=100,
