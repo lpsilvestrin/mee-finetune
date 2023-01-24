@@ -89,8 +89,11 @@ def load_pretrained_src(config, train_x, train_y, ckpt_path):
 
 
 if __name__ == '__main__':
-    data_pairs = list(product(['src'], ['tar1', 'tar2', 'tar3']))
-    data_pairs.append(('bpm10_src', 'bpm10_tar'))
+    data_pairs = []
+    # CMPASS datasets
+    # data_pairs = data_pairs + list(product(['src'], ['tar1', 'tar2', 'tar3']))
+    # data_pairs.append(('bpm10_src', 'bpm10_tar'))
+    data_pairs.append(('bike11_src', 'bike11_tar'))
     params = product(['MEE', 'mse'], ['MEE', 'mse'], list(range(0, 20)), data_pairs)
     for loss_src, loss_tar, seed, src_tar_pair in params:
         src, tar = src_tar_pair
