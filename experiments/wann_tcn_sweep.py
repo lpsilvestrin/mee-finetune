@@ -4,27 +4,28 @@ from utils.datasets import load_preproc_data
 
 
 def sweep_wann_tcn():
-    config = dict(
-        C=0.1,
-        pre_train=False,
-        learning_rate=1e-4,
-        dropout_rate=0.1,
-        loss_function='mse',
-        epochs=4,
-        batch_size=64,
-        validation_split=0.1,
-        early_stop_patience=2,
-        seed=4,
-        tcn=dict(dilations=2,
-                 filters=128),
-        tcn2=True,
-        kernel_size=3,
-        transpose_input=True,
-        save_model=False,
-        l2_reg=1e-2,
-        train_dataset='bpm10_tar',
-        src_dataset='bpm10_src'
-    )
+    config = dict()
+    # config = dict(
+    #     C=0.1,
+    #     pre_train=False,
+    #     learning_rate=1e-4,
+    #     dropout_rate=0.1,
+    #     loss_function='mse',
+    #     epochs=4,
+    #     batch_size=64,
+    #     validation_split=0.1,
+    #     early_stop_patience=2,
+    #     seed=4,
+    #     tcn=dict(dilations=2,
+    #              filters=128),
+    #     tcn2=True,
+    #     kernel_size=3,
+    #     transpose_input=True,
+    #     save_model=False,
+    #     l2_reg=1e-2,
+    #     train_dataset='bpm10_tar',
+    #     src_dataset='bpm10_src'
+    # )
 
     wandb_init = dict(
         project='test2',
