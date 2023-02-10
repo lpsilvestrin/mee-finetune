@@ -108,8 +108,6 @@ def pairwise_distances(x):
 
 def calculate_gram_mat(x, sigma):
     dist = pairwise_distances(x)
-    print("pairwise dist diagonal sum:", torch.trace(dist).item())
-    print("PW matrix min, max:", (torch.min(dist).item(), torch.max(dist).item()))
     return torch.exp(-dist / sigma)
 
 
@@ -117,6 +115,11 @@ def renyi_entropy(x, sigma):
     alpha = 1.001
     k = calculate_gram_mat(x, sigma)
     print("gram_mat trace:", torch.trace(k).item())
+    n = k.shape[0]
+    # select the off-diagonal elements (code from https://discuss.pytorch.org/t/keep-off-diagonal-elements-only-from-square-matrix/54379)
+    off_diag = k.flatten()[1:].view(n-1, n+1)[:, :-1]
+    print("gram mat off-diag mean, std:", torch.mean(off_diag).item(), torch.std(off_diag).item())
+    # print("PW matrix min, max:", (torch.min(dist).item(), torch.max(dist).item()))
     k = k / torch.trace(k)
     eigv = torch.abs(torch.linalg.eigh(k)[0])
     eig_pow = eigv ** alpha
@@ -176,9 +179,9 @@ class RMSELoss(nn.Module):
 def loss_fn(inputs, outputs, targets, name):
     inputs_2d = inputs.reshape(inputs.shape[0], -1)
     error = targets - outputs
-    print("input (min, max):", (torch.min(inputs).item(), torch.max(inputs).item()))
-    print("output (min, max):", (torch.min(outputs).item(), torch.max(outputs).item()))
-    print("label (min, max):", (torch.min(targets).item(), torch.max(targets).item()))
+    # print("input (min, max):", (torch.min(inputs).item(), torch.max(inputs).item()))
+    # print("output (min, max):", (torch.min(outputs).item(), torch.max(outputs).item()))
+    # print("label (min, max):", (torch.min(targets).item(), torch.max(targets).item()))
     # error = rmse(outputs, targets)
     if name == 'cross_entropy':
         criterion = nn.CrossEntropyLoss()
