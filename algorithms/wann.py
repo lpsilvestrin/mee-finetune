@@ -119,7 +119,7 @@ def train_wann_tcn(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):
 
     metrics = [tf.keras.metrics.RootMeanSquaredError(name='root_mean_squared_error'),
                tf.keras.metrics.MeanAbsoluteError(name='mae'),
-               tf.keras.metrics.MeanSquaredError(name='loss')]
+               tf.keras.metrics.MeanSquaredError(name='mse')]
 
     # wann.compile(loss=config.loss_function, optimizer=opt, metrics={'disc': [], 'task': metrics})
 
