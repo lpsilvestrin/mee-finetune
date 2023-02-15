@@ -58,8 +58,9 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
         save_model = False
     wandb_logger = WandbLogger(log_model=save_model)
 
-    ckp_callback = ModelCheckpoint(dirpath='pylit_chkpt/', monitor='val_loss', mode='min', filename=run.id)
-    earlystop_callback = EarlyStopping(monitor='val_loss', mode='min', patience=config.early_stop_patience)
+    early_stop_criteria = 'val_loss' if 'early_stop_criteria' not in config else config.early_stop_criteria
+    ckp_callback = ModelCheckpoint(dirpath='pylit_chkpt/', monitor=early_stop_criteria, mode='min', filename=run.id)
+    earlystop_callback = EarlyStopping(monitor=early_stop_criteria, mode='min', patience=config.early_stop_patience)
 
     metrics = dict(
         mse=mean_squared_error,
@@ -74,6 +75,12 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     )
     # assign the wandb run object to log training statistics
     litmodel.wandb_run = run
+
+    # set optional loss parameters
+    if 'sigma_y' in config:
+        litmodel.sigma_y = config.sigma_y
+    if 'sigma_x' in config:
+        litmodel.sigma_x = config.sigma_x
 
     debug_mode = False
     if 'debug_mode' in config:
