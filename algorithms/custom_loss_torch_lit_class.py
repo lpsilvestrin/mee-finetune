@@ -124,7 +124,7 @@ def renyi_entropy(x, sigma):
     n = k.shape[0]
     # select the off-diagonal elements (code from https://discuss.pytorch.org/t/keep-off-diagonal-elements-only-from-square-matrix/54379)
     off_diag = k.flatten()[1:].view(n-1, n+1)[:, :-1]
-    print("gram mat off-diag mean {%.2f}, std {%.2f}, median {%.sf}:".format(torch.mean(off_diag).item(), torch.std(off_diag).item(), torch.median(off_diag).item()))
+    print("gram mat off-diag mean %.2f, std %.2f, median %.2f:" % (torch.mean(off_diag).item(), torch.std(off_diag).item(), torch.median(off_diag).item()))
     # print("PW matrix min, max:", (torch.min(dist).item(), torch.max(dist).item()))
     k = k / torch.trace(k)
     eigv = torch.abs(torch.linalg.eigh(k)[0])
@@ -166,7 +166,7 @@ def HSIC(x, y, s_x, s_y):
     K = GaussianKernelMatrix(x, s_x)
     L = GaussianKernelMatrix(y, s_y)
     H = torch.eye(m) - 1.0 / m * torch.ones((m, m))
-    H = H.float().cuda()
+    # H = H.float().cuda()
     HSIC = torch.trace(torch.mm(L, torch.mm(H, torch.mm(K, H)))) / ((m - 1) ** 2)
     return HSIC
 
