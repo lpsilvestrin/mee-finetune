@@ -114,7 +114,7 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     # eval mode: disable randomness, dropout, etc before running tests
     litmodel.eval()
 
-    if config.loss_function in ["MEE", "MI"]:
+    if config.loss_function in ["MEE", "MI", "HSIC"]:
         print("computing model bias --------------")
         trainer.test(litmodel, train_loader)
         res, _ = litmodel.test_output
