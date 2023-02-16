@@ -77,6 +77,18 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     litmodel.wandb_run = run
 
     # set optional loss parameters
+    rbf_kernel_dict = {
+        'src': dict(y=0.3, x=400),
+        'tar1': dict(y=0.5, x=800),
+        'tar2': dict(y=0.1, x=450),
+        'tar3': dict(y=0.5, x=800),
+        'bpm10_src': dict(y=0.5, x=300),
+        'bpm10_tar': dict(y=0.3, x=300),
+        "bike11_src": dict(y=0.3, x=250),
+        "bike11_tar": dict(y=0.8, x=200)
+    }
+    litmodel.sigma_x = rbf_kernel_dict[config.train_dataset]['x']
+    litmodel.sigma_y = rbf_kernel_dict[config.train_dataset]['y']
     if 'sigma_y' in config:
         litmodel.sigma_y = config.sigma_y
     if 'sigma_x' in config:
