@@ -34,6 +34,7 @@ def get_gaussian_kernel_size(dataset, loss_function):
     }
     if loss_function == 'MEE':
         gaussian_kernel_dict['tar2']['y'] = 0.1
+        gaussian_kernel_dict['src']['y'] = 1
     return gaussian_kernel_dict[dataset]
 
 
