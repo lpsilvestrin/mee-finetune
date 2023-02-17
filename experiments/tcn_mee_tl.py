@@ -92,9 +92,17 @@ if __name__ == '__main__':
     data_pairs = []
     # CMPASS datasets
     # data_pairs = data_pairs + list(product(['src'], ['tar1', 'tar2', 'tar3']))
-    # data_pairs.append(('bpm10_src', 'bpm10_tar'))
+    data_pairs.append(('src', 'tar2'))
+    data_pairs.append(('bpm10_src', 'bpm10_tar'))
     data_pairs.append(('bike11_src', 'bike11_tar'))
-    params = product(['MEE', 'mse'], ['MEE', 'mse'], list(range(0, 20)), data_pairs)
-    for loss_src, loss_tar, seed, src_tar_pair in params:
+    mee_pair = ['MEE', 'mse']
+    hsic_pair = ['HSIC', 'mse']
+    lpairs = list(product(mee_pair, mee_pair)) # + list(product(hsic_pair, hsic_pair))
+    lpairs.remove(('mse', 'mse'))
+    # lpairs.append(('MAE', 'MAE'))
+
+    params = product(lpairs, list(range(0, 20)), data_pairs)
+    for loss_pair, seed, src_tar_pair in params:
+        loss_src, loss_tar = loss_pair
         src, tar = src_tar_pair
         run(loss_src=loss_src, loss_tar=loss_tar, seed=seed, src_data=src, tar_data=tar)
