@@ -3,12 +3,11 @@ import os
 import numpy as np
 
 import torch
-import torch.nn as nn
+
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 from pytorch_lightning.loggers import WandbLogger
 from sklearn.model_selection import train_test_split
-from torch.nn import Linear, CrossEntropyLoss, functional as F
-from torch.optim import Adam
+
 from torch.utils.data import DataLoader, TensorDataset
 from torchmetrics.functional import mean_squared_error, mean_absolute_error
 from pytorch_lightning import LightningModule, seed_everything, Trainer
