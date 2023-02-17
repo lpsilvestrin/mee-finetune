@@ -118,14 +118,20 @@ def calculate_gram_mat(x, sigma):
     return torch.exp(-dist / sigma)
 
 
-def renyi_entropy(x, sigma):
-    alpha = 1.001
-    k = calculate_gram_mat(x, sigma)
+def print_off_diag_stats_and_pw_median(k, dist):
     n = k.shape[0]
     # select the off-diagonal elements (code from https://discuss.pytorch.org/t/keep-off-diagonal-elements-only-from-square-matrix/54379)
     off_diag = k.flatten()[1:].view(n-1, n+1)[:, :-1]
     print("gram mat off-diag mean %.2f, std %.2f, median %.2f:" % (torch.mean(off_diag).item(), torch.std(off_diag).item(), torch.median(off_diag).item()))
-    # print("PW matrix min, max:", (torch.min(dist).item(), torch.max(dist).item()))
+    print("PW matrix median: %.2f" % torch.median(dist).item())
+
+
+def renyi_entropy(x, sigma):
+    alpha = 1.001
+    # k = calculate_gram_mat(x, sigma)
+    dist = pairwise_distances(x)
+    k = torch.exp(-dist / sigma)
+    print_off_diag_stats_and_pw_median(k, dist)
     k = k / torch.trace(k)
     eigv = torch.abs(torch.linalg.eigh(k)[0])
     eig_pow = eigv ** alpha
@@ -163,8 +169,16 @@ def GaussianKernelMatrix(x, sigma):
 
 def HSIC(x, y, s_x, s_y):
     m, _ = x.shape  # batch size
-    K = GaussianKernelMatrix(x, s_x)
-    L = GaussianKernelMatrix(y, s_y)
+    distx = pairwise_distances(x)
+    disty = pairwise_distances(y)
+    K = torch.exp(-distx / s_x)
+    L = torch.exp(-disty / s_y)
+    print("stats X")
+    print_off_diag_stats_and_pw_median(K, distx)
+    print("stats Y")
+    print_off_diag_stats_and_pw_median(L, disty)
+    # K = GaussianKernelMatrix(x, s_x)
+    # L = GaussianKernelMatrix(y, s_y)
     H = torch.eye(m) - 1.0 / m * torch.ones((m, m))
     if x.device.type == 'cuda':
         H = H.float().cuda()
