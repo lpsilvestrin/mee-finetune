@@ -20,6 +20,23 @@ from algorithms.torch_mlp import build_mlp
 from algorithms.torch_tcn import build_tcn
 
 
+def get_gaussian_kernel_size(dataset, loss_function):
+    # set optional loss parameters for MEE, MI, HSIC
+    gaussian_kernel_dict = {
+        'src': dict(y=0.3, x=400),
+        'tar1': dict(y=0.5, x=800),
+        'tar2': dict(y=1, x=450),
+        'tar3': dict(y=0.5, x=800),
+        'bpm10_src': dict(y=0.5, x=300),
+        'bpm10_tar': dict(y=0.3, x=300),
+        "bike11_src": dict(y=0.3, x=250),
+        "bike11_tar": dict(y=0.8, x=200)
+    }
+    if loss_function == 'MEE':
+        gaussian_kernel_dict['tar2']['y'] = 0.1
+    return gaussian_kernel_dict[dataset]
+
+
 def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     run = wandb.init(**wandb_init)
     config = wandb.config
@@ -75,20 +92,9 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
     )
     # assign the wandb run object to log training statistics
     litmodel.wandb_run = run
-
-    # set optional loss parameters
-    rbf_kernel_dict = {
-        'src': dict(y=0.3, x=400),
-        'tar1': dict(y=0.5, x=800),
-        'tar2': dict(y=0.1, x=450),
-        'tar3': dict(y=0.5, x=800),
-        'bpm10_src': dict(y=0.5, x=300),
-        'bpm10_tar': dict(y=0.3, x=300),
-        "bike11_src": dict(y=0.3, x=250),
-        "bike11_tar": dict(y=0.8, x=200)
-    }
-    litmodel.sigma_x = rbf_kernel_dict[config.train_dataset]['x']
-    litmodel.sigma_y = rbf_kernel_dict[config.train_dataset]['y']
+    gks = get_gaussian_kernel_size(config.train_dataset, config.loss_function)
+    litmodel.sigma_x = gks['x']
+    litmodel.sigma_y = gks['y']
     if 'sigma_y' in config:
         litmodel.sigma_y = config.sigma_y
     if 'sigma_x' in config:
