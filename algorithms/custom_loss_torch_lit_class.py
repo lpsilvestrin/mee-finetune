@@ -21,6 +21,7 @@ class PyLitModelWrapper(LightningModule):
         self.metrics = metrics
         self.l2_reg = l2_reg
         self.wandb_run = None
+        self.debug = True
         # attribute for use in entropy loss function (MEE, MI, HSIC)
         self.sigma_y = 1
         self.sigma_x = 2
@@ -42,7 +43,7 @@ class PyLitModelWrapper(LightningModule):
     def test_step(self, batch, batch_idx):
         x, y = batch
         pred = self(x) + self.model_bias
-        loss = loss_fn(x, pred, y, self.loss, s_y=self.sigma_y, s_x=self.sigma_x)
+        loss = loss_fn(x, pred, y, self.loss, s_y=self.sigma_y, s_x=self.sigma_x, debug=self.debug)
 
         metrics = {k: m(pred, y) for k, m in self.metrics.items()}
         metrics['loss'] = loss
@@ -95,7 +96,7 @@ class PyLitModelWrapper(LightningModule):
         '''convenience function since train/valid/test steps are similar'''
         x, y = batch
         preds = self(x)
-        loss = loss_fn(x, preds, y, self.loss, s_y=self.sigma_y, s_x=self.sigma_x)
+        loss = loss_fn(x, preds, y, self.loss, s_y=self.sigma_y, s_x=self.sigma_x, debug=self.debug)
 
         metrics = {k: m(preds, y) for k, m in self.metrics.items()}
         metrics['loss'] = loss
@@ -126,12 +127,13 @@ def print_off_diag_stats_and_pw_median(k, dist):
     print("PW matrix median: %.2f" % torch.median(dist).item())
 
 
-def renyi_entropy(x, sigma):
+def renyi_entropy(x, sigma, debug=True):
     alpha = 1.001
     # k = calculate_gram_mat(x, sigma)
     dist = pairwise_distances(x)
     k = torch.exp(-dist / sigma)
-    print_off_diag_stats_and_pw_median(k, dist)
+    if debug:
+        print_off_diag_stats_and_pw_median(k, dist)
     k = k / torch.trace(k)
     eigv = torch.abs(torch.linalg.eigh(k)[0])
     eig_pow = eigv ** alpha
@@ -197,7 +199,7 @@ class RMSELoss(nn.Module):
         return loss
 
 
-def loss_fn(inputs, outputs, targets, name, s_x=2, s_y=1):
+def loss_fn(inputs, outputs, targets, name, s_x=2, s_y=1, debug=True):
     inputs_2d = inputs.reshape(inputs.shape[0], -1)
     error = targets - outputs
     # print("input (min, max):", (torch.min(inputs).item(), torch.max(inputs).item()))
@@ -221,7 +223,7 @@ def loss_fn(inputs, outputs, targets, name, s_x=2, s_y=1):
     if name == 'MI':
         loss = calculate_MI(inputs_2d, error, s_x=s_x, s_y=s_y)
     if name == 'MEE':
-        loss = renyi_entropy(error, sigma=s_y)
+        loss = renyi_entropy(error, sigma=s_y, debug=debug)
     if name == 'bias':
         loss = targets - outputs
         loss = torch.mean(loss, 0)
