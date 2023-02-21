@@ -41,9 +41,9 @@ def polinomial_simulation(n, xrange, std, slope, intercept):
     return x, y.reshape(-1, 1)
 
 
-def hsic_paper_simulation_exp(n, std, slope, x=None):
+def hsic_paper_simulation_exp(n, std, slope, shift=0, x=None):
     if x is None:
-        x = np.random.uniform(-1, 1, size=(n, 100))
+        x = np.random.uniform(-1+shift, 1+shift, size=(n, 100))
     y = x.dot(slope) + np.random.laplace(0, std, n)
     return x, y.reshape(-1, 1)
 
@@ -73,7 +73,7 @@ def linear_regression_torch(x, y, num_epochs=100, learning_rate=0.1, loss_name='
             y_pred = model(batch_x)
 
             # Compute loss
-            batch_loss = loss_fn(batch_x, y_pred, batch_y, name=loss_name, s_y=2, debug=False)
+            batch_loss = loss_fn(batch_x, y_pred, batch_y, name=loss_name, s_y=1, debug=False)
             epoch_loss += batch_loss.item()
 
             # Compute gradients
@@ -127,7 +127,7 @@ def run_simulation():
     slope = np.random.normal(0, 0.1, 100)
     intercept = 5
     repetitions = 2
-    max_shift = 1
+    max_shift = 2
     res = []
 
     x_train = np.random.normal(1, 0.1, size=(n_train, 100))
@@ -135,12 +135,12 @@ def run_simulation():
     # train_data = [linear_simulation(n_train, xmean, xcov, std, slope, intercept) for _ in range(repetitions)]
     train_data = [hsic_paper_simulation_exp(n_train, std, slope, x=x_train) for _ in range(repetitions)]
     msl_models = [linear_regression_torch(x, y, num_epochs=100, learning_rate=1e-2, loss_name='mse') for x, y in train_data]
-    mee_models = [linear_regression_torch(x, y, num_epochs=200, learning_rate=1e-3, loss_name='MEE') for x, y in train_data]
+    mee_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='MEE') for x, y in train_data]
 
     for s in np.linspace(0, max_shift, 5):
         seed_everything(_SEED)
         # x_test, y_test = linear_simulation(n_test, xmean + s, xcov, std, slope, intercept)
-        x_test, y_test = hsic_paper_simulation_exp(n_test, std, slope)
+        x_test, y_test = hsic_paper_simulation_exp(n_test, std, slope, shift=s)
         msl_res = [(s, evaluate_model(m, x_test, y_test, bias=0), 'MSL') for m, _ in msl_models]
         mee_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'MEE') for m, b in mee_models]
         res = res + msl_res + mee_res
