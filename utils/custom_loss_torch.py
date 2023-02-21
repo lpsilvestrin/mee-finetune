@@ -32,7 +32,6 @@ def get_gaussian_kernel_size(dataset, loss_function):
         "bike11_tar": dict(y=0.8, x=200)
     }
     if loss_function == 'MEE':
-        gaussian_kernel_dict['tar2']['y'] = 0.1
         gaussian_kernel_dict['src']['y'] = 1
     return gaussian_kernel_dict[dataset]
 
