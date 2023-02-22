@@ -120,14 +120,14 @@ def run_simulation():
 
     """
     n_train = 1000
-    n_test = 1000
+    n_test = 10000
     xmean = np.array([0, 0])
     xcov = np.array([[1, 0], [0, 1]])
     std = 1
     # slope = np.array([1, 1])
     slope = np.random.normal(0, 0.1, 100)
     intercept = 5
-    repetitions = 5
+    repetitions = 20
     max_shift = 2
     res = []
 
