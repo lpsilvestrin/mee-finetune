@@ -148,7 +148,7 @@ def run_simulation():
         msl_res = [(s, evaluate_model(m, x_test, y_test, bias=0), 'MSL') for m, _ in msl_models]
         mee_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'MEE') for m, b in mee_models]
         hsic_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'HSIC') for m, b in hsic_models]
-        res = res + msl_res + mee_res, hsic_res
+        res = res + msl_res + mee_res + hsic_res
 
     df = pd.DataFrame(res, columns=['shift', 'MSE', 'loss'])
     sns.lineplot(data=df, x='shift', y='MSE', hue='loss')
