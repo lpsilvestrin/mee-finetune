@@ -74,7 +74,7 @@ def linear_regression_torch(x, y, num_epochs=100, learning_rate=0.1, loss_name='
             y_pred = model(batch_x)
 
             # Compute loss
-            batch_loss = loss_fn(batch_x, y_pred, batch_y, name=loss_name, s_y=1, debug=False)
+            batch_loss = loss_fn(batch_x, y_pred, batch_y, name=loss_name, s_x=1, s_y=1, debug=False)
             epoch_loss += batch_loss.item()
 
             # Compute gradients
@@ -92,7 +92,7 @@ def linear_regression_torch(x, y, num_epochs=100, learning_rate=0.1, loss_name='
 
     # compute bias
     bias = 0
-    if loss_name == 'MEE':
+    if loss_name in ['MEE', 'HSIC', 'MI']:
         with torch.no_grad():
             y_pred = model(x_tensor)
             bias = torch.mean(y_tensor - y_pred)
@@ -138,15 +138,17 @@ def run_simulation():
     train_data = [hsic_paper_simulation_exp(n_train, std, slope, x=x_train) for _ in range(repetitions)]
     msl_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='mse') for x, y in train_data]
     mee_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='MEE') for x, y in train_data]
+    hsic_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='HSIC') for x, y in train_data]
 
-    for s in np.linspace(-1, 1, 5):
+    for s in np.linspace(0, 2, 5):
         seed_everything(_SEED)
         x_test = np.random.normal(0, 1, size=(n_test, 100))
         # x_test, y_test = linear_simulation(n_test, xmean + s, xcov, std, slope, intercept)
         x_test, y_test = hsic_paper_simulation_exp(n_test, std, slope, shift=s, x=x_test)
         msl_res = [(s, evaluate_model(m, x_test, y_test, bias=0), 'MSL') for m, _ in msl_models]
         mee_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'MEE') for m, b in mee_models]
-        res = res + msl_res + mee_res
+        hsic_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'HSIC') for m, b in mee_models]
+        res = res + msl_res + mee_res, hsic_res
 
     df = pd.DataFrame(res, columns=['shift', 'MSE', 'loss'])
     sns.lineplot(data=df, x='shift', y='MSE', hue='loss')
