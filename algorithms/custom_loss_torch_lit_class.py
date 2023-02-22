@@ -169,16 +169,17 @@ def GaussianKernelMatrix(x, sigma):
     return torch.exp(-pairwise_distances_ / sigma)
 
 
-def HSIC(x, y, s_x, s_y):
+def HSIC(x, y, s_x, s_y, debug=True):
     m, _ = x.shape  # batch size
     distx = pairwise_distances(x)
     disty = pairwise_distances(y)
     K = torch.exp(-distx / s_x)
     L = torch.exp(-disty / s_y)
-    print("stats X")
-    print_off_diag_stats_and_pw_median(K, distx)
-    print("stats Y")
-    print_off_diag_stats_and_pw_median(L, disty)
+    if debug:
+        print("stats X")
+        print_off_diag_stats_and_pw_median(K, distx)
+        print("stats Y")
+        print_off_diag_stats_and_pw_median(L, disty)
     # K = GaussianKernelMatrix(x, s_x)
     # L = GaussianKernelMatrix(y, s_y)
     H = torch.eye(m) - 1.0 / m * torch.ones((m, m))
@@ -219,7 +220,7 @@ def loss_fn(inputs, outputs, targets, name, s_x=2, s_y=1, debug=True):
         criterion = torch.nn.L1Loss()
         loss = criterion(outputs, targets)
     if name == 'HSIC':
-        loss = HSIC(inputs_2d, error, s_x=s_x, s_y=s_y)
+        loss = HSIC(inputs_2d, error, s_x=s_x, s_y=s_y, debug=debug)
     if name == 'MI':
         loss = calculate_MI(inputs_2d, error, s_x=s_x, s_y=s_y)
     if name == 'MEE':
