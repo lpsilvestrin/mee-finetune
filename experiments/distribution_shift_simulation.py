@@ -137,9 +137,9 @@ def run_simulation():
 
     # train_data = [linear_simulation(n_train, xmean, xcov, std, slope, intercept) for _ in range(repetitions)]
     train_data = [hsic_paper_simulation_exp(n_train, std, slope, x=x_train) for _ in range(repetitions)]
-    msl_models = [linear_regression_torch(x, y, num_epochs=50, learning_rate=1e-4, loss_name='mse') for x, y in train_data]
-    mee_models = [linear_regression_torch(x, y, num_epochs=50, learning_rate=1e-4, loss_name='MEE') for x, y in train_data]
-    hsic_models = [linear_regression_torch(x, y, num_epochs=50, learning_rate=1e-4, loss_name='HSIC') for x, y in train_data]
+    msl_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='mse') for x, y in train_data]
+    mee_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='MEE') for x, y in train_data]
+    hsic_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='HSIC') for x, y in train_data]
 
     for s in np.linspace(0, 2, 5):
         seed_everything(_SEED)
