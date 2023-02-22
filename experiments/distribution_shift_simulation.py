@@ -151,7 +151,7 @@ def run_simulation():
         res = res + msl_res + mee_res + hsic_res
 
     df = pd.DataFrame(res, columns=['shift', 'MSE', 'loss'])
-    sns.lineplot(data=df, x='shift', y='MSE', hue='loss')
+    sns.lineplot(data=df, x='shift', y='MSE', hue='loss', marker=True)
     plt.savefig('../plots/linear_regression_shift.png')
     plt.show()
 
