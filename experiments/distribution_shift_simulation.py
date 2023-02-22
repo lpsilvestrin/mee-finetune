@@ -44,6 +44,7 @@ def polinomial_simulation(n, xrange, std, slope, intercept):
 def hsic_paper_simulation_exp(n, std, slope, shift=0, x=None):
     if x is None:
         x = np.random.uniform(0+shift, 2+shift, size=(n, 100))
+    x = x + shift
     y = x.dot(slope) + np.random.laplace(0, std, n)
     return x, y.reshape(-1, 1)
 
@@ -130,7 +131,8 @@ def run_simulation():
     max_shift = 2
     res = []
 
-    x_train = np.random.normal(1, 0.1, size=(n_train, 100))
+    # x_train = np.random.normal(1, 0.1, size=(n_train, 100))
+    x_train = np.random.uniform(-1, 1, size=(n_train, 100))
 
     # train_data = [linear_simulation(n_train, xmean, xcov, std, slope, intercept) for _ in range(repetitions)]
     train_data = [hsic_paper_simulation_exp(n_train, std, slope, x=x_train) for _ in range(repetitions)]
@@ -139,8 +141,9 @@ def run_simulation():
 
     for s in np.linspace(-1, 1, 5):
         seed_everything(_SEED)
+        x_test = np.random.normal(0, 1, size=(n_test, 100))
         # x_test, y_test = linear_simulation(n_test, xmean + s, xcov, std, slope, intercept)
-        x_test, y_test = hsic_paper_simulation_exp(n_test, std, slope, shift=s)
+        x_test, y_test = hsic_paper_simulation_exp(n_test, std, slope, shift=s, x=x_test)
         msl_res = [(s, evaluate_model(m, x_test, y_test, bias=0), 'MSL') for m, _ in msl_models]
         mee_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'MEE') for m, b in mee_models]
         res = res + msl_res + mee_res
