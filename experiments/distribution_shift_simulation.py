@@ -127,7 +127,7 @@ def run_simulation():
     # slope = np.array([1, 1])
     slope = np.random.normal(0, 0.1, 100)
     intercept = 5
-    repetitions = 2
+    repetitions = 5
     max_shift = 2
     res = []
 
