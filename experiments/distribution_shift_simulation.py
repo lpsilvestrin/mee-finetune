@@ -175,72 +175,7 @@ def covariate_shift_sim():
     df = pd.DataFrame(res, columns=['shift', 'MSE', 'loss'])
     sns.set_style('whitegrid')
     sns.lineplot(data=df, x='shift', y='MSE', hue='loss', style='loss', markers=True, dashes=False)
-    plt.savefig(f'../plots/covshift_{noise_type}-noise_{repetitions}reps.pdf', format='pdf', dpi=300, bounding_box='tight')
-    plt.show()
-
-
-def label_noise_shift():
-    """
-    plot MSE of a linear regression model learned from a train set and evaluated on a test set
-    with different label noise distributions
-    Returns:
-
-    """
-    noise_type = 'lap'
-    gen = np.random.default_rng(_SEED)
-    def gen_noise(n, type):
-        if type == 'lap':
-            return gen.laplace(0, 1, n)
-        elif type == 'gaus':
-            return gen.normal(0, 1, n)
-        elif type == 'exp':
-            return 1 - gen.exponential(1, n)
-        else:
-            raise ValueError('noise type not supported')
-
-    def linsim(slope, x, noise):
-        y = x.dot(slope) + noise
-        return x, y.reshape(-1, 1)
-
-    n_train = 1000
-    n_test = 10000
-    xmean = np.array([0, 0])
-    xcov = np.array([[1, 0], [0, 1]])
-    std = 1
-    # slope = np.array([1, 1])
-    slope = gen.normal(0, 0.1, 100)
-    intercept = 5
-    repetitions = 20
-    max_shift = 3
-    res = []
-
-    seed_everything(_SEED+1)
-    # x_train = np.random.normal(1, 0.1, size=(n_train, 100))
-    x_train = gen.uniform(-1, 1, size=(n_train, 100))
-
-    # train_data = [linear_simulation(n_train, xmean, xcov, std, slope, intercept) for _ in range(repetitions)]
-    # train_data = [hsic_paper_simulation_exp(n_train, slope, x_train) for _ in range(repetitions)]
-    train_data = [linsim(slope, x_train, gen_noise(n_train, noise_type)) for _ in range(repetitions)]
-    msl_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='mse') for x, y in train_data]
-    mal_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='MAE') for x, y in train_data]
-    mee_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='MEE') for x, y in train_data]
-    hsic_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='HSIC') for x, y in train_data]
-
-    x_test = gen.normal(0, 1, size=(n_test, 100))
-    noise_test = gen_noise(n_test, noise_type)
-
-    for s in np.linspace(0, max_shift, 10):
-        # x_test, y_test = linear_simulation(n_test, xmean + s, xcov, std, slope, intercept)
-        x_test, y_test = linsim(slope, x_test+s, noise_test)
-        msl_res = [(s, evaluate_model(m, x_test, y_test, bias=0), 'MSL') for m, _ in msl_models]
-        mal_res = [(s, evaluate_model(m, x_test, y_test, bias=0), 'MAL') for m, _ in mal_models]
-        mee_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'MEE') for m, b in mee_models]
-        hsic_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'HSIC') for m, b in hsic_models]
-        res = res + msl_res + mal_res + mee_res + hsic_res
-
-    df = pd.DataFrame(res, columns=['shift', 'MSE', 'loss'])
-    sns.lineplot(data=df, x='shift', y='MSE', hue='loss', style='loss', markers=True, dashes=False)
-    plt.savefig(f'../plots/linreg_shift_src-unif_tar-gaus_{noise_type}-noise_{repetitions}reps.pdf', format='pdf', dpi=300, bounding_box='tight')
+    plt.savefig(f'../plots/covshift_{noise_type}-noise_{repetitions}reps.pdf', format='pdf', dpi=300, bbox_inches='tight')
     plt.show()
 
 
