@@ -22,7 +22,7 @@ from algorithms.torch_tcn import build_tcn
 def get_gaussian_kernel_size(dataset, loss_function):
     # set optional loss parameters for MEE, MI, HSIC
     gaussian_kernel_dict = {
-        'src': dict(y=0.3, x=400),
+        'src': dict(y=0.7, x=400),
         'tar1': dict(y=0.5, x=800),
         'tar2': dict(y=1, x=450),
         'tar3': dict(y=0.5, x=800),
@@ -31,8 +31,6 @@ def get_gaussian_kernel_size(dataset, loss_function):
         "bike11_src": dict(y=0.3, x=250),
         "bike11_tar": dict(y=0.8, x=200)
     }
-    if loss_function == 'MEE':
-        gaussian_kernel_dict['src']['y'] = 1
     return gaussian_kernel_dict[dataset]
 
 
