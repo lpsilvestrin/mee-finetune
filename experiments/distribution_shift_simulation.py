@@ -136,7 +136,7 @@ def covariate_shift_sim():
         return x, y.reshape(-1, 1)
 
     n_train = 1000
-    n_test = 10000
+    n_test = 1000
 
     slope = gen.normal(0, 0.1, 100)
     repetitions = 100
