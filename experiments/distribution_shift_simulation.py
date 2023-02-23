@@ -139,7 +139,9 @@ def covariate_shift_sim():
     n_test = 10000
 
     slope = gen.normal(0, 0.1, 100)
-    repetitions = 20
+    repetitions = 100
+    epochs = 500
+    max_shift = 3
     res = []
 
     # x_train = np.random.normal(1, 0.1, size=(n_train, 100))
@@ -149,24 +151,25 @@ def covariate_shift_sim():
     # train_data = [hsic_paper_simulation_exp(n_train, slope, x_train) for _ in range(repetitions)]
     train_data = [linsim(slope, gen.uniform(-1, 1, size=(n_train, 100)), gen_noise(n_train, noise_type)) for _ in range(repetitions)]
     seed_everything(_SEED+1)
-    msl_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='mse') for x, y in train_data]
+    msl_models = [linear_regression_torch(x, y, num_epochs=epochs, learning_rate=1e-4, loss_name='mse') for x, y in train_data]
     seed_everything(_SEED+1)
-    mal_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='MAE') for x, y in train_data]
+    mal_models = [linear_regression_torch(x, y, num_epochs=epochs, learning_rate=1e-4, loss_name='MAE') for x, y in train_data]
     seed_everything(_SEED+1)
-    mee_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='MEE') for x, y in train_data]
+    mee_models = [linear_regression_torch(x, y, num_epochs=epochs, learning_rate=1e-4, loss_name='MEE') for x, y in train_data]
     seed_everything(_SEED+1)
-    hsic_models = [linear_regression_torch(x, y, num_epochs=500, learning_rate=1e-4, loss_name='HSIC') for x, y in train_data]
+    hsic_models = [linear_regression_torch(x, y, num_epochs=epochs, learning_rate=1e-4, loss_name='HSIC') for x, y in train_data]
 
     # x_test = gen.normal(0, 1, size=(n_test, 100))
     # noise_test = gen_noise(n_test, noise_type)
 
-    for s in np.linspace(0, 2, 5):
+    for s in np.linspace(0, max_shift, 10):
         # x_test, y_test = linear_simulation(n_test, xmean + s, xcov, std, slope, intercept)
-        x_test, y_test = linsim(slope, gen.normal(0, 1, size=(n_test, 100))+s, gen_noise(n_test, noise_type))
-        msl_res = [(s, evaluate_model(m, x_test, y_test, bias=0), 'MSL') for m, _ in msl_models]
-        mal_res = [(s, evaluate_model(m, x_test, y_test, bias=0), 'MAL') for m, _ in mal_models]
-        mee_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'MEE') for m, b in mee_models]
-        hsic_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'HSIC') for m, b in hsic_models]
+        # x_test, y_test = linsim(slope, gen.normal(0, 1, size=(n_test, 100))+s, gen_noise(n_test, noise_type))
+        test_data = [linsim(slope, gen.normal(0, 1, size=(n_test, 100))+s, gen_noise(n_test, noise_type)) for _ in range(repetitions)]
+        msl_res = [(s, evaluate_model(m, x_test, y_test, bias=0), 'MSL') for m, _ in msl_models for x_test, y_test in test_data]
+        mal_res = [(s, evaluate_model(m, x_test, y_test, bias=0), 'MAL') for m, _ in mal_models for x_test, y_test in test_data]
+        mee_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'MEE') for m, b in mee_models for x_test, y_test in test_data]
+        hsic_res = [(s, evaluate_model(m, x_test, y_test, bias=b), 'HSIC') for m, b in hsic_models for x_test, y_test in test_data]
         res = res + msl_res + mal_res + mee_res + hsic_res
 
     df = pd.DataFrame(res, columns=['shift', 'MSE', 'loss'])
@@ -208,7 +211,7 @@ def label_noise_shift():
     slope = gen.normal(0, 0.1, 100)
     intercept = 5
     repetitions = 20
-    max_shift = 2
+    max_shift = 3
     res = []
 
     seed_everything(_SEED+1)
@@ -226,7 +229,7 @@ def label_noise_shift():
     x_test = gen.normal(0, 1, size=(n_test, 100))
     noise_test = gen_noise(n_test, noise_type)
 
-    for s in np.linspace(0, 2, 5):
+    for s in np.linspace(0, max_shift, 10):
         # x_test, y_test = linear_simulation(n_test, xmean + s, xcov, std, slope, intercept)
         x_test, y_test = linsim(slope, x_test+s, noise_test)
         msl_res = [(s, evaluate_model(m, x_test, y_test, bias=0), 'MSL') for m, _ in msl_models]
