@@ -65,10 +65,6 @@ def train_torch(train_x, train_y, test_sets, wandb_init, model=None):
         elif config.model_type == 'mlp':
             model = build_mlp(in_features, out_shape, config)
 
-    if 'last_layer_only' in config and config.last_layer_only:
-        model.tcn.requires_grad_(False)
-        model.fc.requires_grad_(True)
-
     # model.double()
     if 'save_model' in config.keys():
         save_model = config.save_model
