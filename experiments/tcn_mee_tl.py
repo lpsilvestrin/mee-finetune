@@ -112,9 +112,9 @@ if __name__ == '__main__':
     # lpairs = list(product(['HSIC'], hsic_pair))
     # lpairs.remove(('mse', 'mse'))
     # lpairs.append(('MAE', 'MAE'))
-
+    last_layer = True
     params = product(lpairs, list(range(0, 20)), data_pairs)
     for loss_pair, seed, src_tar_pair in params:
         loss_src, loss_tar = loss_pair
         src, tar = src_tar_pair
-        run(loss_src=loss_src, loss_tar=loss_tar, seed=seed, src_data=src, tar_data=tar)
+        run(loss_src=loss_src, loss_tar=loss_tar, seed=seed, src_data=src, tar_data=tar, last_only=last_layer)
