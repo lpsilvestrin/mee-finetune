@@ -13,7 +13,7 @@ from utils.custom_loss_torch import train_torch
 _previous_src_paths = dict()
 
 
-def run(loss_src='MEE', loss_tar='mse', seed=0, tar_data="tar1", src_data="src"):
+def run(loss_src='MEE', loss_tar='mse', seed=0, tar_data="tar1", src_data="src", last_only=False):
     # test mlp hyperparameters
     config = dict(
         learning_rate=1e-4,
@@ -35,7 +35,7 @@ def run(loss_src='MEE', loss_tar='mse', seed=0, tar_data="tar1", src_data="src")
         # trunc_label=False,
         debug_mode=False,
         input_type='win',
-        model_type='tcn'
+        model_type='tcn',
     )
 
     config['group'] = src_data
@@ -62,12 +62,18 @@ def run(loss_src='MEE', loss_tar='mse', seed=0, tar_data="tar1", src_data="src")
         litmodel = load_pretrained_src(config, train_x, train_y, _previous_src_paths[src_id])
 
     # finetune on the target data
+    group = tar_data
+    if last_only:
+        group += "_last_only"
     config['group'] = tar_data
     config['loss_function'] = loss_tar
     config['loss_src'] = loss_src
     config['train_dataset'] = tar_data
     # config['test_dataset'] = [tar_data]
     wandb_init['config'] = config
+
+    if last_only:
+        litmodel.model.tcn.requires_grad_(False)
 
     train_x, train_y, test_data_dict = prepare_data(DictConfig(config))
 
@@ -97,10 +103,12 @@ if __name__ == '__main__':
     data_pairs.append(('bike11_src', 'bike11_tar'))
     # mee_pair = ['MEE', 'mse']
     # hsic_pair = ['HSIC', 'mse']
-    mae_pair = ['MAE', 'mse']
+    # mae_pair = ['MAE', 'mse']
+    all = ['MEE', 'mse', 'MAE', 'HSIC']
     # lpairs = list(product(mee_pair, mee_pair))
-    lpairs = list(product(mae_pair, mae_pair))
-    lpairs.remove(('MAE', 'MAE'))
+    lpairs = list(product(['mse'], all))
+    # lpairs = list(product(mae_pair, mae_pair))
+    # lpairs.remove(('MAE', 'MAE'))
     # lpairs = list(product(['HSIC'], hsic_pair))
     # lpairs.remove(('mse', 'mse'))
     # lpairs.append(('MAE', 'MAE'))
