@@ -181,4 +181,9 @@ def covariate_shift_sim(noise_type='lap'):
 
 
 if __name__ == '__main__':
-    covariate_shift_sim()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--noise_type', type=str, default='lap', help='noise type')
+    args = parser.parse_args()
+
+    covariate_shift_sim(args.noise_type)
