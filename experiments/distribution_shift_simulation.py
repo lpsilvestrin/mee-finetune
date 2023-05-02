@@ -115,7 +115,7 @@ def evaluate_model(model, xtst, ytst, bias=0):
     with torch.no_grad():
         y_pred = model(x_tensor)
         y_pred = y_pred + bias
-        mse = tmse(y_pred, y_tensor).item().numpy()
+        mse = tmse(y_pred, y_tensor).item()
 
     return mse
 
