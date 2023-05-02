@@ -111,7 +111,7 @@ def evaluate_model(model, xtst, ytst, bias=0):
     return mse
 
 
-def covariate_shift_sim():
+def covariate_shift_sim(noise_type='lap'):
     """
     plot MSE of a linear regression model learned from a train set and evaluated on a test set
     with different mean of the covariates
@@ -119,13 +119,13 @@ def covariate_shift_sim():
     Returns:
 
     """
-    noise_type = 'lap'
+    # noise_type = 'lap'
     gen = np.random.default_rng(_SEED)
     def gen_noise(n, type):
         if type == 'lap':
             return gen.laplace(0, 1, n)
         elif type == 'gaus':
-            return gen.normal(0, 1, n)
+            return 0.95*gen.normal(0, 0.01, n) + 0.05 * gen.normal(0, 100, n)
         elif type == 'exp':
             return 1 - gen.exponential(1, n)
         else:
