@@ -58,7 +58,7 @@ def linear_regression_torch(x, y, num_epochs=100, learning_rate=0.1, loss_name='
     dataset = TensorDataset(x_tensor, y_tensor)
 
     # Create a dataloader to load the data in batches
-    dataloader = DataLoader(dataset, batch_size=128, shuffle=True)
+    dataloader = DataLoader(dataset, batch_size=128, shuffle=True, num_workers=30)
 
     # Initialize model parameters (slope and intercept)
     model = Linear(x.shape[1], y.shape[1])
