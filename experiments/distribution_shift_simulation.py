@@ -16,6 +16,13 @@ from algorithms.custom_loss_torch_lit_class import loss_fn
 _SEED = 42
 
 
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+    torch.backends.cudnn.benchmark = True  # enables cudnn's auto-tuner to find the best algorithm to use
+else:
+    device = torch.device("cpu")
+
+
 def linear_simulation(n, xmean, xcov, std, slope, intercept):
     """
     simulate a linear relationship between x and y with non-gaussian noise
@@ -51,17 +58,17 @@ def hsic_paper_simulation_exp(n, std, slope, shift=0, x=None):
 
 def linear_regression_torch(x, y, num_epochs=100, learning_rate=0.1, loss_name='MEE'):
     # Convert x and y to PyTorch tensors
-    x_tensor = torch.tensor(x, dtype=torch.float32)
-    y_tensor = torch.tensor(y, dtype=torch.float32)
+    x_tensor = torch.tensor(x, dtype=torch.float32).to(device)
+    y_tensor = torch.tensor(y, dtype=torch.float32).to(device)
 
     # Create a dataset from x and y tensors
     dataset = TensorDataset(x_tensor, y_tensor)
 
     # Create a dataloader to load the data in batches
-    dataloader = DataLoader(dataset, batch_size=128, shuffle=True, num_workers=30)
+    dataloader = DataLoader(dataset, batch_size=128, shuffle=True)
 
     # Initialize model parameters (slope and intercept)
-    model = Linear(x.shape[1], y.shape[1])
+    model = Linear(x.shape[1], y.shape[1]).to(device)
 
     # Define optimizer (stochastic gradient descent)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
@@ -101,12 +108,14 @@ def linear_regression_torch(x, y, num_epochs=100, learning_rate=0.1, loss_name='
 
 
 def evaluate_model(model, xtst, ytst, bias=0):
+    x_tensor = torch.tensor(xtst, dtype=torch.float32).to(device)
+    y_tensor = torch.tensor(ytst, dtype=torch.float32).to(device)
 
     # Compute predictions
     with torch.no_grad():
-        y_pred = model(torch.tensor(xtst, dtype=torch.float32))
+        y_pred = model(x_tensor)
         y_pred = y_pred + bias
-        mse = tmse(y_pred, torch.tensor(ytst, dtype=torch.float32)).item()
+        mse = tmse(y_pred, y_tensor).item().numpy()
 
     return mse
 
