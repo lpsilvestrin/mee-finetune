@@ -173,6 +173,7 @@ def covariate_shift_sim():
         res = res + msl_res + mal_res + mee_res + hsic_res
 
     df = pd.DataFrame(res, columns=['shift', 'MSE', 'loss'])
+    sns.set_context('paper', font_scale=1.5)
     sns.set_style('whitegrid')
     sns.lineplot(data=df, x='shift', y='MSE', hue='loss', style='loss', markers=True, dashes=False)
     plt.savefig(f'../plots/covshift_{noise_type}-noise_{repetitions}reps.pdf', format='pdf', dpi=300, bbox_inches='tight')

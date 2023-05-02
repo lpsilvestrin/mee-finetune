@@ -140,6 +140,7 @@ def kernel_sim():
     # df = pd.DataFrame(res, columns=['error', 'loss'])
     # df = df.sample(2000, random_state=0)
     print(df.groupby('loss')['error'].agg(['mean', 'std']))
+    sns.set_context('paper', font_scale=1.5)
     sns.set_style('whitegrid')
     # sns.lineplot(data=df, x='shift', y='MSE', hue='loss', style='loss', markers=True, dashes=False)
     sns.kdeplot(data=df, x='error', hue='loss')
