@@ -1,3 +1,5 @@
+import os.path
+
 import torch
 import numpy as np
 import seaborn as sns
@@ -120,6 +122,15 @@ def evaluate_model(model, xtst, ytst, bias=0):
     return mse
 
 
+def plot(results_df, filename):
+    sns.set_context('paper', font_scale=1.6)
+    sns.set_style('whitegrid')
+    sns.lineplot(data=results_df, x='shift', y='MSE', hue='loss', style='loss', markers=True, dashes=False)
+    plt.savefig(f'../plots/{filename}.pdf', format='pdf', dpi=300,
+                bbox_inches='tight')
+    plt.show()
+
+
 def covariate_shift_sim(noise_type='lap'):
     """
     plot MSE of a linear regression model learned from a train set and evaluated on a test set
@@ -148,10 +159,16 @@ def covariate_shift_sim(noise_type='lap'):
     n_test = 1000
 
     slope = gen.normal(0, 0.1, 100)
-    repetitions = 100
-    epochs = 500
+    repetitions = 1
+    epochs = 5
     max_shift = 3
     res = []
+
+    filename = f"covshift_{noise_type}-noise_{repetitions}reps"
+    if os.path.isfile(f"../plots/{filename}.csv"):
+        results_df = pd.read_csv(f"../plots/{filename}.csv")
+        plot(results_df, filename)
+        return
 
     # x_train = np.random.normal(1, 0.1, size=(n_train, 100))
     # x_train = gen.uniform(-1, 1, size=(n_train, 100))
@@ -182,11 +199,8 @@ def covariate_shift_sim(noise_type='lap'):
         res = res + msl_res + mal_res + mee_res + hsic_res
 
     df = pd.DataFrame(res, columns=['shift', 'MSE', 'loss'])
-    sns.set_context('paper', font_scale=1.5)
-    sns.set_style('whitegrid')
-    sns.lineplot(data=df, x='shift', y='MSE', hue='loss', style='loss', markers=True, dashes=False)
-    plt.savefig(f'../plots/covshift_{noise_type}-noise_{repetitions}reps.pdf', format='pdf', dpi=300, bbox_inches='tight')
-    plt.show()
+    df.to_csv(f'../plots/{filename}.csv', index=False)
+    plot(df, filename)
 
 
 if __name__ == '__main__':
