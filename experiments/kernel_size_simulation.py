@@ -1,3 +1,5 @@
+import os.path
+
 import torch
 import numpy as np
 import seaborn as sns
@@ -78,6 +80,36 @@ def model_residuals(model, xtst, ytst, bias=0):
     return res.numpy().reshape(-1)
 
 
+def plot(filename, result_df):
+    sns.set_context('paper', font_scale=1.6)
+    sns.set_style('whitegrid')
+    fig, ax = plt.subplots()
+    # sns.lineplot(data=df, x='shift', y='MSE', hue='loss', style='loss', markers=True, dashes=False)
+    p = sns.kdeplot(data=result_df, x='error', hue='loss', linewidth=3, ax=ax)
+    # style order: MEE20, MEE.01, MEE1, MSE
+    lss = ['--', (0, (3, 1, 1, 1, 1, 1)), '-', '-.']
+
+    handles = p.legend_.legendHandles[::-1]
+
+    for line, ls, handle in zip(p.lines, lss, handles):
+        line.set_linestyle(ls)
+        handle.set_ls(ls)
+
+    ax2 = plt.axes([.7, .4, .2, .4])
+    p = sns.kdeplot(data=result_df, x='error', hue='loss', linewidth=3, ax=ax2, legend=False)
+    for line, ls, handle in zip(p.lines, lss, handles):
+        line.set_linestyle(ls)
+        handle.set_ls(ls)
+    p.set(xlabel=None, ylabel=None)
+    ax2.set_title('zoom')
+
+    ax2.set_ylim([0.065, 0.08])
+    ax2.set_xlim([-1.5, 1.5])
+    plt.savefig(f'{filename}.pdf', format='pdf', dpi=300,
+                bbox_inches='tight')
+    plt.show()
+
+
 def kernel_sim():
     """
     plot MSE of a linear regression model learned from a train set and evaluated on a test set
@@ -109,6 +141,12 @@ def kernel_sim():
     repetitions = 2
     epochs = 500
 
+    filename = f'../plots/kernel_size_{noise_type}-noise_{repetitions}reps'
+    if os.path.isfile(f"{filename}.csv"):
+        df = pd.read_csv(f"{filename}.csv")
+        plot(filename, df)
+        return
+
     # train_data = [linear_simulation(n_train, xmean, xcov, std, slope, intercept) for _ in range(repetitions)]
     # train_data = [hsic_paper_simulation_exp(n_train, slope, x_train) for _ in range(repetitions)]
     train_data = [linsim(slope, gen.uniform(-1, 1, size=(n_train, 100)), gen_noise(n_train, noise_type)) for _ in range(repetitions)]
@@ -137,23 +175,8 @@ def kernel_sim():
     res.append(pd.DataFrame({'error': mee3_res, 'loss': ["MEE $\sigma=20$"] * len(mee3_res)}))
 
     df = pd.concat(res).reset_index(drop=True)
-    # df = pd.DataFrame(res, columns=['error', 'loss'])
-    # df = df.sample(2000, random_state=0)
-    print(df.groupby('loss')['error'].agg(['mean', 'std']))
-    sns.set_context('paper', font_scale=1.6)
-    sns.set_style('whitegrid')
-    # sns.lineplot(data=df, x='shift', y='MSE', hue='loss', style='loss', markers=True, dashes=False)
-    p = sns.kdeplot(data=df, x='error', hue='loss')
-    lss = [':', '--', '-.', '-']
-
-    handles = p.legend_.legendHandles[::-1]
-
-    for line, ls, handle in zip(p.lines, lss, handles):
-        line.set_linestyle(ls)
-        handle.set_ls(ls)
-
-    plt.savefig(f'../plots/kernel_size_{noise_type}-noise_{repetitions}reps.pdf', format='pdf', dpi=300, bbox_inches='tight')
-    plt.show()
+    df.to_csv(f"{filename}.csv", index=False)
+    plot(filename, df)
 
 
 if __name__ == '__main__':
