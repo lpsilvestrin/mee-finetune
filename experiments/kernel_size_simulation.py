@@ -140,10 +140,18 @@ def kernel_sim():
     # df = pd.DataFrame(res, columns=['error', 'loss'])
     # df = df.sample(2000, random_state=0)
     print(df.groupby('loss')['error'].agg(['mean', 'std']))
-    sns.set_context('paper', font_scale=1.5)
+    sns.set_context('paper', font_scale=1.6)
     sns.set_style('whitegrid')
     # sns.lineplot(data=df, x='shift', y='MSE', hue='loss', style='loss', markers=True, dashes=False)
-    sns.kdeplot(data=df, x='error', hue='loss')
+    p = sns.kdeplot(data=df, x='error', hue='loss')
+    lss = [':', '--', '-.', '-']
+
+    handles = p.legend_.legendHandles[::-1]
+
+    for line, ls, handle in zip(p.lines, lss, handles):
+        line.set_linestyle(ls)
+        handle.set_ls(ls)
+
     plt.savefig(f'../plots/kernel_size_{noise_type}-noise_{repetitions}reps.pdf', format='pdf', dpi=300, bbox_inches='tight')
     plt.show()
 
