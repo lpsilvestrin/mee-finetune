@@ -159,8 +159,8 @@ def covariate_shift_sim(noise_type='lap'):
     n_test = 1000
 
     slope = gen.normal(0, 0.1, 100)
-    repetitions = 1
-    epochs = 5
+    repetitions = 100
+    epochs = 500
     max_shift = 3
     res = []
 
