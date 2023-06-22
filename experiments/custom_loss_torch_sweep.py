@@ -4,8 +4,7 @@ from omegaconf import DictConfig
 import wandb
 from utils.data_utils import prepare_data
 
-from utils.custom_loss_keras_model import train_custom_loss_keras_model
-from utils.custom_loss_torch import train_torch
+from algorithms.custom_loss_torch_train import train_torch
 from utils.datasets import load_preproc_data
 
 

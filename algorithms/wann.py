@@ -9,7 +9,7 @@ from omegaconf import DictConfig
 from sklearn.model_selection import train_test_split
 
 from utils.train_keras_tcn import build_tcn_from_config
-from utils.utils import evaluate, build_mlp
+from algorithms.utils import evaluate, build_mlp
 
 
 def train_wann(src_x, src_y, tar_x, tar_y, test_sets, wandb_init):

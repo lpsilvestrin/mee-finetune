@@ -6,7 +6,7 @@ from omegaconf import DictConfig
 import wandb
 from utils.data_utils import prepare_data
 
-from utils.custom_loss_torch import train_torch
+from algorithms.custom_loss_torch_train import train_torch
 
 def run(loss_src='MEE', loss_tar='mse', seed=0):
     # test mlp hyperparameters

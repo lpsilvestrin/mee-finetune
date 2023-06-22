@@ -8,7 +8,7 @@ from algorithms.custom_loss_torch_lit_class import PyLitModelWrapper
 from algorithms.torch_tcn import build_tcn
 from utils.data_utils import prepare_data
 
-from utils.custom_loss_torch import train_torch
+from algorithms.custom_loss_torch_train import train_torch
 
 _previous_src_paths = dict()
 

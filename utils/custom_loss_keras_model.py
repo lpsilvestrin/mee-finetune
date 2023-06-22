@@ -7,8 +7,8 @@ import wandb
 from sklearn.model_selection import train_test_split
 from wandb.integration.keras import WandbCallback
 
-from utils.train_keras_tcn import build_tcn_from_config
-from utils.utils import build_mlp
+from algorithms.utils import build_tcn_from_config
+from algorithms.utils import build_mlp
 
 
 def train_custom_loss_keras_model(train_x, train_y, test_sets, wandb_init):

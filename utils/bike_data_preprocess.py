@@ -8,14 +8,14 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 from tsai.data.preparation import SlidingWindowPanel
 
-from utils.data_utils import catch22, extract_manual_features
+from algorithms.utils import catch22, extract_manual_features
 
 
 def season_cols():
     return ["mnth", "hr", "weekday", "holiday", "weathersit"]
 
 
-def load(data_path="/home/luis/Documents/work/gijs_paper/Transfer-Learning/Data/bike/"):
+def load(data_path="../Data/bike/"):
     """
     """
 

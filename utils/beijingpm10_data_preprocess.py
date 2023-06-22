@@ -6,10 +6,10 @@ from sklearn.preprocessing import StandardScaler
 
 from tsai.data.external import get_Monash_regression_data
 
-from utils.data_utils import catch22, extract_manual_features
+from algorithms.utils import catch22, extract_manual_features
 
 
-def load_train(data_path="/home/luis/datasets/beijing_air_quality/"):
+def load_train(data_path=""):
     X, y, _ = get_Monash_regression_data("BeijingPM10Quality", path="", split_data=False)
 
 

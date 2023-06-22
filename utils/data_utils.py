@@ -3,7 +3,7 @@ from omegaconf import DictConfig
 from sktime.transformations.panel.catch22 import Catch22
 
 # from datasets import load_preproc_data
-from utils.datasets import load_preproc_data
+from algorithms.utils import load_preproc_data
 
 
 def prepare_data(config: DictConfig):

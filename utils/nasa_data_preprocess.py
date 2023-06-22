@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 
 from tsai.data.preparation import SlidingWindowPanel
 
-from utils.data_utils import catch22, extract_manual_features
+from algorithms.utils import catch22, extract_manual_features
 
 
 def load_train(dataset_id, data_path="/home/luis/Documents/datasets/nasa_turbofan/"):
