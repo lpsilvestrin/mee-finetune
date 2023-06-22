@@ -6,7 +6,7 @@ from omegaconf import DictConfig
 import wandb
 from algorithms.custom_loss_torch_lit_class import PyLitModelWrapper
 from algorithms.torch_tcn import build_tcn
-from utils.data_utils import prepare_data
+from data_utils.data_utils import prepare_data
 
 from algorithms.custom_loss_torch_train import train_torch
 

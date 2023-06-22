@@ -1,7 +1,7 @@
 import wandb
 from algorithms.train_tradaboost import train_tradaboost_tcn, train_tradaboost_conv
 
-from utils.datasets import load_preproc_data
+from data_utils.datasets import load_preproc_data
 
 
 # @profile

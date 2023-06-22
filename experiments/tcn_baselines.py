@@ -1,12 +1,12 @@
 import numpy as np
 
-from utils.datasets import load_preproc_data
+from data_utils.datasets import load_preproc_data
 
 import wandb
 
 from sklearn.model_selection import ParameterGrid
 
-from utils.train_keras_tcn import train_tcn
+from data_utils.train_keras_tcn import train_tcn
 
 
 def debug_datasets(wandb_init):

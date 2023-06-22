@@ -2,10 +2,10 @@ import numpy as np
 from omegaconf import DictConfig
 
 import wandb
-from utils.data_utils import prepare_data
+from data_utils.data_utils import prepare_data
 
 from algorithms.custom_loss_torch_train import train_torch
-from utils.datasets import load_preproc_data
+from data_utils.datasets import load_preproc_data
 
 
 def sweep_custom_torch_model():

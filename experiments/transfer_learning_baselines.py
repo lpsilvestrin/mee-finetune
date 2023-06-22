@@ -1,7 +1,7 @@
 import wandb
 
-from utils.datasets import load_preproc_data
-from utils.train_keras_tcn import finetune_tcn
+from data_utils.datasets import load_preproc_data
+from data_utils.train_keras_tcn import finetune_tcn
 
 
 def train_and_log_tl_baselines():

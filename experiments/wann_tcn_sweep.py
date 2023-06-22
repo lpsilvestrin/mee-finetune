@@ -1,6 +1,6 @@
 import wandb
 from algorithms.wann import train_wann_tcn
-from utils.datasets import load_preproc_data
+from data_utils.datasets import load_preproc_data
 
 
 def sweep_wann_tcn():
